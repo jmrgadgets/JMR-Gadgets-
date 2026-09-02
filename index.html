@@ -19,7 +19,6 @@
       padding-bottom: 75px;
     }
 
-    /* Header */
     header {
       height: 70px;
       background: #fff;
@@ -52,7 +51,6 @@
       gap: 12px;
     }
 
-    /* Search */
     .search-area {
       background: #ffc107;
       padding: 18px;
@@ -78,7 +76,6 @@
       font-size: 16px;
     }
 
-    /* Category */
     .category {
       padding: 20px 15px 5px;
     }
@@ -111,20 +108,26 @@
       cursor: pointer;
     }
 
-    .cat:hover {
+    .cat:hover,
+    .cat.active {
       background: #ffc107;
+      border-color: #ffc107;
     }
 
-    /* Products */
     .products {
       padding: 15px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
     }
 
     .product-card {
       background: #fff;
       border-radius: 15px;
       overflow: hidden;
-      margin-bottom: 20px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.06);
     }
 
@@ -136,6 +139,7 @@
       justify-content: center;
       color: #999;
       font-size: 16px;
+      overflow: hidden;
     }
 
     .product-image img {
@@ -151,7 +155,7 @@
     .product-name {
       font-size: 19px;
       font-weight: 700;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .category-name {
@@ -160,17 +164,22 @@
       margin-bottom: 8px;
     }
 
+    .stock {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 8px;
+    }
+
+    .warranty {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
     .price {
       font-size: 21px;
       font-weight: 700;
       color: #111;
-    }
-
-    .old-price {
-      color: #999;
-      text-decoration: line-through;
-      font-size: 14px;
-      margin-left: 8px;
     }
 
     .buy-btn {
@@ -185,7 +194,23 @@
       cursor: pointer;
     }
 
-    /* Side Menu */
+    .buy-btn:hover {
+      background: #e9aa00;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px 10px;
+      color: #777;
+    }
+
+    .no-product {
+      text-align: center;
+      padding: 40px 10px;
+      color: #777;
+      display: none;
+    }
+
     .side-menu {
       position: fixed;
       top: 0;
@@ -241,7 +266,6 @@
       display: block;
     }
 
-    /* Bottom Navigation */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -273,15 +297,14 @@
       font-weight: 700;
     }
 
-    /* Desktop */
     @media (min-width: 700px) {
       .products {
-        max-width: 900px;
+        max-width: 1000px;
         margin: auto;
       }
 
-      .product-card {
-        max-width: 450px;
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   </style>
@@ -289,7 +312,6 @@
 
 <body>
 
-  <!-- Header -->
   <header>
     <div class="menu-btn" onclick="openMenu()">☰</div>
 
@@ -301,8 +323,6 @@
     </div>
   </header>
 
-
-  <!-- Search -->
   <div class="search-area">
     <div class="search-box">
       <span>🔍</span>
@@ -310,82 +330,28 @@
     </div>
   </div>
 
-
-  <!-- Categories -->
   <section class="category">
     <div class="section-title">Categories</div>
 
-    <div class="categories">
-      <div class="cat">Mini UPS</div>
-      <div class="cat">Airpods</div>
-      <div class="cat">Smartwatches</div>
-      <div class="cat">Powerbank</div>
-      <div class="cat">Rechargeable Fan</div>
+    <div class="categories" id="categories">
+      <div class="cat active" onclick="filterCategory('All', this)">All</div>
     </div>
   </section>
 
-
-  <!-- Products -->
   <section class="products">
-
     <div class="section-title">Featured Products</div>
 
-    <!-- Product 1 -->
-    <div class="product-card">
-      <div class="product-image">
-        Product Image
-      </div>
-
-      <div class="product-info">
-        <div class="product-name">
-          Solitine SOL-702 Mini DC UPS
-        </div>
-
-        <div class="category-name">
-          Category: Mini UPS
-        </div>
-
-        <div class="price">
-          ৳1,280
-          <span class="old-price">৳1,450</span>
-        </div>
-
-        <button class="buy-btn">
-          Buy Now
-        </button>
-      </div>
+    <div id="loading" class="loading">
+      Loading products...
     </div>
 
+    <div id="productGrid" class="product-grid"></div>
 
-    <!-- Product 2 -->
-    <div class="product-card">
-      <div class="product-image">
-        Product Image
-      </div>
-
-      <div class="product-info">
-        <div class="product-name">
-          JYSUPER JY-2218 Rechargeable Fan
-        </div>
-
-        <div class="category-name">
-          Category: Rechargeable Fan
-        </div>
-
-        <div class="price">
-          ৳1,280
-        </div>
-
-        <button class="buy-btn">
-          Buy Now
-        </button>
-      </div>
+    <div id="noProduct" class="no-product">
+      No products found.
     </div>
-
   </section>
 
-
-  <!-- Side Menu -->
   <div class="overlay" id="overlay" onclick="closeMenu()"></div>
 
   <div class="side-menu" id="sideMenu">
@@ -396,59 +362,445 @@
     </div>
 
     <div class="menu-list">
-      <div>🏠 Home</div>
-      <div>Mini UPS</div>
-      <div>Airpods</div>
-      <div>Smartwatches</div>
-      <div>Powerbank</div>
-      <div>Rechargeable Fan</div>
-      <div>🛒 All Products</div>
-      <div>👤 My Account</div>
+      <div onclick="filterCategory('All')">🏠 Home</div>
+      <div onclick="filterCategory('Mini UPS')">Mini UPS</div>
+      <div onclick="filterCategory('Airpods')">Airpods</div>
+      <div onclick="filterCategory('Smartwatches')">Smartwatches</div>
+      <div onclick="filterCategory('Powerbank')">Powerbank</div>
+      <div onclick="filterCategory('Rechargeable Fan')">Rechargeable Fan</div>
+      <div onclick="filterCategory('All')">🛒 All Products</div>
+      <div onclick="account()">👤 My Account</div>
     </div>
 
   </div>
 
-
-  <!-- Bottom Navigation -->
   <div class="bottom-nav">
 
-    <div class="nav-item">
+    <div class="nav-item" onclick="filterCategory('All')">
       <div class="icon">🛍️</div>
       <div>Shop</div>
     </div>
 
-    <div class="nav-item active">
+    <div class="nav-item active" onclick="filterCategory('All')">
       <div class="icon">⌂</div>
       <div>Home</div>
     </div>
 
-    <div class="nav-item">
+    <div class="nav-item" onclick="account()">
       <div class="icon">👤</div>
       <div>My Account</div>
     </div>
 
   </div>
 
-
   <script>
 
-    function openMenu() {
-      document.getElementById("sideMenu").classList.add("active");
-      document.getElementById("overlay").classList.add("active");
+    const SHEET_URL =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRc_FdQ5OxU48pfoDdyY0hS6S0urj_u7JP5dQrWgW52qXAS2TawrUG34vbtx5wDwECcNFvImlnnTadQ/pub?output=csv";
+
+    const WHATSAPP_NUMBER = "8801789283142";
+
+    let products = [];
+    let currentCategory = "All";
+
+    function parseCSV(text) {
+
+      const rows = [];
+      let row = [];
+      let cell = "";
+      let insideQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+
+        const char = text[i];
+        const next = text[i + 1];
+
+        if (char === '"' && insideQuotes && next === '"') {
+          cell += '"';
+          i++;
+        }
+
+        else if (char === '"') {
+          insideQuotes = !insideQuotes;
+        }
+
+        else if (char === "," && !insideQuotes) {
+          row.push(cell.trim());
+          cell = "";
+        }
+
+        else if ((char === "\n" || char === "\r") && !insideQuotes) {
+
+          if (char === "\r" && next === "\n") {
+            i++;
+          }
+
+          row.push(cell.trim());
+          rows.push(row);
+          row = [];
+          cell = "";
+        }
+
+        else {
+          cell += char;
+        }
+      }
+
+      if (cell !== "" || row.length > 0) {
+        row.push(cell.trim());
+        rows.push(row);
+      }
+
+      return rows;
     }
+
+
+    async function loadProducts() {
+
+      try {
+
+        const response = await fetch(SHEET_URL);
+
+        if (!response.ok) {
+          throw new Error("Could not load Google Sheet");
+        }
+
+        const csvText = await response.text();
+
+        const rows = parseCSV(csvText);
+
+        if (rows.length < 2) {
+          throw new Error("No products found");
+        }
+
+        const headers = rows[0].map(h =>
+          h.trim().toLowerCase()
+        );
+
+        products = rows.slice(1)
+          .filter(row => row.some(value => value.trim() !== ""))
+          .map(row => {
+
+            const product = {};
+
+            headers.forEach((header, index) => {
+              product[header] = row[index] || "";
+            });
+
+            return product;
+          });
+
+        createCategories();
+        displayProducts(products);
+
+        document.getElementById("loading").style.display = "none";
+
+      } catch (error) {
+
+        console.error(error);
+
+        document.getElementById("loading").innerHTML =
+          "Products could not be loaded. Please check your Google Sheet.";
+
+      }
+    }
+
+
+    function createCategories() {
+
+      const categoryBox =
+        document.getElementById("categories");
+
+      const categories = [
+        ...new Set(
+          products
+            .map(product => product["category"])
+            .filter(category => category)
+        )
+      ];
+
+      categories.forEach(category => {
+
+        const button = document.createElement("div");
+
+        button.className = "cat";
+
+        button.textContent = category;
+
+        button.onclick = function() {
+          filterCategory(category, this);
+        };
+
+        categoryBox.appendChild(button);
+
+      });
+
+    }
+
+
+    function displayProducts(productList) {
+
+      const grid =
+        document.getElementById("productGrid");
+
+      const noProduct =
+        document.getElementById("noProduct");
+
+      grid.innerHTML = "";
+
+      if (productList.length === 0) {
+
+        noProduct.style.display = "block";
+
+        return;
+
+      }
+
+      noProduct.style.display = "none";
+
+      productList.forEach(product => {
+
+        const card =
+          document.createElement("div");
+
+        card.className = "product-card";
+
+        const productName =
+          product["product name"] || "Unnamed Product";
+
+        const category =
+          product["category"] || "";
+
+        const price =
+          product["regular price"] || "";
+
+        const colorsStock =
+          product["colors & stock"] || "";
+
+        const warranty =
+          product["warranty"] || "";
+
+        const image =
+          product["image"] || "";
+
+        card.innerHTML = `
+
+          <div class="product-image">
+
+            ${
+              image
+              ? `<img src="${image}" alt="${productName}"
+                   onerror="this.style.display='none';
+                   this.parentElement.innerHTML='Product Image';">`
+              : "Product Image"
+            }
+
+          </div>
+
+          <div class="product-info">
+
+            <div class="product-name">
+              ${productName}
+            </div>
+
+            <div class="category-name">
+              Category: ${category}
+            </div>
+
+            ${
+              colorsStock
+              ? `<div class="stock">
+                   Stock / Colors: ${colorsStock}
+                 </div>`
+              : ""
+            }
+
+            ${
+              warranty
+              ? `<div class="warranty">
+                   Warranty: ${warranty}
+                 </div>`
+              : ""
+            }
+
+            <div class="price">
+              ৳${price}
+            </div>
+
+            <button class="buy-btn"
+              onclick='buyProduct(${JSON.stringify(productName)}, ${JSON.stringify(price)}, ${JSON.stringify(product["product id"] || "")})'>
+
+              Buy Now
+
+            </button>
+
+          </div>
+        `;
+
+        grid.appendChild(card);
+
+      });
+
+    }
+
+
+    function filterCategory(category, element) {
+
+      currentCategory = category;
+
+      document
+        .querySelectorAll(".cat")
+        .forEach(cat => cat.classList.remove("active"));
+
+      if (element) {
+        element.classList.add("active");
+      }
+
+      closeMenu();
+
+      const searchValue =
+        document.getElementById("searchInput")
+          .value
+          .toLowerCase()
+          .trim();
+
+      let filtered = products;
+
+      if (category !== "All") {
+
+        filtered = filtered.filter(product =>
+          (product["category"] || "")
+            .toLowerCase() === category.toLowerCase()
+        );
+
+      }
+
+      if (searchValue) {
+
+        filtered = filtered.filter(product =>
+
+          (product["product name"] || "")
+            .toLowerCase()
+            .includes(searchValue)
+
+          ||
+
+          (product["category"] || "")
+            .toLowerCase()
+            .includes(searchValue)
+
+        );
+
+      }
+
+      displayProducts(filtered);
+
+    }
+
+
+    document
+      .getElementById("searchInput")
+      .addEventListener("input", function() {
+
+        const searchValue =
+          this.value.toLowerCase().trim();
+
+        let filtered = products;
+
+        if (currentCategory !== "All") {
+
+          filtered = filtered.filter(product =>
+            (product["category"] || "")
+              .toLowerCase() === currentCategory.toLowerCase()
+          );
+
+        }
+
+        if (searchValue) {
+
+          filtered = filtered.filter(product =>
+
+            (product["product name"] || "")
+              .toLowerCase()
+              .includes(searchValue)
+
+            ||
+
+            (product["category"] || "")
+              .toLowerCase()
+              .includes(searchValue)
+
+          );
+
+        }
+
+        displayProducts(filtered);
+
+      });
+
+
+    function buyProduct(name, price, id) {
+
+      const message =
+        `Assalamu Alaikum, I want to order this product.
+
+Product: ${name}
+Product ID: ${id}
+Price: ৳${price}
+
+Please confirm my order.`;
+
+      const url =
+        `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+      window.open(url, "_blank");
+
+    }
+
+
+    function openMenu() {
+
+      document
+        .getElementById("sideMenu")
+        .classList.add("active");
+
+      document
+        .getElementById("overlay")
+        .classList.add("active");
+
+    }
+
 
     function closeMenu() {
-      document.getElementById("sideMenu").classList.remove("active");
-      document.getElementById("overlay").classList.remove("active");
+
+      document
+        .getElementById("sideMenu")
+        .classList.remove("active");
+
+      document
+        .getElementById("overlay")
+        .classList.remove("active");
+
     }
+
 
     function searchFocus() {
-      document.getElementById("searchInput").focus();
+
+      document
+        .getElementById("searchInput")
+        .focus();
+
     }
 
+
     function account() {
+
       alert("My Account page coming soon.");
+
     }
+
+
+    loadProducts();
 
   </script>
 
