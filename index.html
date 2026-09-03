@@ -1,808 +1,2157 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JMR GADGETS</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
+<title>JMR GADGETS</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f7f7f7;
+    color:#111;
+    padding-bottom:75px;
+}
+
+/* HEADER */
+
+header{
+    height:70px;
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 18px;
+    border-bottom:1px solid #eee;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.menu-btn,
+.header-icon{
+    font-size:25px;
+    cursor:pointer;
+    width:40px;
+    text-align:center;
+}
+
+.logo{
+    font-size:23px;
+    font-weight:800;
+    letter-spacing:1px;
+}
+
+.header-right{
+    display:flex;
+    gap:12px;
+}
+
+/* SEARCH */
+
+.search-area{
+    background:#ffc107;
+    padding:18px;
+}
+
+.search-box{
+    background:#fff;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    padding:12px 15px;
+    gap:10px;
+}
+
+.search-box span{
+    font-size:22px;
+}
+
+.search-box input{
+    border:none;
+    outline:none;
+    width:100%;
+    font-size:16px;
+}
+
+/* CATEGORY */
+
+.category{
+    padding:20px 15px 5px;
+}
+
+.section-title{
+    font-size:20px;
+    font-weight:700;
+    margin-bottom:15px;
+    border-left:5px solid #ffc107;
+    padding-left:10px;
+}
+
+.categories{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding-bottom:10px;
+}
+
+.categories::-webkit-scrollbar{
+    display:none;
+}
+
+.cat{
+    background:#fff;
+    border:1px solid #eee;
+    border-radius:20px;
+    padding:10px 16px;
+    white-space:nowrap;
+    cursor:pointer;
+}
+
+.cat.active,
+.cat:hover{
+    background:#ffc107;
+    border-color:#ffc107;
+}
+
+/* PRODUCTS */
+
+.products{
+    padding:15px;
+}
+
+.product-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:20px;
+}
+
+.product-card{
+    background:#fff;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 2px 10px rgba(0,0,0,.06);
+}
+
+.product-image{
+    height:230px;
+    background:#eee;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#999;
+    font-size:16px;
+    overflow:hidden;
+}
+
+.product-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.product-info{
+    padding:16px;
+}
+
+.product-name{
+    font-size:19px;
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+.category-name{
+    color:#777;
+    font-size:14px;
+    margin-bottom:8px;
+}
+
+.stock{
+    font-size:13px;
+    color:#555;
+    margin-bottom:8px;
+}
+
+.warranty{
+    font-size:13px;
+    color:#555;
+    margin-bottom:10px;
+}
+
+.price{
+    font-size:21px;
+    font-weight:700;
+}
+
+/* ORDER NOW */
+
+.order-btn{
+    width:100%;
+    border:none;
+    background:#ffc107;
+    padding:14px;
+    margin-top:15px;
+    border-radius:12px;
+    font-size:17px;
+    font-weight:700;
+    cursor:pointer;
+
+    animation:smoothMove 2.5s ease-in-out infinite;
+    transition:.3s;
+}
+
+.order-btn:hover{
+    transform:scale(1.03);
+    background:#e9aa00;
+}
+
+@keyframes smoothMove{
+
+    0%,100%{
+        transform:translateY(0);
     }
 
-    body {
-      background: #f7f7f7;
-      color: #111;
-      padding-bottom: 75px;
+    50%{
+        transform:translateY(-3px);
+    }
+}
+
+/* LOADING */
+
+.loading{
+    text-align:center;
+    padding:40px 10px;
+    color:#777;
+}
+
+.no-product{
+    text-align:center;
+    padding:40px 10px;
+    color:#777;
+    display:none;
+}
+
+/* SIDE MENU */
+
+.side-menu{
+    position:fixed;
+    top:0;
+    left:-280px;
+    width:280px;
+    height:100%;
+    background:#fff;
+    z-index:300;
+    transition:.3s;
+    box-shadow:3px 0 15px rgba(0,0,0,.15);
+}
+
+.side-menu.active{
+    left:0;
+}
+
+.menu-header{
+    background:#ffc107;
+    padding:25px 20px;
+    font-size:22px;
+    font-weight:800;
+}
+
+.menu-close{
+    float:right;
+    cursor:pointer;
+    font-size:25px;
+}
+
+.menu-list{
+    padding:15px;
+}
+
+.menu-list div{
+    padding:16px 10px;
+    border-bottom:1px solid #eee;
+    cursor:pointer;
+}
+
+.menu-list div:hover{
+    background:#fff4cc;
+}
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.4);
+    z-index:200;
+    display:none;
+}
+
+.overlay.active{
+    display:block;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:68px;
+    background:#fff;
+    border-top:1px solid #ddd;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    z-index:150;
+}
+
+.nav-item{
+    text-align:center;
+    color:#777;
+    font-size:12px;
+    cursor:pointer;
+}
+
+.nav-item .icon{
+    font-size:22px;
+    margin-bottom:4px;
+}
+
+.nav-item.active{
+    color:#e6a900;
+    font-weight:700;
+}
+
+/* ORDER MODAL */
+
+.order-modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:500;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+}
+
+.order-modal.active{
+    display:flex;
+}
+
+.order-box{
+    background:#fff;
+    width:100%;
+    max-width:500px;
+    max-height:92vh;
+    overflow-y:auto;
+    border-radius:18px;
+    padding:20px;
+    position:relative;
+}
+
+.order-title{
+    font-size:22px;
+    font-weight:800;
+    margin-bottom:5px;
+}
+
+.order-product{
+    color:#777;
+    margin-bottom:18px;
+}
+
+.close-order{
+    position:absolute;
+    right:15px;
+    top:12px;
+    font-size:28px;
+    cursor:pointer;
+}
+
+/* FORM */
+
+.form-group{
+    margin-bottom:14px;
+}
+
+.form-group label{
+    display:block;
+    font-size:14px;
+    font-weight:700;
+    margin-bottom:6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width:100%;
+    padding:13px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    outline:none;
+    font-size:15px;
+    background:#fff;
+}
+
+.form-group textarea{
+    min-height:80px;
+    resize:vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+    border-color:#ffc107;
+}
+
+/* BILL */
+
+.bill-box{
+    background:#fff9df;
+    border:1px solid #ffe08a;
+    border-radius:12px;
+    padding:15px;
+    margin-top:8px;
+    margin-bottom:15px;
+}
+
+.bill-row{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:8px;
+    font-size:15px;
+}
+
+.total-row{
+    border-top:1px solid #e6d28a;
+    padding-top:10px;
+    margin-top:10px;
+    font-size:18px;
+    font-weight:800;
+}
+
+/* WHATSAPP */
+
+.whatsapp-btn{
+    width:100%;
+    border:none;
+    background:#25D366;
+    color:white;
+    padding:15px;
+    border-radius:12px;
+    font-size:17px;
+    font-weight:700;
+    cursor:pointer;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:9px;
+
+    animation:whatsappMove 2.8s ease-in-out infinite;
+    transition:.3s;
+}
+
+.whatsapp-btn:hover{
+    transform:scale(1.03);
+    background:#20bd5a;
+}
+
+.whatsapp-icon{
+    font-size:22px;
+}
+
+@keyframes whatsappMove{
+
+    0%,100%{
+        transform:translateY(0);
     }
 
-    header {
-      height: 70px;
-      background: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 18px;
-      border-bottom: 1px solid #eee;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+    50%{
+        transform:translateY(-3px);
+    }
+}
+
+.form-note{
+    text-align:center;
+    color:#777;
+    font-size:12px;
+    margin-top:10px;
+}
+
+@media(min-width:700px){
+
+    .products{
+        max-width:1000px;
+        margin:auto;
     }
 
-    .menu-btn,
-    .header-icon {
-      font-size: 25px;
-      cursor: pointer;
-      width: 40px;
-      text-align: center;
+    .product-grid{
+        grid-template-columns:repeat(2,1fr);
     }
+}
 
-    .logo {
-      font-size: 23px;
-      font-weight: 800;
-      letter-spacing: 1px;
-    }
-
-    .header-right {
-      display: flex;
-      gap: 12px;
-    }
-
-    .search-area {
-      background: #ffc107;
-      padding: 18px;
-    }
-
-    .search-box {
-      background: #fff;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      padding: 12px 15px;
-      gap: 10px;
-    }
-
-    .search-box span {
-      font-size: 22px;
-    }
-
-    .search-box input {
-      border: none;
-      outline: none;
-      width: 100%;
-      font-size: 16px;
-    }
-
-    .category {
-      padding: 20px 15px 5px;
-    }
-
-    .section-title {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 15px;
-      border-left: 5px solid #ffc107;
-      padding-left: 10px;
-    }
-
-    .categories {
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      padding-bottom: 10px;
-    }
-
-    .categories::-webkit-scrollbar {
-      display: none;
-    }
-
-    .cat {
-      background: #fff;
-      border: 1px solid #eee;
-      border-radius: 20px;
-      padding: 10px 16px;
-      white-space: nowrap;
-      cursor: pointer;
-    }
-
-    .cat:hover,
-    .cat.active {
-      background: #ffc107;
-      border-color: #ffc107;
-    }
-
-    .products {
-      padding: 15px;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-
-    .product-card {
-      background: #fff;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    }
-
-    .product-image {
-      height: 230px;
-      background: #eee;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #999;
-      font-size: 16px;
-      overflow: hidden;
-    }
-
-    .product-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .product-info {
-      padding: 16px;
-    }
-
-    .product-name {
-      font-size: 19px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .category-name {
-      color: #777;
-      font-size: 14px;
-      margin-bottom: 8px;
-    }
-
-    .stock {
-      font-size: 13px;
-      color: #555;
-      margin-bottom: 8px;
-    }
-
-    .warranty {
-      font-size: 13px;
-      color: #555;
-      margin-bottom: 10px;
-    }
-
-    .price {
-      font-size: 21px;
-      font-weight: 700;
-      color: #111;
-    }
-
-    .buy-btn {
-      width: 100%;
-      border: none;
-      background: #ffc107;
-      padding: 13px;
-      margin-top: 15px;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .buy-btn:hover {
-      background: #e9aa00;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 40px 10px;
-      color: #777;
-    }
-
-    .no-product {
-      text-align: center;
-      padding: 40px 10px;
-      color: #777;
-      display: none;
-    }
-
-    .side-menu {
-      position: fixed;
-      top: 0;
-      left: -280px;
-      width: 280px;
-      height: 100%;
-      background: #fff;
-      z-index: 300;
-      transition: 0.3s;
-      box-shadow: 3px 0 15px rgba(0,0,0,0.15);
-    }
-
-    .side-menu.active {
-      left: 0;
-    }
-
-    .menu-header {
-      background: #ffc107;
-      padding: 25px 20px;
-      font-size: 22px;
-      font-weight: 800;
-    }
-
-    .menu-close {
-      float: right;
-      cursor: pointer;
-      font-size: 25px;
-    }
-
-    .menu-list {
-      padding: 15px;
-    }
-
-    .menu-list div {
-      padding: 16px 10px;
-      border-bottom: 1px solid #eee;
-      cursor: pointer;
-    }
-
-    .menu-list div:hover {
-      background: #fff4cc;
-    }
-
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.4);
-      z-index: 200;
-      display: none;
-    }
-
-    .overlay.active {
-      display: block;
-    }
-
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 68px;
-      background: #fff;
-      border-top: 1px solid #ddd;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      z-index: 150;
-    }
-
-    .nav-item {
-      text-align: center;
-      color: #777;
-      font-size: 12px;
-      cursor: pointer;
-    }
-
-    .nav-item .icon {
-      font-size: 22px;
-      margin-bottom: 4px;
-    }
-
-    .nav-item.active {
-      color: #e6a900;
-      font-weight: 700;
-    }
-
-    @media (min-width: 700px) {
-      .products {
-        max-width: 1000px;
-        margin: auto;
-      }
-
-      .product-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-  </style>
+</style>
 </head>
+
 
 <body>
 
-  <header>
+
+<!-- HEADER -->
+
+<header>
+
     <div class="menu-btn" onclick="openMenu()">☰</div>
 
     <div class="logo">JMR GADGETS</div>
 
     <div class="header-right">
-      <div class="header-icon" onclick="searchFocus()">⌕</div>
-      <div class="header-icon" onclick="account()">♙</div>
-    </div>
-  </header>
 
-  <div class="search-area">
+        <div class="header-icon" onclick="searchFocus()">⌕</div>
+
+        <div class="header-icon" onclick="account()">♙</div>
+
+    </div>
+
+</header>
+
+
+<!-- SEARCH -->
+
+<div class="search-area">
+
     <div class="search-box">
-      <span>🔍</span>
-      <input id="searchInput" type="text" placeholder="Search products...">
-    </div>
-  </div>
 
-  <section class="category">
-    <div class="section-title">Categories</div>
+        <span>🔍</span>
+
+        <input
+            id="searchInput"
+            type="text"
+            placeholder="Search products..."
+        >
+
+    </div>
+
+</div>
+
+
+<!-- CATEGORY -->
+
+<section class="category">
+
+    <div class="section-title">
+        Categories
+    </div>
 
     <div class="categories" id="categories">
-      <div class="cat active" onclick="filterCategory('All', this)">All</div>
-    </div>
-  </section>
 
-  <section class="products">
-    <div class="section-title">Featured Products</div>
+        <div
+            class="cat active"
+            onclick="filterCategory('All',this)"
+        >
+            All
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PRODUCTS -->
+
+<section class="products">
+
+    <div class="section-title">
+        Featured Products
+    </div>
 
     <div id="loading" class="loading">
-      Loading products...
+        Loading products...
     </div>
 
-    <div id="productGrid" class="product-grid"></div>
+    <div
+        id="productGrid"
+        class="product-grid"
+    ></div>
 
-    <div id="noProduct" class="no-product">
-      No products found.
+    <div
+        id="noProduct"
+        class="no-product"
+    >
+        No products found.
     </div>
-  </section>
 
-  <div class="overlay" id="overlay" onclick="closeMenu()"></div>
+</section>
 
-  <div class="side-menu" id="sideMenu">
+
+<!-- SIDE MENU -->
+
+<div
+    class="overlay"
+    id="overlay"
+    onclick="closeMenu()"
+></div>
+
+
+<div
+    class="side-menu"
+    id="sideMenu"
+>
 
     <div class="menu-header">
-      JMR GADGETS
-      <span class="menu-close" onclick="closeMenu()">×</span>
+
+        JMR GADGETS
+
+        <span
+            class="menu-close"
+            onclick="closeMenu()"
+        >
+            ×
+        </span>
+
     </div>
 
     <div class="menu-list">
-      <div onclick="filterCategory('All')">🏠 Home</div>
-      <div onclick="filterCategory('Mini UPS')">Mini UPS</div>
-      <div onclick="filterCategory('Airpods')">Airpods</div>
-      <div onclick="filterCategory('Smartwatches')">Smartwatches</div>
-      <div onclick="filterCategory('Powerbank')">Powerbank</div>
-      <div onclick="filterCategory('Rechargeable Fan')">Rechargeable Fan</div>
-      <div onclick="filterCategory('All')">🛒 All Products</div>
-      <div onclick="account()">👤 My Account</div>
+
+        <div onclick="filterCategory('All')">
+            🏠 Home
+        </div>
+
+        <div onclick="filterCategory('Mini UPS')">
+            Mini UPS
+        </div>
+
+        <div onclick="filterCategory('Airpods')">
+            Airpods
+        </div>
+
+        <div onclick="filterCategory('Smartwatches')">
+            Smartwatches
+        </div>
+
+        <div onclick="filterCategory('Powerbank')">
+            Powerbank
+        </div>
+
+        <div onclick="filterCategory('Rechargeable Fan')">
+            Rechargeable Fan
+        </div>
+
+        <div onclick="filterCategory('All')">
+            🛒 All Products
+        </div>
+
+        <div onclick="account()">
+            👤 My Account
+        </div>
+
     </div>
 
-  </div>
+</div>
 
-  <div class="bottom-nav">
 
-    <div class="nav-item" onclick="filterCategory('All')">
-      <div class="icon">🛍️</div>
-      <div>Shop</div>
+<!-- ORDER MODAL -->
+
+<div
+    class="order-modal"
+    id="orderModal"
+>
+
+    <div class="order-box">
+
+        <div
+            class="close-order"
+            onclick="closeOrder()"
+        >
+            ×
+        </div>
+
+
+        <div class="order-title">
+            Order Now
+        </div>
+
+        <div
+            class="order-product"
+            id="orderProductName"
+        >
+            Product
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                নাম
+            </label>
+
+            <input
+                id="customerName"
+                type="text"
+                placeholder="এখানে আপনার নাম লিখুন"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                ফোন নাম্বার
+            </label>
+
+            <input
+                id="customerPhone"
+                type="tel"
+                placeholder="01xxxxxxxxxxx"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                জেলা
+            </label>
+
+            <input
+                id="customerDistrict"
+                type="text"
+                placeholder="জেলা"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                থানা
+            </label>
+
+            <input
+                id="customerThana"
+                type="text"
+                placeholder="থানা"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                স্থানীয় ঠিকানা
+            </label>
+
+            <textarea
+                id="customerAddress"
+                placeholder="যেখানে প্রোডাক্ট রিসিভ করবেন"
+            ></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Select Colour
+            </label>
+
+            <select id="colorSelect">
+
+                <option value="">
+                    Select Colour
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                পরিমাণ
+            </label>
+
+            <input
+                id="quantity"
+                type="number"
+                min="1"
+                value="1"
+                oninput="updateBill()"
+            >
+
+        </div>
+
+
+        <!-- BILL -->
+
+        <div class="bill-box">
+
+            <div class="bill-row">
+
+                <span>
+                    প্রোডাক্ট প্রাইস :
+                </span>
+
+                <strong>
+                    ৳<span id="productPrice">0</span>
+                </strong>
+
+            </div>
+
+
+            <div class="bill-row">
+
+                <span>
+                    ডেলিভারি চার্জ :
+                </span>
+
+                <strong>
+                    ৳<span id="deliveryCharge">120</span>
+                </strong>
+
+            </div>
+
+
+            <div class="bill-row total-row">
+
+                <span>
+                    সর্বমোট প্রদেয় বিল:
+                </span>
+
+                <strong>
+                    ৳<span id="totalPrice">120</span>
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- WHATSAPP -->
+
+        <button
+            class="whatsapp-btn"
+            onclick="sendWhatsAppOrder()"
+        >
+
+            <span>
+                WhatsApp-এ অর্ডার করুন
+            </span>
+
+            <span class="whatsapp-icon">
+                ☎
+            </span>
+
+        </button>
+
+
+        <div class="form-note">
+
+            WhatsApp-এ ক্লিক করলে আপনার দেওয়া তথ্যসহ অর্ডার মেসেজ তৈরি হবে।
+
+        </div>
+
     </div>
 
-    <div class="nav-item active" onclick="filterCategory('All')">
-      <div class="icon">⌂</div>
-      <div>Home</div>
+</div>
+
+
+<!-- BOTTOM NAV -->
+
+<div class="bottom-nav">
+
+    <div
+        class="nav-item"
+        onclick="filterCategory('All')"
+    >
+
+        <div class="icon">
+            🛍️
+        </div>
+
+        <div>
+            Shop
+        </div>
+
     </div>
 
-    <div class="nav-item" onclick="account()">
-      <div class="icon">👤</div>
-      <div>My Account</div>
+
+    <div
+        class="nav-item active"
+        onclick="filterCategory('All')"
+    >
+
+        <div class="icon">
+            ⌂
+        </div>
+
+        <div>
+            Home
+        </div>
+
     </div>
 
-  </div>
 
-  <script>
+    <div
+        class="nav-item"
+        onclick="account()"
+    >
 
-    const SHEET_URL =
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRc_FdQ5OxU48pfoDdyY0hS6S0urj_u7JP5dQrWgW52qXAS2TawrUG34vbtx5wDwECcNFvImlnnTadQ/pub?output=csv";
+        <div class="icon">
+            👤
+        </div>
 
-    const WHATSAPP_NUMBER = "8801789283142";
+        <div>
+            My Account
+        </div>
 
-    let products = [];
-    let currentCategory = "All";
+    </div>
 
-    function parseCSV(text) {
+</div>
 
-      const rows = [];
-      let row = [];
-      let cell = "";
-      let insideQuotes = false;
 
-      for (let i = 0; i < text.length; i++) {
+<script>
 
-        const char = text[i];
-        const next = text[i + 1];
 
-        if (char === '"' && insideQuotes && next === '"') {
-          cell += '"';
-          i++;
-        }
+/* GOOGLE SHEET */
 
-        else if (char === '"') {
-          insideQuotes = !insideQuotes;
-        }
+const SHEET_URL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vRc_FdQ5OxU48pfoDdyY0hS6S0urj_u7JP5dQrWgW52qXAS2TawrUG34vbtx5wDwECcNFvImlnnTadQ/pub?output=csv";
 
-        else if (char === "," && !insideQuotes) {
-          row.push(cell.trim());
-          cell = "";
-        }
 
-        else if ((char === "\n" || char === "\r") && !insideQuotes) {
+/* WHATSAPP NUMBER */
 
-          if (char === "\r" && next === "\n") {
+const WHATSAPP_NUMBER =
+"8801789283142";
+
+
+/* DELIVERY CHARGE */
+
+const DELIVERY_CHARGE =
+120;
+
+
+let products = [];
+
+let currentCategory =
+"All";
+
+let selectedProduct =
+null;
+
+
+/* CSV PARSER */
+
+function parseCSV(text){
+
+    const rows = [];
+
+    let row = [];
+
+    let cell = "";
+
+    let insideQuotes = false;
+
+
+    for(let i=0;i<text.length;i++){
+
+        const char =
+        text[i];
+
+        const next =
+        text[i+1];
+
+
+        if(
+            char === '"' &&
+            insideQuotes &&
+            next === '"'
+        ){
+
+            cell += '"';
+
             i++;
-          }
 
-          row.push(cell.trim());
-          rows.push(row);
-          row = [];
-          cell = "";
         }
 
-        else {
-          cell += char;
+        else if(char === '"'){
+
+            insideQuotes =
+            !insideQuotes;
+
         }
-      }
 
-      if (cell !== "" || row.length > 0) {
-        row.push(cell.trim());
-        rows.push(row);
-      }
+        else if(
+            char === "," &&
+            !insideQuotes
+        ){
 
-      return rows;
+            row.push(cell.trim());
+
+            cell = "";
+
+        }
+
+        else if(
+            (char === "\n" || char === "\r") &&
+            !insideQuotes
+        ){
+
+            if(
+                char === "\r" &&
+                next === "\n"
+            ){
+
+                i++;
+
+            }
+
+            row.push(cell.trim());
+
+            rows.push(row);
+
+            row = [];
+
+            cell = "";
+
+        }
+
+        else{
+
+            cell += char;
+
+        }
+
     }
 
 
-    async function loadProducts() {
+    if(
+        cell !== "" ||
+        row.length > 0
+    ){
 
-      try {
+        row.push(cell.trim());
 
-        const response = await fetch(SHEET_URL);
+        rows.push(row);
 
-        if (!response.ok) {
-          throw new Error("Could not load Google Sheet");
-        }
+    }
 
-        const csvText = await response.text();
 
-        const rows = parseCSV(csvText);
+    return rows;
 
-        if (rows.length < 2) {
-          throw new Error("No products found");
-        }
+}
 
-        const headers = rows[0].map(h =>
-          h.trim().toLowerCase()
+
+/* LOAD PRODUCTS */
+
+async function loadProducts(){
+
+    try{
+
+        const response =
+        await fetch(
+            SHEET_URL + "&t=" + Date.now()
         );
 
-        products = rows.slice(1)
-          .filter(row => row.some(value => value.trim() !== ""))
-          .map(row => {
+
+        if(!response.ok){
+
+            throw new Error(
+                "Could not load Google Sheet"
+            );
+
+        }
+
+
+        const csvText =
+        await response.text();
+
+
+        const rows =
+        parseCSV(csvText);
+
+
+        if(rows.length < 2){
+
+            throw new Error(
+                "No products found"
+            );
+
+        }
+
+
+        const headers =
+        rows[0].map(
+            h => h.trim().toLowerCase()
+        );
+
+
+        products =
+        rows.slice(1)
+
+        .filter(
+            row =>
+            row.some(
+                value =>
+                value.trim() !== ""
+            )
+        )
+
+        .map(row => {
 
             const product = {};
 
-            headers.forEach((header, index) => {
-              product[header] = row[index] || "";
-            });
+            headers.forEach(
+                (header,index) => {
+
+                    product[header] =
+                    row[index] || "";
+
+                }
+            );
 
             return product;
-          });
+
+        });
+
 
         createCategories();
+
         displayProducts(products);
 
-        document.getElementById("loading").style.display = "none";
 
-      } catch (error) {
+        document.getElementById(
+            "loading"
+        ).style.display = "none";
+
+
+    }
+    catch(error){
 
         console.error(error);
 
-        document.getElementById("loading").innerHTML =
-          "Products could not be loaded. Please check your Google Sheet.";
+        document.getElementById(
+            "loading"
+        ).innerHTML =
+        "Products could not be loaded. Please check your Google Sheet.";
 
-      }
     }
 
+}
 
-    function createCategories() {
 
-      const categoryBox =
-        document.getElementById("categories");
+/* CATEGORIES */
 
-      const categories = [
+function createCategories(){
+
+    const categoryBox =
+    document.getElementById(
+        "categories"
+    );
+
+
+    const categories = [
         ...new Set(
-          products
-            .map(product => product["category"])
-            .filter(category => category)
+            products
+            .map(
+                product =>
+                product["category"]
+            )
+            .filter(
+                category =>
+                category
+            )
         )
-      ];
+    ];
 
-      categories.forEach(category => {
 
-        const button = document.createElement("div");
+    categories.forEach(
+        category => {
 
-        button.className = "cat";
+            const button =
+            document.createElement(
+                "div"
+            );
 
-        button.textContent = category;
 
-        button.onclick = function() {
-          filterCategory(category, this);
-        };
+            button.className =
+            "cat";
 
-        categoryBox.appendChild(button);
 
-      });
+            button.textContent =
+            category;
+
+
+            button.onclick =
+            function(){
+
+                filterCategory(
+                    category,
+                    this
+                );
+
+            };
+
+
+            categoryBox.appendChild(
+                button
+            );
+
+        }
+    );
+
+}
+
+
+/* GOOGLE DRIVE IMAGE SUPPORT */
+
+function convertImageUrl(url){
+
+    if(!url){
+        return "";
+    }
+
+
+    url =
+    url.trim();
+
+
+    /*
+      Google Drive:
+      /file/d/FILE_ID/view
+    */
+
+    const driveMatch =
+    url.match(
+        /\/file\/d\/([^\/]+)/
+    );
+
+
+    if(driveMatch){
+
+        const fileId =
+        driveMatch[1];
+
+
+        return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
 
     }
 
 
-    function displayProducts(productList) {
+    /*
+      If user gives only Drive ID
+    */
 
-      const grid =
-        document.getElementById("productGrid");
+    if(
+        /^[a-zA-Z0-9_-]{20,}$/.test(url)
+    ){
 
-      const noProduct =
-        document.getElementById("noProduct");
+        return `https://drive.google.com/thumbnail?id=${url}&sz=w1000`;
 
-      grid.innerHTML = "";
+    }
 
-      if (productList.length === 0) {
 
-        noProduct.style.display = "block";
+    /*
+      Normal direct image URL
+    */
+
+    return url;
+
+}
+
+
+/* DISPLAY PRODUCTS */
+
+function displayProducts(
+    productList
+){
+
+    const grid =
+    document.getElementById(
+        "productGrid"
+    );
+
+
+    const noProduct =
+    document.getElementById(
+        "noProduct"
+    );
+
+
+    grid.innerHTML = "";
+
+
+    if(productList.length === 0){
+
+        noProduct.style.display =
+        "block";
 
         return;
 
-      }
-
-      noProduct.style.display = "none";
-
-      productList.forEach(product => {
-
-        const card =
-          document.createElement("div");
-
-        card.className = "product-card";
-
-        const productName =
-          product["product name"] || "Unnamed Product";
-
-        const category =
-          product["category"] || "";
-
-        const price =
-          product["regular price"] || "";
-
-        const colorsStock =
-          product["colors & stock"] || "";
-
-        const warranty =
-          product["warranty"] || "";
-
-        const image =
-          product["image"] || "";
-
-        card.innerHTML = `
-
-          <div class="product-image">
-
-            ${
-              image
-              ? `<img src="${image}" alt="${productName}"
-                   onerror="this.style.display='none';
-                   this.parentElement.innerHTML='Product Image';">`
-              : "Product Image"
-            }
-
-          </div>
-
-          <div class="product-info">
-
-            <div class="product-name">
-              ${productName}
-            </div>
-
-            <div class="category-name">
-              Category: ${category}
-            </div>
-
-            ${
-              colorsStock
-              ? `<div class="stock">
-                   Stock / Colors: ${colorsStock}
-                 </div>`
-              : ""
-            }
-
-            ${
-              warranty
-              ? `<div class="warranty">
-                   Warranty: ${warranty}
-                 </div>`
-              : ""
-            }
-
-            <div class="price">
-              ৳${price}
-            </div>
-
-            <button class="buy-btn"
-              onclick='buyProduct(${JSON.stringify(productName)}, ${JSON.stringify(price)}, ${JSON.stringify(product["product id"] || "")})'>
-
-              Buy Now
-
-            </button>
-
-          </div>
-        `;
-
-        grid.appendChild(card);
-
-      });
-
     }
 
 
-    function filterCategory(category, element) {
+    noProduct.style.display =
+    "none";
 
-      currentCategory = category;
 
-      document
-        .querySelectorAll(".cat")
-        .forEach(cat => cat.classList.remove("active"));
+    productList.forEach(
+        product => {
 
-      if (element) {
-        element.classList.add("active");
-      }
 
-      closeMenu();
+            const card =
+            document.createElement(
+                "div"
+            );
 
-      const searchValue =
-        document.getElementById("searchInput")
-          .value
-          .toLowerCase()
-          .trim();
 
-      let filtered = products;
+            card.className =
+            "product-card";
 
-      if (category !== "All") {
 
-        filtered = filtered.filter(product =>
-          (product["category"] || "")
-            .toLowerCase() === category.toLowerCase()
-        );
+            const productName =
+            product["product name"] ||
+            "Unnamed Product";
 
-      }
 
-      if (searchValue) {
+            const category =
+            product["category"] ||
+            "";
 
-        filtered = filtered.filter(product =>
 
-          (product["product name"] || "")
-            .toLowerCase()
-            .includes(searchValue)
+            const price =
+            product["regular price"] ||
+            "0";
 
-          ||
 
-          (product["category"] || "")
-            .toLowerCase()
-            .includes(searchValue)
+            const colorsStock =
+            product["colors & stock"] ||
+            "";
 
-        );
 
-      }
+            const warranty =
+            product["warranty"] ||
+            "";
 
-      displayProducts(filtered);
 
-    }
+            const image =
+            convertImageUrl(
+                product["image"] || ""
+            );
+
+
+            card.innerHTML = `
+
+                <div class="product-image">
+
+                    ${
+                        image
+
+                        ?
+
+                        `<img
+                            src="${image}"
+                            alt="${productName}"
+                            onerror="this.style.display='none';this.parentElement.innerHTML='Product Image';"
+                        >`
+
+                        :
+
+                        "Product Image"
+                    }
+
+                </div>
+
+
+                <div class="product-info">
+
+                    <div class="product-name">
+                        ${productName}
+                    </div>
+
+
+                    <div class="category-name">
+                        Category: ${category}
+                    </div>
+
+
+                    ${
+                        colorsStock
+
+                        ?
+
+                        `<div class="stock">
+                            Stock / Colors: ${colorsStock}
+                        </div>`
+
+                        :
+
+                        ""
+                    }
+
+
+                    ${
+                        warranty
+
+                        ?
+
+                        `<div class="warranty">
+                            Warranty: ${warranty}
+                        </div>`
+
+                        :
+
+                        ""
+                    }
+
+
+                    <div class="price">
+                        ৳${price}
+                    </div>
+
+
+                    <button
+                        class="order-btn"
+                        onclick="openOrder(${products.indexOf(product)})"
+                    >
+                        Order Now
+                    </button>
+
+                </div>
+
+            `;
+
+
+            grid.appendChild(card);
+
+        }
+    );
+
+}
+
+
+/* FILTER CATEGORY */
+
+function filterCategory(
+    category,
+    element
+){
+
+    currentCategory =
+    category;
 
 
     document
-      .getElementById("searchInput")
-      .addEventListener("input", function() {
+    .querySelectorAll(".cat")
+    .forEach(
+        cat =>
+        cat.classList.remove(
+            "active"
+        )
+    );
 
-        const searchValue =
-          this.value.toLowerCase().trim();
 
-        let filtered = products;
+    if(element){
 
-        if (currentCategory !== "All") {
+        element.classList.add(
+            "active"
+        );
 
-          filtered = filtered.filter(product =>
+    }
+
+
+    closeMenu();
+
+
+    applyFilters();
+
+}
+
+
+/* SEARCH + CATEGORY */
+
+function applyFilters(){
+
+    const searchValue =
+    document
+    .getElementById(
+        "searchInput"
+    )
+    .value
+    .toLowerCase()
+    .trim();
+
+
+    let filtered =
+    products;
+
+
+    if(
+        currentCategory !==
+        "All"
+    ){
+
+        filtered =
+        filtered.filter(
+            product =>
+
             (product["category"] || "")
-              .toLowerCase() === currentCategory.toLowerCase()
-          );
+            .toLowerCase()
+            ===
+            currentCategory.toLowerCase()
 
-        }
+        );
 
-        if (searchValue) {
+    }
 
-          filtered = filtered.filter(product =>
+
+    if(searchValue){
+
+        filtered =
+        filtered.filter(
+            product =>
 
             (product["product name"] || "")
-              .toLowerCase()
-              .includes(searchValue)
+            .toLowerCase()
+            .includes(searchValue)
 
             ||
 
             (product["category"] || "")
-              .toLowerCase()
-              .includes(searchValue)
+            .toLowerCase()
+            .includes(searchValue)
 
-          );
+        );
+
+    }
+
+
+    displayProducts(
+        filtered
+    );
+
+}
+
+
+/* SEARCH */
+
+document
+.getElementById(
+    "searchInput"
+)
+.addEventListener(
+    "input",
+    applyFilters
+);
+
+
+/* OPEN ORDER */
+
+function openOrder(index){
+
+    selectedProduct =
+    products[index];
+
+
+    if(!selectedProduct){
+
+        return;
+
+    }
+
+
+    const name =
+    selectedProduct[
+        "product name"
+    ] ||
+    "Product";
+
+
+    const price =
+    parsePrice(
+        selectedProduct[
+            "regular price"
+        ]
+    );
+
+
+    document.getElementById(
+        "orderProductName"
+    ).textContent =
+    name;
+
+
+    document.getElementById(
+        "productPrice"
+    ).textContent =
+    formatNumber(price);
+
+
+    document.getElementById(
+        "quantity"
+    ).value =
+    1;
+
+
+    loadColors();
+
+
+    updateBill();
+
+
+    document.getElementById(
+        "orderModal"
+    ).classList.add(
+        "active"
+    );
+
+}
+
+
+/* CLOSE ORDER */
+
+function closeOrder(){
+
+    document.getElementById(
+        "orderModal"
+    ).classList.remove(
+        "active"
+    );
+
+}
+
+
+/* PRICE */
+
+function parsePrice(value){
+
+    if(!value){
+
+        return 0;
+
+    }
+
+
+    return parseFloat(
+        String(value)
+        .replace(/[^\d.]/g,"")
+    ) || 0;
+
+}
+
+
+function formatNumber(number){
+
+    return Number(
+        number
+    ).toLocaleString(
+        "en-US"
+    );
+
+}
+
+
+/* LOAD AVAILABLE COLORS */
+
+function loadColors(){
+
+    const select =
+    document.getElementById(
+        "colorSelect"
+    );
+
+
+    select.innerHTML =
+    `<option value="">
+        Select Colour
+    </option>`;
+
+
+    const text =
+    selectedProduct[
+        "colors & stock"
+    ] || "";
+
+
+    /*
+      Examples supported:
+
+      Black - 5, White - 3
+
+      Black: 5, White: 3
+
+      Black (5), White (3)
+
+      Black - Available
+    */
+
+
+    const parts =
+    text.split(
+        /[,|]+/
+    );
+
+
+    const availableColors = [];
+
+
+    parts.forEach(
+        part => {
+
+            let clean =
+            part.trim();
+
+
+            if(!clean){
+
+                return;
+
+            }
+
+
+            let stock = null;
+
+            let color = clean;
+
+
+            const dashMatch =
+            clean.match(
+                /^(.+?)\s*[-:]\s*(\d+)\s*$/
+            );
+
+
+            const bracketMatch =
+            clean.match(
+                /^(.+?)\s*\((\d+)\)\s*$/
+            );
+
+
+            if(dashMatch){
+
+                color =
+                dashMatch[1].trim();
+
+                stock =
+                parseInt(
+                    dashMatch[2]
+                );
+
+            }
+
+            else if(bracketMatch){
+
+                color =
+                bracketMatch[1].trim();
+
+                stock =
+                parseInt(
+                    bracketMatch[2]
+                );
+
+            }
+
+
+            /*
+              If stock = 0,
+              don't show it as available
+            */
+
+            if(
+                stock !== null &&
+                stock <= 0
+            ){
+
+                return;
+
+            }
+
+
+            if(
+                !availableColors.includes(
+                    color
+                )
+            ){
+
+                availableColors.push(
+                    color
+                );
+
+            }
 
         }
-
-        displayProducts(filtered);
-
-      });
+    );
 
 
-    function buyProduct(name, price, id) {
+    /*
+      If no stock number is found,
+      show the written colors.
+    */
 
-      const message =
-        `Assalamu Alaikum, I want to order this product.
+    if(
+        availableColors.length === 0 &&
+        text
+    ){
 
-Product: ${name}
-Product ID: ${id}
-Price: ৳${price}
+        text
+        .split(/[,|]+/)
+        .forEach(
+            color => {
 
-Please confirm my order.`;
-
-      const url =
-        `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-
-      window.open(url, "_blank");
-
-    }
+                color =
+                color.trim();
 
 
-    function openMenu() {
+                if(color){
 
-      document
-        .getElementById("sideMenu")
-        .classList.add("active");
+                    availableColors.push(
+                        color
+                    );
 
-      document
-        .getElementById("overlay")
-        .classList.add("active");
+                }
+
+            }
+        );
 
     }
 
 
-    function closeMenu() {
+    availableColors.forEach(
+        color => {
 
-      document
-        .getElementById("sideMenu")
-        .classList.remove("active");
+            const option =
+            document.createElement(
+                "option"
+            );
 
-      document
-        .getElementById("overlay")
-        .classList.remove("active");
+
+            option.value =
+            color;
+
+
+            option.textContent =
+            color;
+
+
+            select.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+/* BILL CALCULATION */
+
+function updateBill(){
+
+    if(!selectedProduct){
+
+        return;
 
     }
 
 
-    function searchFocus() {
+    const price =
+    parsePrice(
+        selectedProduct[
+            "regular price"
+        ]
+    );
 
-      document
-        .getElementById("searchInput")
-        .focus();
+
+    let quantity =
+    parseInt(
+        document.getElementById(
+            "quantity"
+        ).value
+    ) || 1;
+
+
+    if(quantity < 1){
+
+        quantity = 1;
+
+        document.getElementById(
+            "quantity"
+        ).value =
+        1;
 
     }
 
 
-    function account() {
+    const productTotal =
+    price * quantity;
 
-      alert("My Account page coming soon.");
+
+    const total =
+    productTotal +
+    DELIVERY_CHARGE;
+
+
+    document.getElementById(
+        "productPrice"
+    ).textContent =
+    formatNumber(
+        productTotal
+    );
+
+
+    document.getElementById(
+        "deliveryCharge"
+    ).textContent =
+    formatNumber(
+        DELIVERY_CHARGE
+    );
+
+
+    document.getElementById(
+        "totalPrice"
+    ).textContent =
+    formatNumber(
+        total
+    );
+
+}
+
+
+/* SEND WHATSAPP ORDER */
+
+function sendWhatsAppOrder(){
+
+    if(!selectedProduct){
+
+        return;
 
     }
 
 
-    loadProducts();
+    const name =
+    document.getElementById(
+        "customerName"
+    ).value.trim();
 
-  </script>
+
+    const phone =
+    document.getElementById(
+        "customerPhone"
+    ).value.trim();
+
+
+    const district =
+    document.getElementById(
+        "customerDistrict"
+    ).value.trim();
+
+
+    const thana =
+    document.getElementById(
+        "customerThana"
+    ).value.trim();
+
+
+    const address =
+    document.getElementById(
+        "customerAddress"
+    ).value.trim();
+
+
+    const color =
+    document.getElementById(
+        "colorSelect"
+    ).value;
+
+
+    const quantity =
+    parseInt(
+        document.getElementById(
+            "quantity"
+        ).value
+    ) || 1;
+
+
+    if(
+        !name ||
+        !phone ||
+        !district ||
+        !thana ||
+        !address ||
+        !color
+    ){
+
+        alert(
+            "দয়া করে সব তথ্য পূরণ করুন।"
+        );
+
+        return;
+
+    }
+
+
+    const price =
+    parsePrice(
+        selectedProduct[
+            "regular price"
+        ]
+    );
+
+
+    const productTotal =
+    price * quantity;
+
+
+    const total =
+    productTotal +
+    DELIVERY_CHARGE;
+
+
+    const productName =
+    selectedProduct[
+        "product name"
+    ] ||
+    "Product";
+
+
+    const productId =
+    selectedProduct[
+        "product id"
+    ] ||
+    "";
+
+
+    const message =
+
+`Assalamu Alaikum, আমি একটি অর্ডার করতে চাই।
+
+👤 কাস্টমার তথ্য
+
+নাম : ${name}
+ফোন নাম্বার : ${phone}
+
+জেলা : ${district}
+থানা : ${thana}
+
+স্থানীয় ঠিকানা : ${address}
+
+🛒 অর্ডার তথ্য
+
+প্রোডাক্ট নাম : ${productName}
+প্রোডাক্ট ID : ${productId}
+কালার : ${color}
+পরিমাণ : ${quantity}
+
+💰 বিল
+
+প্রোডাক্ট প্রাইস : ৳${formatNumber(productTotal)}
+ডেলিভারি চার্জ : ৳${formatNumber(DELIVERY_CHARGE)}
+
+সর্বমোট প্রদেয় বিল : ৳${formatNumber(total)}
+
+দয়া করে আমার অর্ডারটি কনফার্ম করুন।`;
+
+
+    const url =
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+
+    window.open(
+        url,
+        "_blank"
+    );
+
+}
+
+
+/* MENU */
+
+function openMenu(){
+
+    document
+    .getElementById(
+        "sideMenu"
+    )
+    .classList.add(
+        "active"
+    );
+
+
+    document
+    .getElementById(
+        "overlay"
+    )
+    .classList.add(
+        "active"
+    );
+
+}
+
+
+function closeMenu(){
+
+    document
+    .getElementById(
+        "sideMenu"
+    )
+    .classList.remove(
+        "active"
+    );
+
+
+    document
+    .getElementById(
+        "overlay"
+    )
+    .classList.remove(
+        "active"
+    );
+
+}
+
+
+/* SEARCH FOCUS */
+
+function searchFocus(){
+
+    document
+    .getElementById(
+        "searchInput"
+    )
+    .focus();
+
+}
+
+
+/* ACCOUNT */
+
+function account(){
+
+    alert(
+        "My Account page coming soon."
+    );
+
+}
+
+
+/* START */
+
+loadProducts();
+
+
+</script>
 
 </body>
 </html>
