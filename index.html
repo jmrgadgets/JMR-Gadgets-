@@ -953,17 +953,17 @@ header{
 
 
 /* =========================
-   WHATSAPP
+   ORDER BUTTON
 ========================= */
 
-.whatsapp-btn{
+.order-submit-btn{
     width:100%;
 
     border:none;
 
-    background:#25D366;
+    background:#ffc107;
 
-    color:white;
+    color:#111;
 
     padding:15px;
 
@@ -971,7 +971,7 @@ header{
 
     font-size:17px;
 
-    font-weight:700;
+    font-weight:800;
 
     cursor:pointer;
 
@@ -983,30 +983,31 @@ header{
 
     gap:9px;
 
-    animation:whatsappMove 2.8s ease-in-out infinite;
+    animation:orderButtonMove 2.8s ease-in-out infinite;
 }
 
-.whatsapp-btn:hover{
-    background:#20bd5a;
+.order-submit-btn:hover{
+    background:#eeb000;
 }
 
-.whatsapp-icon{
+.order-submit-btn:disabled{
+    opacity:.7;
+    cursor:not-allowed;
+    animation:none;
+}
+
+.order-icon{
     width:24px;
     height:24px;
 
     display:flex;
     align-items:center;
     justify-content:center;
+
+    font-size:21px;
 }
 
-.whatsapp-icon svg{
-    width:23px;
-    height:23px;
-
-    fill:#fff;
-}
-
-@keyframes whatsappMove{
+@keyframes orderButtonMove{
 
     0%,100%{
         transform:translateY(0);
@@ -1573,28 +1574,20 @@ header{
         </div>
 
 
-        <!-- WHATSAPP -->
+        <!-- ORDER SUBMIT -->
 
         <button
-            class="whatsapp-btn"
-            onclick="sendWhatsAppOrder()"
+            id="submitOrderBtn"
+            class="order-submit-btn"
+            onclick="submitOrder()"
         >
 
             <span>
-                WhatsApp-এ অর্ডার করুন
+                অর্ডার কনফার্ম করুন
             </span>
 
-            <span class="whatsapp-icon">
-
-                <svg
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-
-                    <path d="M20.52 3.48A11.86 11.86 0 0 0 12.05 0C5.5 0 .17 5.33.17 11.88c0 2.09.55 4.13 1.59 5.93L.06 24l6.34-1.66a11.9 11.9 0 0 0 5.65 1.44h.01c6.55 0 11.88-5.33 11.88-11.88 0-3.18-1.24-6.17-3.42-8.42ZM12.06 21.75h-.01a9.86 9.86 0 0 1-5.03-1.38l-.36-.21-3.76.98 1-3.67-.23-.38a9.84 9.84 0 0 1-1.51-5.21C2.16 6.45 6.6 2.01 12.06 2.01c2.65 0 5.14 1.03 7.01 2.9a9.85 9.85 0 0 1 2.9 7.02c0 5.45-4.44 9.89-9.91 9.89Zm5.42-7.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.09 4.49.71.31 1.27.5 1.71.64.72.23 1.37.2 1.89.12.58-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35Z"/>
-
-                </svg>
-
+            <span class="order-icon">
+                🛒
             </span>
 
         </button>
@@ -1602,7 +1595,7 @@ header{
 
         <div class="form-note">
 
-            WhatsApp-এ ক্লিক করলে আপনার দেওয়া তথ্যসহ অর্ডার মেসেজ তৈরি হবে।
+            অর্ডার কনফার্ম করার পর আমাদের একজন প্রতিনিধি আপনাকে ফোন দিবে।
 
         </div>
 
@@ -1677,8 +1670,13 @@ const SHEET_URL =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vRc_FdQ5OxU48pfoDdyY0hS6S0urj_u7JP5dQrWgW52qXAS2TawrUG34vbtx5wDwECcNFvImlnnTadQ/pub?output=csv";
 
 
-const WHATSAPP_NUMBER =
-"8801789283142";
+/*
+   GOOGLE APPS SCRIPT WEB APP URL
+   YOUR ACTIVE DEPLOYMENT
+*/
+
+const ORDER_WEB_APP_URL =
+"https://script.google.com/macros/s/AKfycbyX60WFfL-VROwkYPitw_3m-FMDi98kxVhNp3GuhC3zcYX2EH_2qBgmBi9wlG8ToamLEg/exec";
 
 
 const DELIVERY_CHARGE =
@@ -1855,8 +1853,7 @@ async function loadProducts(){
         const headers =
         rows[0].map(
             h =>
-            h.trim()
-            .toLowerCase()
+            h.trim().toLowerCase()
         );
 
 
@@ -2004,12 +2001,6 @@ function createBanners(){
 
             }
 
-
-            /*
-              Multiple banner links can be
-              written in one cell using comma
-              or |.
-            */
 
             const parts =
             banner.split(
@@ -3322,12 +3313,6 @@ function loadColors(){
             let stock = null;
 
 
-            /*
-              Black - 5
-              Black: 5
-              Black (5)
-            */
-
             const dashMatch =
             clean.match(
                 /^(.+?)\s*[-:]\s*(\d+)\s*$/
@@ -3340,22 +3325,11 @@ function loadColors(){
             );
 
 
-            /*
-              Black - Available
-              White: Available
-              Black Available
-            */
-
             const availableMatch =
             clean.match(
                 /^(.+?)\s*[-:]?\s*(available|in stock)$/i
             );
 
-
-            /*
-              Black - Out of Stock
-              Black: 0
-            */
 
             const outMatch =
             clean.match(
@@ -3543,16 +3517,57 @@ function updateBill(){
 
 
 /* =========================
-   WHATSAPP ORDER
+   GENERATE ORDER ID
 ========================= */
 
-function sendWhatsAppOrder(){
+function generateOrderId(){
+
+    let lastOrder =
+    localStorage.getItem(
+        "jmrLastOrderNumber"
+    );
+
+
+    if(!lastOrder){
+
+        lastOrder =
+        1000;
+
+    }
+
+
+    let nextOrder =
+    parseInt(lastOrder) + 1;
+
+
+    localStorage.setItem(
+        "jmrLastOrderNumber",
+        nextOrder
+    );
+
+
+    return "JMR-" + nextOrder;
+
+}
+
+
+/* =========================
+   SUBMIT ORDER TO GOOGLE SHEET
+========================= */
+
+async function submitOrder(){
 
     if(!selectedProduct){
 
         return;
 
     }
+
+
+    const button =
+    document.getElementById(
+        "submitOrderBtn"
+    );
 
 
     const name =
@@ -3617,6 +3632,17 @@ function sendWhatsAppOrder(){
     }
 
 
+    if(quantity < 1){
+
+        alert(
+            "সঠিক পরিমাণ নির্বাচন করুন।"
+        );
+
+        return;
+
+    }
+
+
     const price =
     parsePrice(
         selectedProduct[
@@ -3649,52 +3675,184 @@ function sendWhatsAppOrder(){
     "";
 
 
+    const orderId =
+    generateOrderId();
+
+
+    const orderData = {
+
+        orderId:
+        orderId,
+
+        customerName:
+        name,
+
+        phone:
+        phone,
+
+        district:
+        district,
+
+        thana:
+        thana,
+
+        address:
+        address,
+
+        productCode:
+        productId,
+
+        productName:
+        productName,
+
+        quantity:
+        quantity,
+
+        productPrice:
+        productTotal,
+
+        deliveryCharge:
+        DELIVERY_CHARGE,
+
+        totalAmount:
+        total
+
+    };
+
+
     /*
-      EXACT MESSAGE
-      No "দয়া করে"
+       Prevent double click
     */
 
-    const message =
+    button.disabled = true;
 
-`Assalamu Alaikum,
-
-আমি একটা অর্ডার করতে চাই।
-
-👤 কাস্টমার তথ্য
-
-নাম : ${name}
-ফোন নাম্বার : ${phone}
-
-জেলা : ${district}
-থানা : ${thana}
-
-স্থানীয় ঠিকানা : ${address}
-
-🛒 অর্ডার তথ্য
-
-প্রোডাক্ট নাম : ${productName}
-প্রোডাক্ট ID : ${productId}
-কালার : ${color}
-পরিমাণ : ${quantity}
-
-💰 বিল
-
-প্রোডাক্ট প্রাইস : ৳${formatNumber(productTotal)}
-ডেলিভারি চার্জ : ৳${formatNumber(DELIVERY_CHARGE)}
-
-সর্বমোট প্রদেয় বিল : ৳${formatNumber(total)}
-
-আমার অর্ডারটি কনফার্ম করুন।`;
+    button.querySelector(
+        "span"
+    ).textContent =
+    "অর্ডার পাঠানো হচ্ছে...";
 
 
-    const url =
-    `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    try{
+
+        /*
+          Send order to Google Apps Script
+
+          text/plain is intentionally used
+          because Apps Script accepts the
+          JSON body through e.postData.contents.
+        */
+
+        await fetch(
+            ORDER_WEB_APP_URL,
+            {
+
+                method:
+                "POST",
+
+                mode:
+                "no-cors",
+
+                headers:{
+                    "Content-Type":
+                    "text/plain;charset=utf-8"
+                },
+
+                body:
+                JSON.stringify(
+                    orderData
+                )
+
+            }
+        );
 
 
-    window.open(
-        url,
-        "_blank"
-    );
+        /*
+          Because no-cors returns an opaque
+          response, the browser cannot read
+          the Apps Script response.
+
+          Therefore we show the confirmation
+          after the request is sent.
+        */
+
+        closeOrder();
+
+
+        alert(
+            "আপনার অর্ডার প্লেস হয়েছে।\n\n" +
+            "Order ID: " +
+            orderId +
+            "\n\n" +
+            "আমাদের একজন প্রতিনিধি আপনাকে ফোন দিবে - অনুগ্রহ করে ফোন রিছিভ করবেন।"
+        );
+
+
+        /*
+          Clear customer form
+        */
+
+        document.getElementById(
+            "customerName"
+        ).value = "";
+
+
+        document.getElementById(
+            "customerPhone"
+        ).value = "";
+
+
+        document.getElementById(
+            "customerDistrict"
+        ).value = "";
+
+
+        document.getElementById(
+            "customerThana"
+        ).value = "";
+
+
+        document.getElementById(
+            "customerAddress"
+        ).value = "";
+
+
+        document.getElementById(
+            "colorSelect"
+        ).value = "";
+
+
+        document.getElementById(
+            "quantity"
+        ).value = 1;
+
+
+        updateBill();
+
+
+    }
+    catch(error){
+
+        console.error(
+            "Order Error:",
+            error
+        );
+
+
+        alert(
+            "অর্ডার পাঠাতে সমস্যা হয়েছে। আবার চেষ্টা করুন।"
+        );
+
+    }
+    finally{
+
+        button.disabled = false;
+
+        button.querySelector(
+            "span"
+        ).textContent =
+        "অর্ডার কনফার্ম করুন";
+
+    }
 
 }
 
