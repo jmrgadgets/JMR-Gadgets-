@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
 <title>JMR GADGETS</title>
 
 <style>
+
 *{
     box-sizing:border-box;
 }
@@ -17,7 +22,8 @@ body{
     color:#111;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
+
 header{
     position:sticky;
     top:0;
@@ -47,7 +53,8 @@ header{
     color:#f5c400;
 }
 
-/* SEARCH */
+/* ================= SEARCH ================= */
+
 .search-box{
     display:none;
     padding:10px 15px;
@@ -63,7 +70,8 @@ header{
     font-size:15px;
 }
 
-/* MENU */
+/* ================= MENU ================= */
+
 .side-menu{
     position:fixed;
     top:0;
@@ -104,15 +112,18 @@ header{
     display:block;
 }
 
-/* BANNER */
+/* ================= BANNER ================= */
+
 .banner{
     width:100%;
     overflow:hidden;
     background:#f5c400;
+    position:relative;
 }
 
 .banner-track{
     display:flex;
+    transition:transform .5s ease;
 }
 
 .banner-slide{
@@ -121,15 +132,52 @@ header{
     display:flex;
     align-items:center;
     justify-content:center;
+    background:#f5c400;
 }
 
 .banner-slide img{
     width:100%;
     height:100%;
     object-fit:cover;
+    display:block;
 }
 
-/* CATEGORY */
+.banner-placeholder{
+    font-size:30px;
+    font-weight:800;
+    text-align:center;
+}
+
+.banner-placeholder small{
+    font-size:16px;
+}
+
+/* ================= BANNER DOTS ================= */
+
+.banner-dots{
+    position:absolute;
+    bottom:10px;
+    left:0;
+    right:0;
+    display:flex;
+    justify-content:center;
+    gap:6px;
+}
+
+.banner-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#ffffff99;
+    cursor:pointer;
+}
+
+.banner-dot.active{
+    background:#111;
+}
+
+/* ================= CATEGORY ================= */
+
 .section-title{
     padding:18px 15px 10px;
     font-size:21px;
@@ -157,7 +205,8 @@ header{
     border-color:#f5c400;
 }
 
-/* PRODUCTS */
+/* ================= PRODUCTS ================= */
+
 .products{
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -215,7 +264,8 @@ header{
     color:#777;
 }
 
-/* MODAL */
+/* ================= MODAL ================= */
+
 .modal{
     display:none;
     position:fixed;
@@ -251,7 +301,8 @@ header{
     z-index:2;
 }
 
-/* DETAILS IMAGE */
+/* ================= DETAILS ================= */
+
 .details-image{
     width:100%;
     height:330px;
@@ -276,7 +327,8 @@ header{
     color:#444;
 }
 
-/* FORM */
+/* ================= FORM ================= */
+
 .form-group{
     margin-bottom:12px;
 }
@@ -321,6 +373,8 @@ header{
     font-weight:700;
 }
 
+/* ================= QUANTITY ================= */
+
 .qty{
     display:flex;
     align-items:center;
@@ -341,6 +395,8 @@ header{
     text-align:center;
     font-weight:700;
 }
+
+/* ================= ORDER ================= */
 
 .order-total{
     padding:12px 0;
@@ -363,7 +419,8 @@ header{
     opacity:.6;
 }
 
-/* BOTTOM NAV */
+/* ================= BOTTOM NAV ================= */
+
 .bottom-nav{
     position:fixed;
     left:0;
@@ -388,7 +445,8 @@ header{
     font-size:21px;
 }
 
-/* SUCCESS */
+/* ================= SUCCESS ================= */
+
 .success-modal{
     display:none;
     position:fixed;
@@ -448,59 +506,75 @@ header{
 }
 
 @keyframes pop{
+
     from{
         transform:scale(.7);
         opacity:0;
     }
+
     to{
         transform:scale(1);
         opacity:1;
     }
+
 }
 
-/* DESKTOP */
+/* ================= DESKTOP ================= */
+
 @media(min-width:700px){
 
-.products{
-    grid-template-columns:repeat(4,1fr);
-    padding-left:25px;
-    padding-right:25px;
+    .products{
+        grid-template-columns:repeat(4,1fr);
+        padding-left:25px;
+        padding-right:25px;
+    }
+
+    .product-image{
+        height:230px;
+    }
+
+    .banner-slide{
+        height:330px;
+    }
+
 }
 
-.product-image{
-    height:230px;
-}
+/* ================= SMALL MOBILE ================= */
 
-.banner-slide{
-    height:330px;
-}
-
-}
-
-/* SMALL MOBILE */
 @media(max-width:380px){
 
-.product-image{
-    height:165px;
-}
+    .product-image{
+        height:165px;
+    }
 
 }
+
 </style>
+
 </head>
 
 <body>
 
+<!-- ================= HEADER ================= -->
+
 <header>
 
-<div class="menu-btn" onclick="openMenu()">☰</div>
+<div class="menu-btn" onclick="openMenu()">
+☰
+</div>
 
 <div class="logo">
 JMR <span>GADGETS</span>
 </div>
 
-<div class="search-btn" onclick="toggleSearch()">⌕</div>
+<div class="search-btn" onclick="toggleSearch()">
+⌕
+</div>
 
 </header>
+
+
+<!-- ================= SEARCH ================= -->
 
 <div class="search-box" id="searchBox">
 
@@ -513,23 +587,31 @@ oninput="renderProducts()"
 
 </div>
 
-<!-- MENU -->
+
+<!-- ================= MENU ================= -->
 
 <div class="side-menu" id="sideMenu">
 
 <h2>JMR GADGETS</h2>
 
-<div onclick="showAll()">🏠 Home</div>
+<div onclick="showAll()">
+🏠 Home
+</div>
 
 <div onclick="filterCategory('All');closeMenu()">
 📦 All Products
 </div>
 
-<div onclick="closeMenu()">📞 Contact</div>
+<div onclick="closeMenu()">
+📞 Contact
+</div>
 
-<div onclick="closeMenu()">ℹ️ About Us</div>
+<div onclick="closeMenu()">
+ℹ️ About Us
+</div>
 
 </div>
+
 
 <div
 class="overlay"
@@ -537,35 +619,42 @@ id="overlay"
 onclick="closeMenu()">
 </div>
 
-<!-- BANNER -->
+
+<!-- ================= BANNER ================= -->
 
 <section class="banner">
 
-<div class="banner-track">
+<div
+class="banner-track"
+id="bannerTrack">
 
 <div class="banner-slide">
 
-<div style="
-font-size:30px;
-font-weight:800;
-text-align:center;
-">
+<div class="banner-placeholder">
 
 JMR GADGETS
 
 <br>
 
-<small>Smart Products, Better Life</small>
+<small>
+Smart Products, Better Life
+</small>
 
 </div>
 
 </div>
 
+</div>
+
+<div
+class="banner-dots"
+id="bannerDots">
 </div>
 
 </section>
 
-<!-- CATEGORY -->
+
+<!-- ================= CATEGORY ================= -->
 
 <div class="section-title">
 Categories
@@ -576,7 +665,8 @@ class="categories"
 id="categories">
 </div>
 
-<!-- PRODUCTS -->
+
+<!-- ================= PRODUCTS ================= -->
 
 <div class="section-title">
 All Products
@@ -592,28 +682,41 @@ id="products">
 
 </div>
 
-<!-- BOTTOM NAV -->
+
+<!-- ================= BOTTOM NAV ================= -->
 
 <div class="bottom-nav">
 
 <div onclick="showAll()">
+
 <b>⌂</b>
+
 Home
+
 </div>
+
 
 <div onclick="toggleSearch()">
+
 <b>⌕</b>
+
 Search
+
 </div>
+
 
 <div onclick="filterCategory('All')">
+
 <b>▦</b>
+
 Products
-</div>
 
 </div>
 
-<!-- PRODUCT DETAILS -->
+</div>
+
+
+<!-- ================= PRODUCT DETAILS ================= -->
 
 <div
 class="modal"
@@ -627,6 +730,7 @@ onclick="closeModal('detailsModal')">
 ×
 </div>
 
+
 <img
 id="detailsImage"
 class="details-image"
@@ -634,27 +738,33 @@ src=""
 alt=""
 >
 
+
 <div
 id="detailsTitle"
 class="details-title">
 </div>
+
 
 <div
 id="detailsPrice"
 class="details-price">
 </div>
 
+
 <div
 id="detailsWarranty"
 class="details-text">
 </div>
+
 
 <div
 id="detailsDescription"
 class="details-text">
 </div>
 
+
 <br>
+
 
 <button
 class="order-btn"
@@ -668,7 +778,8 @@ onclick="openOrder()">
 
 </div>
 
-<!-- ORDER MODAL -->
+
+<!-- ================= ORDER MODAL ================= -->
 
 <div
 class="modal"
@@ -682,9 +793,11 @@ onclick="closeModal('orderModal')">
 ×
 </div>
 
+
 <h2>
 অর্ডার করুন
 </h2>
+
 
 <div class="form-group">
 
@@ -700,6 +813,7 @@ placeholder="আপনার নাম"
 
 </div>
 
+
 <div class="form-group">
 
 <label>
@@ -713,6 +827,7 @@ placeholder="01XXXXXXXXX"
 >
 
 </div>
+
 
 <div class="form-group">
 
@@ -728,6 +843,7 @@ placeholder="জেলার নাম"
 
 </div>
 
+
 <div class="form-group">
 
 <label>
@@ -742,6 +858,7 @@ placeholder="থানার নাম"
 
 </div>
 
+
 <div class="form-group">
 
 <label>
@@ -750,10 +867,11 @@ placeholder="থানার নাম"
 
 <textarea
 id="address"
-placeholder="বাড়ি/রোড/এলাকা"
-></textarea>
+placeholder="বাড়ি/রোড/এলাকা">
+</textarea>
 
 </div>
+
 
 <div class="form-group">
 
@@ -767,6 +885,7 @@ class="color-list">
 </div>
 
 </div>
+
 
 <div class="form-group">
 
@@ -796,13 +915,16 @@ onclick="changeQty(1)">
 
 </div>
 
+
 <div id="orderSummary">
 </div>
+
 
 <div
 id="orderTotal"
 class="order-total">
 </div>
+
 
 <button
 id="submitOrderBtn"
@@ -817,7 +939,8 @@ onclick="submitOrder()">
 
 </div>
 
-<!-- SUCCESS -->
+
+<!-- ================= SUCCESS ================= -->
 
 <div
 class="success-modal"
@@ -829,13 +952,16 @@ id="successModal">
 ✓
 </div>
 
+
 <h3>
 অর্ডার সফল হয়েছে!
 </h3>
 
+
 <p>
 আপনার অর্ডারটি প্লেস করা হয়েছে, আমাদের একজন প্রতিনিধি আপনাকে ফোন দিবে।
 </p>
+
 
 <button onclick="closeSuccess()">
 ঠিক আছে
@@ -845,25 +971,35 @@ id="successModal">
 
 </div>
 
+
 <script>
 
-/* ==============================
+/* =========================================================
    GOOGLE SHEET PRODUCT CSV
-============================== */
+========================================================= */
 
 const SHEET_URL =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vRc_FdQ5OxU48pfoDdyY0hS6S0urj_u7JP5dQrWgW52qXAS2TawrUG34vbtx5wDwECcNFvImlnnTadQ/pub?output=csv";
 
 
-/* ==============================
+/* =========================================================
    ORDER WEB APP
-============================== */
+========================================================= */
 
 const ORDER_WEB_APP_URL =
 "https://script.google.com/macros/s/AKfycbyX60WFfL-VROwkYPitw_3m-FMDi98kxVhNp3GuhC3zcYX2EH_2qBgmBi9wlG8ToamLEg/exec";
 
 
+/* =========================================================
+   SETTINGS
+========================================================= */
+
 const DELIVERY_CHARGE = 120;
+
+
+/* =========================================================
+   GLOBAL VARIABLES
+========================================================= */
 
 let products = [];
 
@@ -877,1164 +1013,1697 @@ let currentQty = 1;
 
 let currentCategory = "All";
 
+let banners = [];
 
-/* MENU */
+let currentBanner = 0;
+
+let bannerTimer = null;
+
+
+/* =========================================================
+   MENU
+========================================================= */
 
 function openMenu(){
 
-document
-.getElementById("sideMenu")
-.classList.add("active");
+    document
+    .getElementById("sideMenu")
+    .classList.add("active");
 
-document
-.getElementById("overlay")
-.classList.add("active");
+    document
+    .getElementById("overlay")
+    .classList.add("active");
 
 }
 
 
 function closeMenu(){
 
-document
-.getElementById("sideMenu")
-.classList.remove("active");
+    document
+    .getElementById("sideMenu")
+    .classList.remove("active");
 
-document
-.getElementById("overlay")
-.classList.remove("active");
+    document
+    .getElementById("overlay")
+    .classList.remove("active");
 
 }
 
 
-/* SEARCH */
+/* =========================================================
+   SEARCH
+========================================================= */
 
 function toggleSearch(){
 
-const box =
-document.getElementById("searchBox");
+    const box =
+    document.getElementById("searchBox");
 
-box.style.display =
-box.style.display === "block"
-? "none"
-: "block";
+    box.style.display =
+    box.style.display === "block"
+    ? "none"
+    : "block";
 
-if(box.style.display === "block"){
 
-document
-.getElementById("searchInput")
-.focus();
+    if(box.style.display === "block"){
+
+        document
+        .getElementById("searchInput")
+        .focus();
+
+    }
 
 }
 
-}
 
-
-/* MODAL */
+/* =========================================================
+   MODAL
+========================================================= */
 
 function openModal(id){
 
-document
-.getElementById(id)
-.classList.add("active");
+    document
+    .getElementById(id)
+    .classList.add("active");
 
 }
 
 
 function closeModal(id){
 
-document
-.getElementById(id)
-.classList.remove("active");
+    document
+    .getElementById(id)
+    .classList.remove("active");
 
 }
 
 
-/* CSV PARSER */
+/* =========================================================
+   CSV PARSER
+========================================================= */
 
 function csvParse(text){
 
-const rows=[];
+    const rows = [];
 
-let row=[];
+    let row = [];
 
-let cell="";
+    let cell = "";
 
-let quoted=false;
+    let quoted = false;
 
-for(let i=0;i<text.length;i++){
 
-const c=text[i];
+    for(let i = 0; i < text.length; i++){
 
-const n=text[i+1];
+        const c = text[i];
 
-if(c === '"'){
+        const n = text[i + 1];
 
-if(quoted && n === '"'){
 
-cell += '"';
+        if(c === '"'){
 
-i++;
+            if(quoted && n === '"'){
 
-}else{
+                cell += '"';
 
-quoted = !quoted;
+                i++;
+
+            }else{
+
+                quoted = !quoted;
+
+            }
+
+        }
+
+        else if(c === ',' && !quoted){
+
+            row.push(cell);
+
+            cell = "";
+
+        }
+
+        else if(
+            (c === '\n' || c === '\r')
+            &&
+            !quoted
+        ){
+
+            if(c === '\r' && n === '\n'){
+
+                i++;
+
+            }
+
+
+            row.push(cell);
+
+            cell = "";
+
+
+            if(
+                row.some(
+                    x => x.trim() !== ""
+                )
+            ){
+
+                rows.push(row);
+
+            }
+
+
+            row = [];
+
+        }
+
+        else{
+
+            cell += c;
+
+        }
+
+    }
+
+
+    if(cell !== "" || row.length){
+
+        row.push(cell);
+
+
+        if(
+            row.some(
+                x => x.trim() !== ""
+            )
+        ){
+
+            rows.push(row);
+
+        }
+
+    }
+
+
+    return rows;
 
 }
 
-}
 
-else if(c === ',' && !quoted){
-
-row.push(cell);
-
-cell="";
-
-}
-
-else if(
-(c === '\n' || c === '\r')
-&& !quoted
-){
-
-if(c === '\r' && n === '\n'){
-
-i++;
-
-}
-
-row.push(cell);
-
-cell="";
-
-if(
-row.some(x =>
-x.trim() !== "")
-){
-
-rows.push(row);
-
-}
-
-row=[];
-
-}
-
-else{
-
-cell += c;
-
-}
-
-}
-
-if(cell !== "" || row.length){
-
-row.push(cell);
-
-if(
-row.some(x =>
-x.trim() !== "")
-){
-
-rows.push(row);
-
-}
-
-}
-
-return rows;
-
-}
-
-
-/* GOOGLE DRIVE IMAGE */
+/* =========================================================
+   GOOGLE DRIVE IMAGE
+========================================================= */
 
 function driveImage(url){
 
-if(!url){
+    if(!url){
 
-return "";
+        return "";
+
+    }
+
+
+    url = String(url).trim();
+
+
+    const match =
+    url.match(/[-\w]{25,}/);
+
+
+    if(match){
+
+        return "https://drive.google.com/thumbnail?id="
+        + match[0]
+        + "&sz=w1200";
+
+    }
+
+
+    return url;
 
 }
 
-url = url.trim();
 
-const match =
-url.match(/[-\w]{25,}/);
-
-if(match){
-
-return "https://drive.google.com/thumbnail?id="
-+ match[0]
-+ "&sz=w1200";
-
-}
-
-return url;
-
-}
-
-
-/* NORMALIZE */
+/* =========================================================
+   NORMALIZE
+========================================================= */
 
 function normalize(s){
 
-return String(s || "")
-.trim()
-.toLowerCase();
+    return String(s || "")
+    .trim()
+    .toLowerCase();
 
 }
 
 
-/* VALUE */
+/* =========================================================
+   VALUE
+========================================================= */
 
 function getValue(obj, keys){
 
-for(const key of keys){
+    for(const key of keys){
 
-if(
-obj[key] !== undefined
-&&
-String(obj[key]).trim() !== ""
-){
+        if(
+            obj[key] !== undefined
+            &&
+            String(obj[key]).trim() !== ""
+        ){
 
-return obj[key];
+            return obj[key];
 
-}
+        }
 
-}
-
-return "";
-
-}
+    }
 
 
-/* LOAD PRODUCTS */
-
-async function loadProducts(){
-
-try{
-
-const response =
-await fetch(
-SHEET_URL
-+ "&t="
-+ Date.now()
-);
-
-const text =
-await response.text();
-
-const rows =
-csvParse(text);
-
-if(rows.length < 2){
-
-throw new Error(
-"No product data"
-);
-
-}
-
-const headers =
-rows[0].map(
-x => normalize(x)
-);
-
-products =
-rows
-.slice(1)
-.map(row => {
-
-const obj={};
-
-headers.forEach(
-(h,i) => {
-
-obj[h] =
-(row[i] || "").trim();
-
-});
-
-return {
-
-name:getValue(
-obj,
-[
-"product name",
-"name",
-"product"
-]
-),
-
-category:getValue(
-obj,
-[
-"category",
-"categories"
-]
-) || "Other",
-
-price:
-parseFloat(
-String(
-getValue(
-obj,
-[
-"regular price",
-"price",
-"selling price"
-]
-)
-).replace(
-/[^\d.]/g,
-""
-)
-) || 0,
-
-colors:getValue(
-obj,
-[
-"colors & stock",
-"color & stock",
-"colors",
-"colour & stock"
-]
-),
-
-image:driveImage(
-getValue(
-obj,
-[
-"image",
-"image url",
-"photo"
-]
-)
-),
-
-warranty:getValue(
-obj,
-[
-"warranty"
-]
-),
-
-description:getValue(
-obj,
-[
-"description",
-"details"
-]
-),
-
-code:getValue(
-obj,
-[
-"product id",
-"product code",
-"code"
-]
-)
-
-};
-
-})
-.filter(p => p.name);
-
-buildCategories();
-
-renderProducts();
-
-}
-
-catch(error){
-
-console.error(error);
-
-document
-.getElementById("products")
-.innerHTML =
-
-'<div class="empty">প্রোডাক্ট লোড করা যাচ্ছে না। Google Sheet Published আছে কিনা দেখুন।</div>';
-
-}
+    return "";
 
 }
 
 
-/* CATEGORIES */
-
-function buildCategories(){
-
-const cats = [
-"All",
-...new Set(
-products
-.map(p => p.category)
-.filter(Boolean)
-)
-];
-
-document
-.getElementById("categories")
-.innerHTML =
-
-cats
-.map(category => `
-
-<div
-class="category ${
-category === currentCategory
-? "active"
-: ""
-}"
-onclick='filterCategory(${JSON.stringify(category)})'
->
-
-${escapeHtml(category)}
-
-</div>
-
-`)
-.join("");
-
-}
-
-
-/* FILTER */
-
-function filterCategory(category){
-
-currentCategory =
-category;
-
-buildCategories();
-
-renderProducts();
-
-}
-
-
-/* SHOW ALL */
-
-function showAll(){
-
-currentCategory =
-"All";
-
-buildCategories();
-
-renderProducts();
-
-closeMenu();
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-}
-
-
-/* RENDER */
-
-function renderProducts(){
-
-const search =
-normalize(
-document
-.getElementById("searchInput")
-?.value
-);
-
-filteredProducts =
-products.filter(product => {
-
-const categoryOK =
-currentCategory === "All"
-||
-product.category === currentCategory;
-
-const searchOK =
-!search
-||
-normalize(product.name)
-.includes(search)
-||
-normalize(product.category)
-.includes(search)
-||
-normalize(product.code)
-.includes(search);
-
-return categoryOK && searchOK;
-
-});
-
-
-const box =
-document.getElementById("products");
-
-
-if(!filteredProducts.length){
-
-box.innerHTML =
-'<div class="empty">কোনো প্রোডাক্ট পাওয়া যায়নি।</div>';
-
-return;
-
-}
-
-
-box.innerHTML =
-filteredProducts
-.map((product,index) => `
-
-<div
-class="product-card"
-onclick="openDetails(${index})"
->
-
-<img
-class="product-image"
-src="${product.image}"
-alt="${escapeHtml(product.name)}"
-onerror="this.style.visibility='hidden'"
->
-
-<div class="product-info">
-
-<div class="product-name">
-
-${escapeHtml(product.name)}
-
-</div>
-
-<div class="price">
-
-৳${formatMoney(product.price)}
-
-</div>
-
-</div>
-
-<button
-onclick="event.stopPropagation();openDetails(${index})"
->
-
-অর্ডার করুন
-
-</button>
-
-</div>
-
-`)
-.join("");
-
-}
-
-
-/* ESCAPE */
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
 
 function escapeHtml(text){
 
-return String(text || "")
-.replace(
-/[&<>"']/g,
-match => ({
+    return String(text || "")
+    .replace(
+        /[&<>"']/g,
+        function(match){
 
-"&":"&",
-"<":"<",
-">":">",
-'"':""",
-"'":"'"
+            return {
 
-}[match])
+                "&":"&amp;",
+                "<":"&lt;",
+                ">":"&gt;",
+                '"':"&quot;",
+                "'":"&#039;"
 
-);
+            }[match];
+
+        }
+    );
 
 }
 
 
-/* MONEY */
+/* =========================================================
+   LOAD PRODUCTS
+========================================================= */
+
+async function loadProducts(){
+
+    try{
+
+        const response =
+        await fetch(
+            SHEET_URL
+            + "&t="
+            + Date.now()
+        );
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "Google Sheet could not be loaded"
+            );
+
+        }
+
+
+        const text =
+        await response.text();
+
+
+        const rows =
+        csvParse(text);
+
+
+        if(rows.length < 2){
+
+            throw new Error(
+                "No product data"
+            );
+
+        }
+
+
+        /* HEADERS */
+
+        const headers =
+        rows[0].map(
+            x => normalize(x)
+        );
+
+
+        /* PRODUCTS */
+
+        products =
+        rows
+        .slice(1)
+        .map(row => {
+
+            const obj = {};
+
+
+            headers.forEach(
+                (h,i) => {
+
+                    obj[h] =
+                    (row[i] || "").trim();
+
+                }
+            );
+
+
+            const priceText =
+            getValue(
+                obj,
+                [
+                    "regular price",
+                    "price",
+                    "selling price"
+                ]
+            );
+
+
+            return {
+
+                code:getValue(
+                    obj,
+                    [
+                        "product id",
+                        "product code",
+                        "code"
+                    ]
+                ),
+
+
+                name:getValue(
+                    obj,
+                    [
+                        "product name",
+                        "name",
+                        "product"
+                    ]
+                ),
+
+
+                category:
+                getValue(
+                    obj,
+                    [
+                        "category",
+                        "categories"
+                    ]
+                )
+                ||
+                "Other",
+
+
+                colors:
+                getValue(
+                    obj,
+                    [
+                        "colors & stock",
+                        "color & stock",
+                        "colors",
+                        "colour & stock"
+                    ]
+                ),
+
+
+                price:
+                parseFloat(
+                    String(priceText)
+                    .replace(
+                        /[^\d.]/g,
+                        ""
+                    )
+                )
+                ||
+                0,
+
+
+                warranty:
+                getValue(
+                    obj,
+                    [
+                        "warranty"
+                    ]
+                ),
+
+
+                image:
+                driveImage(
+                    getValue(
+                        obj,
+                        [
+                            "image",
+                            "image url",
+                            "photo"
+                        ]
+                    )
+                ),
+
+
+                description:
+                getValue(
+                    obj,
+                    [
+                        "description",
+                        "details"
+                    ]
+                ),
+
+
+                banner:
+                driveImage(
+                    getValue(
+                        obj,
+                        [
+                            "banner",
+                            "banner image",
+                            "banner url"
+                        ]
+                    )
+                )
+
+            };
+
+        })
+        .filter(
+            p => p.name
+        );
+
+
+        /* LOAD BANNERS */
+
+        loadBanners();
+
+
+        /* BUILD CATEGORY */
+
+        buildCategories();
+
+
+        /* SHOW PRODUCTS */
+
+        renderProducts();
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Product Loading Error:",
+            error
+        );
+
+
+        document
+        .getElementById("products")
+        .innerHTML =
+
+        '<div class="empty">'
+        +
+        'প্রোডাক্ট লোড করা যাচ্ছে না।<br><br>'
+        +
+        'Google Sheet Published আছে কিনা দেখুন।'
+        +
+        '</div>';
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD BANNERS FROM SHEET
+========================================================= */
+
+function loadBanners(){
+
+    const bannerList = [];
+
+
+    products.forEach(
+        product => {
+
+            if(
+                product.banner
+                &&
+                !bannerList.includes(
+                    product.banner
+                )
+            ){
+
+                bannerList.push(
+                    product.banner
+                );
+
+            }
+
+        }
+    );
+
+
+    banners = bannerList;
+
+
+    renderBanners();
+
+}
+
+
+/* =========================================================
+   RENDER BANNERS
+========================================================= */
+
+function renderBanners(){
+
+    const track =
+    document.getElementById(
+        "bannerTrack"
+    );
+
+
+    const dots =
+    document.getElementById(
+        "bannerDots"
+    );
+
+
+    /* NO BANNER */
+
+    if(!banners.length){
+
+        track.innerHTML = `
+
+        <div class="banner-slide">
+
+            <div class="banner-placeholder">
+
+                JMR GADGETS
+
+                <br>
+
+                <small>
+                Smart Products, Better Life
+                </small>
+
+            </div>
+
+        </div>
+
+        `;
+
+
+        dots.innerHTML = "";
+
+        return;
+
+    }
+
+
+    /* BANNER SLIDES */
+
+    track.innerHTML =
+    banners
+    .map(
+        banner => `
+
+        <div class="banner-slide">
+
+            <img
+                src="${escapeHtml(banner)}"
+                alt="JMR GADGETS Banner"
+                onerror="this.style.display='none'"
+            >
+
+        </div>
+
+        `
+    )
+    .join("");
+
+
+    /* DOTS */
+
+    dots.innerHTML =
+    banners
+    .map(
+        (_,index) => `
+
+        <div
+            class="banner-dot ${
+                index === 0
+                ? "active"
+                : ""
+            }"
+            onclick="goToBanner(${index})"
+        ></div>
+
+        `
+    )
+    .join("");
+
+
+    currentBanner = 0;
+
+
+    updateBanner();
+
+
+    /* AUTO SLIDER */
+
+    if(banners.length > 1){
+
+        clearInterval(
+            bannerTimer
+        );
+
+
+        bannerTimer =
+        setInterval(
+            () => {
+
+                currentBanner++;
+
+                if(
+                    currentBanner
+                    >=
+                    banners.length
+                ){
+
+                    currentBanner = 0;
+
+                }
+
+
+                updateBanner();
+
+            },
+            4000
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   UPDATE BANNER
+========================================================= */
+
+function updateBanner(){
+
+    const track =
+    document.getElementById(
+        "bannerTrack"
+    );
+
+
+    track.style.transform =
+    "translateX(-"
+    +
+    (currentBanner * 100)
+    +
+    "%)";
+
+
+    document
+    .querySelectorAll(
+        ".banner-dot"
+    )
+    .forEach(
+        (dot,index) => {
+
+            dot.classList.toggle(
+                "active",
+                index === currentBanner
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   GO TO BANNER
+========================================================= */
+
+function goToBanner(index){
+
+    currentBanner = index;
+
+    updateBanner();
+
+}
+
+
+/* =========================================================
+   CATEGORIES
+========================================================= */
+
+function buildCategories(){
+
+    const cats = [
+
+        "All",
+
+        ...new Set(
+            products
+            .map(
+                p => p.category
+            )
+            .filter(Boolean)
+        )
+
+    ];
+
+
+    document
+    .getElementById("categories")
+    .innerHTML =
+
+    cats
+    .map(
+        category => `
+
+        <div
+            class="category ${
+                category === currentCategory
+                ? "active"
+                : ""
+            }"
+            onclick='filterCategory(${JSON.stringify(category)})'
+        >
+
+            ${escapeHtml(category)}
+
+        </div>
+
+        `
+    )
+    .join("");
+
+}
+
+
+/* =========================================================
+   FILTER CATEGORY
+========================================================= */
+
+function filterCategory(category){
+
+    currentCategory =
+    category;
+
+
+    buildCategories();
+
+
+    renderProducts();
+
+}
+
+
+/* =========================================================
+   SHOW ALL
+========================================================= */
+
+function showAll(){
+
+    currentCategory =
+    "All";
+
+
+    buildCategories();
+
+
+    renderProducts();
+
+
+    closeMenu();
+
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+}
+
+
+/* =========================================================
+   RENDER PRODUCTS
+========================================================= */
+
+function renderProducts(){
+
+    const search =
+    normalize(
+        document
+        .getElementById("searchInput")
+        ?.value
+    );
+
+
+    filteredProducts =
+    products.filter(
+        product => {
+
+            const categoryOK =
+            currentCategory === "All"
+            ||
+            product.category ===
+            currentCategory;
+
+
+            const searchOK =
+            !search
+            ||
+            normalize(
+                product.name
+            ).includes(search)
+            ||
+            normalize(
+                product.category
+            ).includes(search)
+            ||
+            normalize(
+                product.code
+            ).includes(search);
+
+
+            return (
+                categoryOK
+                &&
+                searchOK
+            );
+
+        }
+    );
+
+
+    const box =
+    document.getElementById(
+        "products"
+    );
+
+
+    if(!filteredProducts.length){
+
+        box.innerHTML =
+        '<div class="empty">'
+        +
+        'কোনো প্রোডাক্ট পাওয়া যায়নি।'
+        +
+        '</div>';
+
+        return;
+
+    }
+
+
+    box.innerHTML =
+    filteredProducts
+    .map(
+        (product,index) => `
+
+        <div
+            class="product-card"
+            onclick="openDetails(${index})"
+        >
+
+            <img
+                class="product-image"
+                src="${escapeHtml(product.image)}"
+                alt="${escapeHtml(product.name)}"
+                onerror="this.style.visibility='hidden'"
+            >
+
+
+            <div class="product-info">
+
+                <div class="product-name">
+
+                    ${escapeHtml(product.name)}
+
+                </div>
+
+
+                <div class="price">
+
+                    ৳${formatMoney(product.price)}
+
+                </div>
+
+            </div>
+
+
+            <button
+                onclick="event.stopPropagation();openDetails(${index})"
+            >
+
+                অর্ডার করুন
+
+            </button>
+
+        </div>
+
+        `
+    )
+    .join("");
+
+}
+
+
+/* =========================================================
+   MONEY
+========================================================= */
 
 function formatMoney(number){
 
-return Number(number || 0)
-.toLocaleString("en-US");
+    return Number(
+        number || 0
+    )
+    .toLocaleString(
+        "en-US"
+    );
 
 }
 
 
-/* DETAILS */
+/* =========================================================
+   PRODUCT DETAILS
+========================================================= */
 
 function openDetails(index){
 
-selectedProduct =
-filteredProducts[index];
+    selectedProduct =
+    filteredProducts[index];
 
-selectedColor="";
 
-currentQty=1;
+    selectedColor = "";
 
-document
-.getElementById("detailsImage")
-.src =
-selectedProduct.image;
+    currentQty = 1;
 
-document
-.getElementById("detailsTitle")
-.textContent =
-selectedProduct.name;
 
-document
-.getElementById("detailsPrice")
-.textContent =
-"৳"
-+
-formatMoney(
-selectedProduct.price
-);
+    document
+    .getElementById(
+        "detailsImage"
+    )
+    .src =
+    selectedProduct.image;
 
-document
-.getElementById("detailsWarranty")
-.innerHTML =
-selectedProduct.warranty
-?
-"<b>Warranty:</b> "
-+
-escapeHtml(
-selectedProduct.warranty
-)
-+
-"<br>"
-:
-"";
 
-document
-.getElementById("detailsDescription")
-.innerHTML =
-selectedProduct.description
-?
-"<br>"
-+
-escapeHtml(
-selectedProduct.description
-).replace(
-/\n/g,
-"<br>"
-)
-:
-"";
+    document
+    .getElementById(
+        "detailsTitle"
+    )
+    .textContent =
+    selectedProduct.name;
 
-openModal(
-"detailsModal"
-);
+
+    document
+    .getElementById(
+        "detailsPrice"
+    )
+    .textContent =
+    "৳"
+    +
+    formatMoney(
+        selectedProduct.price
+    );
+
+
+    document
+    .getElementById(
+        "detailsWarranty"
+    )
+    .innerHTML =
+    selectedProduct.warranty
+    ?
+    "<b>Warranty:</b> "
+    +
+    escapeHtml(
+        selectedProduct.warranty
+    )
+    +
+    "<br>"
+    :
+    "";
+
+
+    document
+    .getElementById(
+        "detailsDescription"
+    )
+    .innerHTML =
+    selectedProduct.description
+    ?
+    "<br>"
+    +
+    escapeHtml(
+        selectedProduct.description
+    )
+    .replace(
+        /\n/g,
+        "<br>"
+    )
+    :
+    "";
+
+
+    openModal(
+        "detailsModal"
+    );
 
 }
 
 
-/* COLORS */
+/* =========================================================
+   COLORS & STOCK
+========================================================= */
 
 function parseColors(text){
 
-if(!text){
+    if(!text){
 
-return [];
+        return [];
+
+    }
+
+
+    return text
+    .split(/[,|;]/)
+    .map(
+        x => x.trim()
+    )
+    .filter(Boolean)
+    .map(
+        item => {
+
+            let parts =
+            item.split(
+                /[:\-]/
+            );
+
+
+            let name =
+            parts[0]
+            .trim();
+
+
+            let stock =
+            parts.length > 1
+            ?
+            parseInt(
+                parts[1]
+                .replace(
+                    /[^\d]/g,
+                    ""
+                )
+            )
+            :
+            999;
+
+
+            return {
+
+                name:name,
+
+                stock:stock
+
+            };
+
+        }
+    )
+    .filter(
+        x =>
+        x.name
+        &&
+        x.stock > 0
+    );
 
 }
 
-return text
-.split(/[,|;]/)
-.map(x => x.trim())
-.filter(Boolean)
-.map(item => {
 
-let parts =
-item.split(/[:\-]/);
-
-let name =
-parts[0].trim();
-
-let stock =
-parts.length > 1
-?
-parseInt(
-parts[1]
-.replace(/[^\d]/g,"")
-)
-:
-999;
-
-return {
-name,
-stock
-};
-
-})
-.filter(
-x =>
-x.name
-&&
-x.stock > 0
-);
-
-}
-
-
-/* ORDER */
+/* =========================================================
+   OPEN ORDER
+========================================================= */
 
 function openOrder(){
 
-if(!selectedProduct){
+    if(!selectedProduct){
 
-return;
+        return;
+
+    }
+
+
+    closeModal(
+        "detailsModal"
+    );
+
+
+    currentQty = 1;
+
+    selectedColor = "";
+
+
+    document
+    .getElementById(
+        "quantity"
+    )
+    .textContent =
+    currentQty;
+
+
+    const colors =
+    parseColors(
+        selectedProduct.colors
+    );
+
+
+    const list =
+    document.getElementById(
+        "colorList"
+    );
+
+
+    if(colors.length){
+
+        list.innerHTML =
+        colors
+        .map(
+            color => `
+
+            <div
+                class="color-option"
+                onclick='selectColor(this,${JSON.stringify(color.name)})'
+            >
+
+                ${escapeHtml(color.name)}
+
+            </div>
+
+            `
+        )
+        .join("");
+
+    }
+
+    else{
+
+        list.innerHTML =
+        '<span style="color:#777">Default</span>';
+
+        selectedColor =
+        "Default";
+
+    }
+
+
+    updateOrderSummary();
+
+
+    openModal(
+        "orderModal"
+    );
 
 }
 
-closeModal(
-"detailsModal"
-);
 
-currentQty=1;
-
-selectedColor="";
-
-document
-.getElementById("quantity")
-.textContent =
-currentQty;
-
-const colors =
-parseColors(
-selectedProduct.colors
-);
-
-const list =
-document.getElementById(
-"colorList"
-);
-
-if(colors.length){
-
-list.innerHTML =
-colors
-.map(color => `
-
-<div
-class="color-option"
-onclick='selectColor(this,${JSON.stringify(color.name)})'
->
-
-${escapeHtml(color.name)}
-
-</div>
-
-`)
-.join("");
-
-}else{
-
-list.innerHTML =
-'<span style="color:#777">Default</span>';
-
-selectedColor =
-"Default";
-
-}
-
-updateOrderSummary();
-
-openModal(
-"orderModal"
-);
-
-}
-
-
-/* SELECT COLOR */
+/* =========================================================
+   SELECT COLOR
+========================================================= */
 
 function selectColor(
-element,
-color
+    element,
+    color
 ){
 
-document
-.querySelectorAll(
-".color-option"
-)
-.forEach(
-x =>
-x.classList.remove(
-"selected"
-)
-);
+    document
+    .querySelectorAll(
+        ".color-option"
+    )
+    .forEach(
+        x =>
+        x.classList.remove(
+            "selected"
+        )
+    );
 
-element.classList.add(
-"selected"
-);
 
-selectedColor =
-color;
+    element.classList.add(
+        "selected"
+    );
+
+
+    selectedColor =
+    color;
 
 }
 
 
-/* QUANTITY */
+/* =========================================================
+   QUANTITY
+========================================================= */
 
 function changeQty(change){
 
-currentQty =
-Math.max(
-1,
-currentQty + change
-);
+    currentQty =
+    Math.max(
+        1,
+        currentQty + change
+    );
 
-document
-.getElementById("quantity")
-.textContent =
-currentQty;
 
-updateOrderSummary();
+    document
+    .getElementById(
+        "quantity"
+    )
+    .textContent =
+    currentQty;
+
+
+    updateOrderSummary();
 
 }
 
 
-/* SUMMARY */
+/* =========================================================
+   ORDER SUMMARY
+========================================================= */
 
 function updateOrderSummary(){
 
-if(!selectedProduct){
+    if(!selectedProduct){
 
-return;
+        return;
+
+    }
+
+
+    const productTotal =
+    selectedProduct.price
+    *
+    currentQty;
+
+
+    const total =
+    productTotal
+    +
+    DELIVERY_CHARGE;
+
+
+    document
+    .getElementById(
+        "orderSummary"
+    )
+    .innerHTML = `
+
+        <b>
+            ${escapeHtml(
+                selectedProduct.name
+            )}
+        </b>
+
+        <br>
+
+        প্রতি পিস:
+        ৳${formatMoney(
+            selectedProduct.price
+        )}
+
+        <br>
+
+        Quantity:
+        ${currentQty}
+
+        <br>
+
+        ডেলিভারি:
+        ৳${formatMoney(
+            DELIVERY_CHARGE
+        )}
+
+    `;
+
+
+    document
+    .getElementById(
+        "orderTotal"
+    )
+    .textContent =
+    "মোট: ৳"
+    +
+    formatMoney(
+        total
+    );
 
 }
 
-const productTotal =
-selectedProduct.price
-*
-currentQty;
 
-const total =
-productTotal
-+
-DELIVERY_CHARGE;
-
-document
-.getElementById("orderSummary")
-.innerHTML = `
-
-<b>
-${escapeHtml(
-selectedProduct.name
-)}
-</b>
-
-<br>
-
-প্রতি পিস:
-৳${formatMoney(
-selectedProduct.price
-)}
-
-<br>
-
-ডেলিভারি:
-৳${formatMoney(
-DELIVERY_CHARGE
-)}
-
-`;
-
-document
-.getElementById("orderTotal")
-.textContent =
-"মোট: ৳"
-+
-formatMoney(total);
-
-}
-
-
-/* ORDER ID */
+/* =========================================================
+   ORDER ID
+========================================================= */
 
 function generateOrderId(){
 
-let lastOrder =
-localStorage.getItem(
-"jmrLastOrderNumber"
-);
+    let lastOrder =
+    localStorage.getItem(
+        "jmrLastOrderNumber"
+    );
 
-if(!lastOrder){
 
-lastOrder = 1000;
+    if(!lastOrder){
+
+        lastOrder = 1000;
+
+    }
+
+
+    const next =
+    parseInt(lastOrder)
+    +
+    1;
+
+
+    localStorage.setItem(
+        "jmrLastOrderNumber",
+        next
+    );
+
+
+    return "JMR-" + next;
 
 }
 
-const next =
-parseInt(lastOrder)
-+
-1;
 
-localStorage.setItem(
-"jmrLastOrderNumber",
-next
-);
-
-return "JMR-" + next;
-
-}
-
-
-/* SUBMIT ORDER */
+/* =========================================================
+   SUBMIT ORDER
+========================================================= */
 
 async function submitOrder(){
 
-if(!selectedProduct){
+    if(!selectedProduct){
 
-return;
+        return;
+
+    }
+
+
+    const name =
+    document
+    .getElementById(
+        "customerName"
+    )
+    .value
+    .trim();
+
+
+    const phone =
+    document
+    .getElementById(
+        "phone"
+    )
+    .value
+    .trim();
+
+
+    const district =
+    document
+    .getElementById(
+        "district"
+    )
+    .value
+    .trim();
+
+
+    const thana =
+    document
+    .getElementById(
+        "thana"
+    )
+    .value
+    .trim();
+
+
+    const address =
+    document
+    .getElementById(
+        "address"
+    )
+    .value
+    .trim();
+
+
+    if(
+        !name
+        ||
+        !phone
+        ||
+        !district
+        ||
+        !thana
+        ||
+        !address
+    ){
+
+        alert(
+            "অনুগ্রহ করে সব তথ্য পূরণ করুন।"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        parseColors(
+            selectedProduct.colors
+        ).length
+        &&
+        !selectedColor
+    ){
+
+        alert(
+            "অনুগ্রহ করে Colour নির্বাচন করুন।"
+        );
+
+        return;
+
+    }
+
+
+    const productTotal =
+    selectedProduct.price
+    *
+    currentQty;
+
+
+    const total =
+    productTotal
+    +
+    DELIVERY_CHARGE;
+
+
+    const orderId =
+    generateOrderId();
+
+
+    const orderData = {
+
+        orderId:orderId,
+
+        customerName:name,
+
+        phone:phone,
+
+        district:district,
+
+        thana:thana,
+
+        address:address,
+
+        productCode:
+        selectedProduct.code,
+
+        productName:
+        selectedProduct.name,
+
+        color:
+        selectedColor
+        ||
+        "Default",
+
+        quantity:
+        currentQty,
+
+        productPrice:
+        productTotal,
+
+        deliveryCharge:
+        DELIVERY_CHARGE,
+
+        totalAmount:
+        total
+
+    };
+
+
+    const button =
+    document
+    .getElementById(
+        "submitOrderBtn"
+    );
+
+
+    button.disabled = true;
+
+    button.textContent =
+    "অর্ডার পাঠানো হচ্ছে...";
+
+
+    try{
+
+        await fetch(
+            ORDER_WEB_APP_URL,
+            {
+
+                method:"POST",
+
+                mode:"no-cors",
+
+                headers:{
+
+                    "Content-Type":
+                    "text/plain;charset=utf-8"
+
+                },
+
+                body:
+                JSON.stringify(
+                    orderData
+                )
+
+            }
+        );
+
+
+        closeModal(
+            "orderModal"
+        );
+
+
+        document
+        .getElementById(
+            "successModal"
+        )
+        .classList
+        .add("show");
+
+
+        document
+        .getElementById(
+            "customerName"
+        )
+        .value = "";
+
+
+        document
+        .getElementById(
+            "phone"
+        )
+        .value = "";
+
+
+        document
+        .getElementById(
+            "district"
+        )
+        .value = "";
+
+
+        document
+        .getElementById(
+            "thana"
+        )
+        .value = "";
+
+
+        document
+        .getElementById(
+            "address"
+        )
+        .value = "";
+
+    }
+
+
+    catch(error){
+
+        console.error(
+            error
+        );
+
+
+        alert(
+            "অর্ডার পাঠানো যায়নি। আবার চেষ্টা করুন।"
+        );
+
+    }
+
+
+    finally{
+
+        button.disabled = false;
+
+        button.textContent =
+        "অর্ডার কনফার্ম করুন";
+
+    }
 
 }
 
-const name =
-document
-.getElementById("customerName")
-.value.trim();
 
-const phone =
-document
-.getElementById("phone")
-.value.trim();
-
-const district =
-document
-.getElementById("district")
-.value.trim();
-
-const thana =
-document
-.getElementById("thana")
-.value.trim();
-
-const address =
-document
-.getElementById("address")
-.value.trim();
-
-
-if(
-!name
-||
-!phone
-||
-!district
-||
-!thana
-||
-!address
-){
-
-alert(
-"অনুগ্রহ করে সব তথ্য পূরণ করুন।"
-);
-
-return;
-
-}
-
-
-if(
-parseColors(
-selectedProduct.colors
-).length
-&&
-!selectedColor
-){
-
-alert(
-"অনুগ্রহ করে Colour নির্বাচন করুন।"
-);
-
-return;
-
-}
-
-
-const productTotal =
-selectedProduct.price
-*
-currentQty;
-
-const total =
-productTotal
-+
-DELIVERY_CHARGE;
-
-const orderId =
-generateOrderId();
-
-
-const orderData = {
-
-orderId:orderId,
-
-customerName:name,
-
-phone:phone,
-
-district:district,
-
-thana:thana,
-
-address:address,
-
-productCode:
-selectedProduct.code,
-
-productName:
-selectedProduct.name,
-
-color:
-selectedColor || "Default",
-
-quantity:
-currentQty,
-
-productPrice:
-productTotal,
-
-deliveryCharge:
-DELIVERY_CHARGE,
-
-totalAmount:
-total
-
-};
-
-
-const button =
-document
-.getElementById(
-"submitOrderBtn"
-);
-
-button.disabled=true;
-
-button.textContent =
-"অর্ডার পাঠানো হচ্ছে...";
-
-
-try{
-
-await fetch(
-ORDER_WEB_APP_URL,
-{
-
-method:"POST",
-
-mode:"no-cors",
-
-headers:{
-"Content-Type":
-"text/plain;charset=utf-8"
-},
-
-body:
-JSON.stringify(
-orderData
-)
-
-}
-);
-
-
-closeModal(
-"orderModal"
-);
-
-document
-.getElementById(
-"successModal"
-)
-.classList.add("show");
-
-
-document
-.getElementById(
-"customerName"
-)
-.value="";
-
-document
-.getElementById(
-"phone"
-)
-.value="";
-
-document
-.getElementById(
-"district"
-)
-.value="";
-
-document
-.getElementById(
-"thana"
-)
-.value="";
-
-document
-.getElementById(
-"address"
-)
-.value="";
-
-
-}
-
-catch(error){
-
-console.error(error);
-
-alert(
-"অর্ডার পাঠানো যায়নি। আবার চেষ্টা করুন।"
-);
-
-}
-
-finally{
-
-button.disabled=false;
-
-button.textContent =
-"অর্ডার কনফার্ম করুন";
-
-}
-
-}
-
-
-/* SUCCESS CLOSE */
+/* =========================================================
+   SUCCESS CLOSE
+========================================================= */
 
 function closeSuccess(){
 
-document
-.getElementById(
-"successModal"
-)
-.classList.remove(
-"show"
-);
+    document
+    .getElementById(
+        "successModal"
+    )
+    .classList
+    .remove(
+        "show"
+    );
 
 }
 
 
-/* START */
+/* =========================================================
+   START
+========================================================= */
 
 loadProducts();
 
 </script>
 
 </body>
+
 </html>
