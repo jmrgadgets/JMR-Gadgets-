@@ -17,23 +17,27 @@ body{
     color:#111;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
+
 header{
     position:sticky;
     top:0;
     z-index:1000;
-    height:64px;
-    background:#fff;
-    border-bottom:1px solid #eee;
+    height:100px;
+    background:#f5c400;
+    border-bottom:1px solid #d9ad00;
     display:flex;
     align-items:center;
     padding:0 15px;
 }
 
-.menu-btn,
-.search-btn{
-    font-size:26px;
+.menu-btn{
+    width:42px;
+    font-size:34px;
+    line-height:1;
     cursor:pointer;
+    color:#111;
+    text-align:center;
 }
 
 .logo{
@@ -41,55 +45,100 @@ header{
     text-align:center;
     font-size:22px;
     font-weight:800;
+    color:#111;
 }
 
-.logo span{
-    color:#f5c400;
+.header-space{
+    width:42px;
 }
 
-/* SEARCH */
+/* ================= SEARCH ================= */
+
 .search-box{
-    display:none;
-    padding:10px 15px;
-    border-bottom:1px solid #eee;
+    display:block;
+    padding:10px 16px;
+    background:#f4f4f4;
+    border-bottom:1px solid #ddd;
+}
+
+.search-box-inner{
+    width:100%;
+    height:64px;
+    display:flex;
+    align-items:center;
     background:#fff;
+    border:2px solid #222;
+    border-radius:10px;
+    overflow:hidden;
 }
 
 .search-box input{
-    width:100%;
-    padding:12px;
-    border:1px solid #ddd;
-    border-radius:8px;
-    font-size:15px;
+    flex:1;
+    height:100%;
+    border:0;
+    outline:0;
+    padding:0 15px;
+    font-size:17px;
+    background:#fff;
 }
 
-/* MENU */
+.search-button{
+    width:60px;
+    height:64px;
+    border:0;
+    background:#111;
+    color:#fff;
+    font-size:28px;
+    cursor:pointer;
+}
+
+/* ================= MENU ================= */
+
 .side-menu{
     position:fixed;
     top:0;
-    left:-290px;
-    width:280px;
+    left:-310px;
+    width:290px;
     height:100%;
     background:#fff;
     z-index:3000;
     box-shadow:3px 0 15px #0003;
     transition:.3s;
     padding:20px;
+    overflow-y:auto;
 }
 
 .side-menu.active{
     left:0;
 }
 
-.side-menu h2{
-    text-align:center;
-    margin:10px 0 25px;
+.side-menu-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding-bottom:18px;
+    border-bottom:1px solid #eee;
 }
 
-.side-menu div{
-    padding:14px 10px;
+.side-menu h2{
+    margin:0;
+    font-size:21px;
+}
+
+.menu-close{
+    font-size:30px;
+    cursor:pointer;
+}
+
+.side-menu-item{
+    padding:15px 5px;
     border-bottom:1px solid #eee;
     cursor:pointer;
+    font-size:16px;
+}
+
+.side-menu-item small{
+    color:#777;
 }
 
 .overlay{
@@ -104,32 +153,64 @@ header{
     display:block;
 }
 
-/* BANNER */
+/* ================= ORDER TRACK BOX ================= */
+
+.track-box-wrap{
+    display:none;
+    padding:12px 16px;
+    background:#fff;
+    border-bottom:1px solid #eee;
+}
+
+.track-box-wrap.active{
+    display:block;
+}
+
+.track-box{
+    width:100%;
+    height:52px;
+    border:1px solid #aaa;
+    border-radius:8px;
+    padding:0 14px;
+    font-size:16px;
+    outline:none;
+}
+
+/* ================= BANNER ================= */
+
 .banner{
     width:100%;
     overflow:hidden;
-    background:#f5c400;
+    background:#f5f5f5;
+    padding:10px 16px;
 }
 
 .banner-track{
+    width:100%;
     display:flex;
+    overflow:hidden;
+    border-radius:18px;
 }
 
 .banner-slide{
     min-width:100%;
-    height:230px;
+    height:293px;
     display:flex;
     align-items:center;
     justify-content:center;
+    overflow:hidden;
+    background:#f5c400;
 }
 
 .banner-slide img{
     width:100%;
     height:100%;
     object-fit:cover;
+    display:block;
 }
 
-/* CATEGORY */
+/* ================= CATEGORY ================= */
+
 .section-title{
     padding:18px 15px 10px;
     font-size:21px;
@@ -157,7 +238,8 @@ header{
     border-color:#f5c400;
 }
 
-/* PRODUCTS */
+/* ================= PRODUCTS ================= */
+
 .products{
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -215,7 +297,8 @@ header{
     color:#777;
 }
 
-/* MODAL */
+/* ================= MODAL ================= */
+
 .modal{
     display:none;
     position:fixed;
@@ -251,7 +334,8 @@ header{
     z-index:2;
 }
 
-/* DETAILS IMAGE */
+/* ================= DETAILS IMAGE ================= */
+
 .details-image{
     width:100%;
     height:330px;
@@ -276,7 +360,8 @@ header{
     color:#444;
 }
 
-/* FORM */
+/* ================= FORM ================= */
+
 .form-group{
     margin-bottom:12px;
 }
@@ -363,32 +448,39 @@ header{
     opacity:.6;
 }
 
-/* BOTTOM NAV */
+/* ================= BOTTOM NAV ================= */
+
 .bottom-nav{
     position:fixed;
     left:0;
     right:0;
     bottom:0;
     z-index:1000;
+    height:68px;
     background:#fff;
     border-top:1px solid #ddd;
-    display:flex;
-    justify-content:space-around;
-    padding:9px 0;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    align-items:center;
+    box-shadow:0 -2px 8px #0001;
 }
 
 .bottom-nav div{
     text-align:center;
     font-size:12px;
     cursor:pointer;
+    color:#222;
 }
 
 .bottom-nav b{
     display:block;
-    font-size:21px;
+    font-size:22px;
+    line-height:25px;
+    margin-bottom:2px;
 }
 
-/* SUCCESS */
+/* ================= SUCCESS ================= */
+
 .success-modal{
     display:none;
     position:fixed;
@@ -458,8 +550,13 @@ header{
     }
 }
 
-/* DESKTOP */
+/* ================= DESKTOP ================= */
+
 @media(min-width:700px){
+
+.banner-slide{
+    height:330px;
+}
 
 .products{
     grid-template-columns:repeat(4,1fr);
@@ -471,13 +568,15 @@ header{
     height:230px;
 }
 
-.banner-slide{
-    height:330px;
+.banner{
+    padding-left:16px;
+    padding-right:16px;
 }
 
 }
 
-/* SMALL MOBILE */
+/* ================= SMALL MOBILE ================= */
+
 @media(max-width:380px){
 
 .product-image{
@@ -492,42 +591,106 @@ header{
 
 <header>
 
-<div class="menu-btn" onclick="openMenu()">☰</div>
+<div class="menu-btn" onclick="openMenu()">⋮</div>
 
 <div class="logo">
-JMR <span>GADGETS</span>
+JMR GADGETS
 </div>
 
-<div class="search-btn" onclick="toggleSearch()">⌕</div>
+<div class="header-space"></div>
 
 </header>
 
-<div class="search-box" id="searchBox">
+<div class="search-box">
+
+<div class="search-box-inner">
 
 <input
 type="text"
 id="searchInput"
 placeholder="প্রোডাক্ট সার্চ করুন..."
-oninput="renderProducts()"
+oninput="renderProducts"
+>
+
+<button
+class="search-button"
+onclick="document.getElementById('searchInput').focus()">
+⌕
+</button>
+
+</div>
+
+</div>
+
+<div
+class="track-box-wrap"
+id="trackBoxWrap">
+
+<input
+class="track-box"
+type="text"
+placeholder="অর্ডার আইডি লিখুন"
 >
 
 </div>
 
-<!-- MENU -->
+<div
+class="side-menu"
+id="sideMenu">
 
-<div class="side-menu" id="sideMenu">
+<div class="side-menu-header">
 
-<h2>JMR GADGETS</h2>
+<h2>Menu</h2>
 
-<div onclick="showAll()">🏠 Home</div>
-
-<div onclick="filterCategory('All');closeMenu()">
-📦 All Products
+<div
+class="menu-close"
+onclick="closeMenu()">
+×
 </div>
 
-<div onclick="closeMenu()">📞 Contact</div>
+</div>
 
-<div onclick="closeMenu()">ℹ️ About Us</div>
+<div
+class="side-menu-item"
+onclick="showAll()">
+Home
+</div>
+
+<div
+class="side-menu-item"
+onclick="openOrderTrack()">
+Order Track
+</div>
+
+<div
+class="side-menu-item"
+onclick="loginRegister()">
+
+Login / Register
+
+<br>
+
+<small>এখনও আপডেট হয়নি</small>
+
+</div>
+
+<div
+class="side-menu-item"
+onclick="openWhatsApp()">
+Chat Support
+</div>
+
+<div
+class="side-menu-item"
+onclick="emptyMenuOption()">
+Warranty Service
+</div>
+
+<div
+class="side-menu-item"
+onclick="emptyMenuOption()">
+About Us
+</div>
 
 </div>
 
@@ -537,35 +700,17 @@ id="overlay"
 onclick="closeMenu()">
 </div>
 
-<!-- BANNER -->
-
 <section class="banner">
 
-<div class="banner-track">
+<div
+class="banner-track"
+id="bannerTrack">
 
-<div class="banner-slide">
-
-<div style="
-font-size:30px;
-font-weight:800;
-text-align:center;
-">
-
-JMR GADGETS
-
-<br>
-
-<small>Smart Products, Better Life</small>
-
-</div>
-
-</div>
+<div class="banner-slide"></div>
 
 </div>
 
 </section>
-
-<!-- CATEGORY -->
 
 <div class="section-title">
 Categories
@@ -575,8 +720,6 @@ Categories
 class="categories"
 id="categories">
 </div>
-
-<!-- PRODUCTS -->
 
 <div class="section-title">
 All Products
@@ -592,28 +735,49 @@ id="products">
 
 </div>
 
-<!-- BOTTOM NAV -->
-
 <div class="bottom-nav">
 
+<div onclick="openWhatsApp()">
+
+<b>◉</b>
+
+WhatsApp
+
+</div>
+
 <div onclick="showAll()">
+
 <b>⌂</b>
+
 Home
-</div>
-
-<div onclick="toggleSearch()">
-<b>⌕</b>
-Search
-</div>
-
-<div onclick="filterCategory('All')">
-<b>▦</b>
-Products
-</div>
 
 </div>
 
-<!-- PRODUCT DETAILS -->
+<div onclick="callNumber()">
+
+<b>☎</b>
+
+Call
+
+</div>
+
+<div onclick="cartMessage()">
+
+<b>🛒</b>
+
+Cart
+
+</div>
+
+<div onclick="accountMessage()">
+
+<b>♙</b>
+
+Account
+
+</div>
+
+</div>
 
 <div
 class="modal"
@@ -667,8 +831,6 @@ onclick="openOrder()">
 </div>
 
 </div>
-
-<!-- ORDER MODAL -->
 
 <div
 class="modal"
@@ -750,8 +912,8 @@ placeholder="থানার নাম"
 
 <textarea
 id="address"
-placeholder="বাড়ি/রোড/এলাকা"
-></textarea>
+placeholder="বাড়ি/রোড/এলাকা">
+</textarea>
 
 </div>
 
@@ -817,8 +979,6 @@ onclick="submitOrder()">
 
 </div>
 
-<!-- SUCCESS -->
-
 <div
 class="success-modal"
 id="successModal">
@@ -847,38 +1007,22 @@ id="successModal">
 
 <script>
 
-/* ==============================
-   GOOGLE SHEET PRODUCT CSV
-============================== */
-
 const SHEET_URL =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vRc_FdQ5OxU48pfoDdyY0hS6S0urj_u7JP5dQrWgW52qXAS2TawrUG34vbtx5wDwECcNFvImlnnTadQ/pub?output=csv";
-
-
-/* ==============================
-   ORDER WEB APP
-============================== */
 
 const ORDER_WEB_APP_URL =
 "https://script.google.com/macros/s/AKfycbyX60WFfL-VROwkYPitw_3m-FMDi98kxVhNp3GuhC3zcYX2EH_2qBgmBi9wlG8ToamLEg/exec";
 
-
 const DELIVERY_CHARGE = 120;
+const WHATSAPP_NUMBER = "8801789283142";
+const CALL_NUMBER = "01941900221";
 
 let products = [];
-
 let filteredProducts = [];
-
 let selectedProduct = null;
-
 let selectedColor = "";
-
 let currentQty = 1;
-
 let currentCategory = "All";
-
-
-/* MENU */
 
 function openMenu(){
 
@@ -892,7 +1036,6 @@ document
 
 }
 
-
 function closeMenu(){
 
 document
@@ -905,31 +1048,90 @@ document
 
 }
 
+function showAll(){
 
-/* SEARCH */
+currentCategory = "All";
 
-function toggleSearch(){
+buildCategories();
 
-const box =
-document.getElementById("searchBox");
+renderProducts();
 
-box.style.display =
-box.style.display === "block"
-? "none"
-: "block";
-
-if(box.style.display === "block"){
+closeMenu();
 
 document
-.getElementById("searchInput")
+.getElementById("trackBoxWrap")
+.classList.remove("active");
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+function openOrderTrack(){
+
+closeMenu();
+
+const box =
+document.getElementById("trackBoxWrap");
+
+box.classList.add("active");
+
+setTimeout(function(){
+
+box
+.querySelector("input")
 .focus();
 
-}
+},100);
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
 
 }
 
+function openWhatsApp(){
 
-/* MODAL */
+window.open(
+"https://wa.me/" + WHATSAPP_NUMBER,
+"_blank"
+);
+
+}
+
+function callNumber(){
+
+window.location.href =
+"tel:" + CALL_NUMBER;
+
+}
+
+function loginRegister(){
+
+alert("Login / Register এখনও আপডেট হয়নি।");
+
+}
+
+function emptyMenuOption(){
+
+closeMenu();
+
+}
+
+function cartMessage(){
+
+alert("Cart এখনও আপডেট হয়নি।");
+
+}
+
+function accountMessage(){
+
+alert("Account এখনও আপডেট হয়নি।");
+
+}
 
 function openModal(id){
 
@@ -939,7 +1141,6 @@ document
 
 }
 
-
 function closeModal(id){
 
 document
@@ -948,31 +1149,30 @@ document
 
 }
 
-
-/* CSV PARSER */
-
 function csvParse(text){
 
 const rows=[];
-
 let row=[];
-
 let cell="";
-
 let quoted=false;
 
-for(let i=0;i<text.length;i++){
+for(
+let i=0;
+i<text.length;
+i++
+){
 
 const c=text[i];
-
 const n=text[i+1];
 
 if(c === '"'){
 
-if(quoted && n === '"'){
+if(
+quoted &&
+n === '"'
+){
 
 cell += '"';
-
 i++;
 
 }else{
@@ -983,32 +1183,39 @@ quoted = !quoted;
 
 }
 
-else if(c === ',' && !quoted){
+else if(
+c === ',' &&
+!quoted
+){
 
 row.push(cell);
-
 cell="";
 
 }
 
 else if(
 (c === '\n' || c === '\r')
-&& !quoted
+&&
+!quoted
 ){
 
-if(c === '\r' && n === '\n'){
+if(
+c === '\r' &&
+n === '\n'
+){
 
 i++;
 
 }
 
 row.push(cell);
-
 cell="";
 
 if(
-row.some(x =>
-x.trim() !== "")
+row.some(
+x =>
+x.trim() !== ""
+)
 ){
 
 rows.push(row);
@@ -1027,13 +1234,18 @@ cell += c;
 
 }
 
-if(cell !== "" || row.length){
+if(
+cell !== "" ||
+row.length
+){
 
 row.push(cell);
 
 if(
-row.some(x =>
-x.trim() !== "")
+row.some(
+x =>
+x.trim() !== ""
+)
 ){
 
 rows.push(row);
@@ -1046,9 +1258,6 @@ return rows;
 
 }
 
-
-/* GOOGLE DRIVE IMAGE */
-
 function driveImage(url){
 
 if(!url){
@@ -1057,25 +1266,26 @@ return "";
 
 }
 
-url = url.trim();
+url =
+url.trim();
 
 const match =
 url.match(/[-\w]{25,}/);
 
 if(match){
 
-return "https://drive.google.com/thumbnail?id="
-+ match[0]
-+ "&sz=w1200";
+return
+"https://drive.google.com/thumbnail?id="
++
+match[0]
++
+"&sz=w1200";
 
 }
 
 return url;
 
 }
-
-
-/* NORMALIZE */
 
 function normalize(s){
 
@@ -1085,17 +1295,20 @@ return String(s || "")
 
 }
 
+function getValue(
+obj,
+keys
+){
 
-/* VALUE */
-
-function getValue(obj, keys){
-
-for(const key of keys){
+for(
+const key of keys
+){
 
 if(
-obj[key] !== undefined
-&&
-String(obj[key]).trim() !== ""
+obj[key] !== undefined &&
+String(
+obj[key]
+).trim() !== ""
 ){
 
 return obj[key];
@@ -1108,9 +1321,6 @@ return "";
 
 }
 
-
-/* LOAD PRODUCTS */
-
 async function loadProducts(){
 
 try{
@@ -1118,8 +1328,10 @@ try{
 const response =
 await fetch(
 SHEET_URL
-+ "&t="
-+ Date.now()
++
+"&t="
++
+Date.now()
 );
 
 const text =
@@ -1128,7 +1340,9 @@ await response.text();
 const rows =
 csvParse(text);
 
-if(rows.length < 2){
+if(
+rows.length < 2
+){
 
 throw new Error(
 "No product data"
@@ -1138,13 +1352,15 @@ throw new Error(
 
 const headers =
 rows[0].map(
-x => normalize(x)
+x =>
+normalize(x)
 );
 
 products =
 rows
 .slice(1)
-.map(row => {
+.map(
+row => {
 
 const obj={};
 
@@ -1152,7 +1368,8 @@ headers.forEach(
 (h,i) => {
 
 obj[h] =
-(row[i] || "").trim();
+(row[i] || "")
+.trim();
 
 });
 
@@ -1173,7 +1390,9 @@ obj,
 "category",
 "categories"
 ]
-) || "Other",
+)
+||
+"Other",
 
 price:
 parseFloat(
@@ -1186,11 +1405,14 @@ obj,
 "selling price"
 ]
 )
-).replace(
+)
+.replace(
 /[^\d.]/g,
 ""
 )
-) || 0,
+)
+||
+0,
 
 colors:getValue(
 obj,
@@ -1202,7 +1424,8 @@ obj,
 ]
 ),
 
-image:driveImage(
+image:
+driveImage(
 getValue(
 obj,
 [
@@ -1235,12 +1458,31 @@ obj,
 "product code",
 "code"
 ]
+),
+
+banner:
+driveImage(
+getValue(
+obj,
+[
+"banner",
+"banner image",
+"banner url",
+"banner image url"
+]
+)
 )
 
 };
 
-})
-.filter(p => p.name);
+}
+)
+.filter(
+p =>
+p.name
+);
+
+loadBannersFromProducts(products);
 
 buildCategories();
 
@@ -1255,33 +1497,96 @@ console.error(error);
 document
 .getElementById("products")
 .innerHTML =
-
 '<div class="empty">প্রোডাক্ট লোড করা যাচ্ছে না। Google Sheet Published আছে কিনা দেখুন।</div>';
 
 }
 
 }
 
+function loadBannersFromProducts(data){
 
-/* CATEGORIES */
+const bannerUrls = [];
+
+data.forEach(
+product => {
+
+if(
+product.banner &&
+!bannerUrls.includes(
+product.banner
+)
+){
+
+bannerUrls.push(
+product.banner
+);
+
+}
+
+}
+);
+
+const track =
+document.getElementById(
+"bannerTrack"
+);
+
+if(
+!bannerUrls.length
+){
+
+track.innerHTML =
+'<div class="banner-slide"></div>';
+
+return;
+
+}
+
+track.innerHTML =
+bannerUrls
+.map(
+url => `
+
+<div class="banner-slide">
+
+<img
+src="${escapeHtml(url)}"
+alt="JMR GADGETS Banner"
+onerror="this.style.display='none'"
+>
+
+</div>
+
+`
+)
+.join("");
+
+}
 
 function buildCategories(){
 
 const cats = [
 "All",
-...new Set(
+...
+new Set(
 products
-.map(p => p.category)
+.map(
+p =>
+p.category
+)
 .filter(Boolean)
 )
 ];
 
 document
-.getElementById("categories")
+.getElementById(
+"categories"
+)
 .innerHTML =
 
 cats
-.map(category => `
+.map(
+category => `
 
 <div
 class="category ${
@@ -1296,15 +1601,15 @@ ${escapeHtml(category)}
 
 </div>
 
-`)
+`
+)
 .join("");
 
 }
 
-
-/* FILTER */
-
-function filterCategory(category){
+function filterCategory(
+category
+){
 
 currentCategory =
 category;
@@ -1315,69 +1620,61 @@ renderProducts();
 
 }
 
-
-/* SHOW ALL */
-
-function showAll(){
-
-currentCategory =
-"All";
-
-buildCategories();
-
-renderProducts();
-
-closeMenu();
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-}
-
-
-/* RENDER */
-
 function renderProducts(){
 
 const search =
 normalize(
 document
-.getElementById("searchInput")
+.getElementById(
+"searchInput"
+)
 ?.value
 );
 
 filteredProducts =
-products.filter(product => {
+products.filter(
+product => {
 
 const categoryOK =
 currentCategory === "All"
 ||
-product.category === currentCategory;
+product.category ===
+currentCategory;
 
 const searchOK =
 !search
 ||
-normalize(product.name)
+normalize(
+product.name
+)
 .includes(search)
 ||
-normalize(product.category)
+normalize(
+product.category
+)
 .includes(search)
 ||
-normalize(product.code)
+normalize(
+product.code
+)
 .includes(search);
 
-return categoryOK && searchOK;
+return
+categoryOK
+&&
+searchOK;
 
-});
-
+}
+);
 
 const box =
-document.getElementById("products");
+document.getElementById(
+"products"
+);
 
-
-if(!filteredProducts.length){
+if(
+!filteredProducts.length
+){
 
 box.innerHTML =
 '<div class="empty">কোনো প্রোডাক্ট পাওয়া যায়নি।</div>';
@@ -1386,10 +1683,10 @@ return;
 
 }
 
-
 box.innerHTML =
 filteredProducts
-.map((product,index) => `
+.map(
+(product,index) => `
 
 <div
 class="product-card"
@@ -1398,7 +1695,7 @@ onclick="openDetails(${index})"
 
 <img
 class="product-image"
-src="${product.image}"
+src="${escapeHtml(product.image)}"
 alt="${escapeHtml(product.name)}"
 onerror="this.style.visibility='hidden'"
 >
@@ -1429,20 +1726,20 @@ onclick="event.stopPropagation();openDetails(${index})"
 
 </div>
 
-`)
+`
+)
 .join("");
 
 }
-
-
-/* ESCAPE */
 
 function escapeHtml(text){
 
 return String(text || "")
 .replace(
 /[&<>"']/g,
-match => ({
+function(match){
+
+return {
 
 "&":"&amp;",
 "<":"&lt;",
@@ -1450,46 +1747,54 @@ match => ({
 '"':"&quot;",
 "'":"&#039;"
 
-}[match])
+}[match];
 
+}
 );
 
 }
 
+function formatMoney(
+number
+){
 
-/* MONEY */
-
-function formatMoney(number){
-
-return Number(number || 0)
-.toLocaleString("en-US");
+return Number(
+number || 0
+)
+.toLocaleString(
+"en-US"
+);
 
 }
 
-
-/* DETAILS */
-
-function openDetails(index){
+function openDetails(
+index
+){
 
 selectedProduct =
 filteredProducts[index];
 
 selectedColor="";
-
 currentQty=1;
 
 document
-.getElementById("detailsImage")
+.getElementById(
+"detailsImage"
+)
 .src =
 selectedProduct.image;
 
 document
-.getElementById("detailsTitle")
+.getElementById(
+"detailsTitle"
+)
 .textContent =
 selectedProduct.name;
 
 document
-.getElementById("detailsPrice")
+.getElementById(
+"detailsPrice"
+)
 .textContent =
 "৳"
 +
@@ -1498,8 +1803,11 @@ selectedProduct.price
 );
 
 document
-.getElementById("detailsWarranty")
+.getElementById(
+"detailsWarranty"
+)
 .innerHTML =
+
 selectedProduct.warranty
 ?
 "<b>Warranty:</b> "
@@ -1513,15 +1821,19 @@ selectedProduct.warranty
 "";
 
 document
-.getElementById("detailsDescription")
+.getElementById(
+"detailsDescription"
+)
 .innerHTML =
+
 selectedProduct.description
 ?
 "<br>"
 +
 escapeHtml(
 selectedProduct.description
-).replace(
+)
+.replace(
 /\n/g,
 "<br>"
 )
@@ -1534,10 +1846,9 @@ openModal(
 
 }
 
-
-/* COLORS */
-
-function parseColors(text){
+function parseColors(
+text
+){
 
 if(!text){
 
@@ -1546,23 +1857,35 @@ return [];
 }
 
 return text
-.split(/[,|;]/)
-.map(x => x.trim())
+.split(
+/[,|;]/
+)
+.map(
+x =>
+x.trim()
+)
 .filter(Boolean)
-.map(item => {
+.map(
+item => {
 
 let parts =
-item.split(/[:\-]/);
+item.split(
+/[:\-]/
+);
 
 let name =
-parts[0].trim();
+parts[0]
+.trim();
 
 let stock =
 parts.length > 1
 ?
 parseInt(
 parts[1]
-.replace(/[^\d]/g,"")
+.replace(
+/[^\d]/g,
+""
+)
 )
 :
 999;
@@ -1572,22 +1895,21 @@ name,
 stock
 };
 
-})
+}
+)
 .filter(
 x =>
-x.name
-&&
+x.name &&
 x.stock > 0
 );
 
 }
 
-
-/* ORDER */
-
 function openOrder(){
 
-if(!selectedProduct){
+if(
+!selectedProduct
+){
 
 return;
 
@@ -1598,11 +1920,12 @@ closeModal(
 );
 
 currentQty=1;
-
 selectedColor="";
 
 document
-.getElementById("quantity")
+.getElementById(
+"quantity"
+)
 .textContent =
 currentQty;
 
@@ -1616,25 +1939,33 @@ document.getElementById(
 "colorList"
 );
 
-if(colors.length){
+if(
+colors.length
+){
 
 list.innerHTML =
 colors
-.map(color => `
+.map(
+color => `
 
 <div
 class="color-option"
 onclick='selectColor(this,${JSON.stringify(color.name)})'
 >
 
-${escapeHtml(color.name)}
+${escapeHtml(
+color.name
+)}
 
 </div>
 
-`)
+`
+)
 .join("");
 
-}else{
+}
+
+else{
 
 list.innerHTML =
 '<span style="color:#777">Default</span>';
@@ -1651,9 +1982,6 @@ openModal(
 );
 
 }
-
-
-/* SELECT COLOR */
 
 function selectColor(
 element,
@@ -1680,10 +2008,9 @@ color;
 
 }
 
-
-/* QUANTITY */
-
-function changeQty(change){
+function changeQty(
+change
+){
 
 currentQty =
 Math.max(
@@ -1692,7 +2019,9 @@ currentQty + change
 );
 
 document
-.getElementById("quantity")
+.getElementById(
+"quantity"
+)
 .textContent =
 currentQty;
 
@@ -1700,12 +2029,11 @@ updateOrderSummary();
 
 }
 
-
-/* SUMMARY */
-
 function updateOrderSummary(){
 
-if(!selectedProduct){
+if(
+!selectedProduct
+){
 
 return;
 
@@ -1722,7 +2050,9 @@ productTotal
 DELIVERY_CHARGE;
 
 document
-.getElementById("orderSummary")
+.getElementById(
+"orderSummary"
+)
 .innerHTML = `
 
 <b>
@@ -1748,16 +2078,15 @@ DELIVERY_CHARGE
 `;
 
 document
-.getElementById("orderTotal")
+.getElementById(
+"orderTotal"
+)
 .textContent =
 "মোট: ৳"
 +
 formatMoney(total);
 
 }
-
-
-/* ORDER ID */
 
 function generateOrderId(){
 
@@ -1766,9 +2095,11 @@ localStorage.getItem(
 "jmrLastOrderNumber"
 );
 
-if(!lastOrder){
+if(
+!lastOrder
+){
 
-lastOrder = 1000;
+lastOrder=1000;
 
 }
 
@@ -1786,12 +2117,11 @@ return "JMR-" + next;
 
 }
 
-
-/* SUBMIT ORDER */
-
 async function submitOrder(){
 
-if(!selectedProduct){
+if(
+!selectedProduct
+){
 
 return;
 
@@ -1799,39 +2129,49 @@ return;
 
 const name =
 document
-.getElementById("customerName")
-.value.trim();
+.getElementById(
+"customerName"
+)
+.value
+.trim();
 
 const phone =
 document
-.getElementById("phone")
-.value.trim();
+.getElementById(
+"phone"
+)
+.value
+.trim();
 
 const district =
 document
-.getElementById("district")
-.value.trim();
+.getElementById(
+"district"
+)
+.value
+.trim();
 
 const thana =
 document
-.getElementById("thana")
-.value.trim();
+.getElementById(
+"thana"
+)
+.value
+.trim();
 
 const address =
 document
-.getElementById("address")
-.value.trim();
-
+.getElementById(
+"address"
+)
+.value
+.trim();
 
 if(
-!name
-||
-!phone
-||
-!district
-||
-!thana
-||
+!name ||
+!phone ||
+!district ||
+!thana ||
 !address
 ){
 
@@ -1843,11 +2183,11 @@ return;
 
 }
 
-
 if(
 parseColors(
 selectedProduct.colors
-).length
+)
+.length
 &&
 !selectedColor
 ){
@@ -1859,7 +2199,6 @@ alert(
 return;
 
 }
-
 
 const productTotal =
 selectedProduct.price
@@ -1873,7 +2212,6 @@ DELIVERY_CHARGE;
 
 const orderId =
 generateOrderId();
-
 
 const orderData = {
 
@@ -1896,7 +2234,9 @@ productName:
 selectedProduct.name,
 
 color:
-selectedColor || "Default",
+selectedColor
+||
+"Default",
 
 quantity:
 currentQty,
@@ -1912,7 +2252,6 @@ total
 
 };
 
-
 const button =
 document
 .getElementById(
@@ -1923,7 +2262,6 @@ button.disabled=true;
 
 button.textContent =
 "অর্ডার পাঠানো হচ্ছে...";
-
 
 try{
 
@@ -1948,7 +2286,6 @@ orderData
 }
 );
 
-
 closeModal(
 "orderModal"
 );
@@ -1957,8 +2294,9 @@ document
 .getElementById(
 "successModal"
 )
-.classList.add("show");
-
+.classList.add(
+"show"
+);
 
 document
 .getElementById(
@@ -1990,7 +2328,6 @@ document
 )
 .value="";
 
-
 }
 
 catch(error){
@@ -2014,9 +2351,6 @@ button.textContent =
 
 }
 
-
-/* SUCCESS CLOSE */
-
 function closeSuccess(){
 
 document
@@ -2028,9 +2362,6 @@ document
 );
 
 }
-
-
-/* START */
 
 loadProducts();
 
