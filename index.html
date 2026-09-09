@@ -2925,31 +2925,27 @@ async function submitOrder(){
 }  
   
   
-/* =========================================================  
-   SUCCESS CLOSE  
-========================================================= */  
-  
-function closeSuccess(){  
-  
-    document  
-    .getElementById(  
-        "successModal"  
-    )  
-    .classList  
-    .remove(  
-        "show"  
-    );  
-  
-}  
-  
-  
-/* =========================================================  
-   START  
-========================================================= */  
-  
-loadProducts();
+/* =========================================================
+   SUCCESS CLOSE
+========================================================= */
 
-/* ================= ACCOUNT SYSTEM ================= */
+function closeSuccess(){
+
+    document
+    .getElementById(
+        "successModal"
+    )
+    .classList
+    .remove(
+        "show"
+    );
+
+}
+
+
+/* =========================================================
+   ACCOUNT SYSTEM
+========================================================= */
 
 const ACCOUNT_WEB_APP_URL =
     "https://script.google.com/macros/s/AKfycbw0piPfRvFSWfdyiKszwFXEot5MMFHm-YkMGbCHI__dUcGrxcbHCbMXl2C6aO2NumV9cg/exec";
@@ -2974,6 +2970,8 @@ function openAccount(){
             showProfile(user);
 
         }catch(error){
+
+            localStorage.removeItem("jmrUser");
 
             showLogin();
 
@@ -3446,6 +3444,13 @@ function logoutAccount(){
 
 })();
 
+
+/* =========================================================
+   LOAD PRODUCTS
+========================================================= */
+
+loadProducts();
+
 </script>
 
 
@@ -3457,15 +3462,20 @@ function logoutAccount(){
 
     <div class="account-header">
       <b>My Account</b>
+
       <span onclick="closeAccount()">✕</span>
     </div>
 
 
     <!-- LOGIN -->
 
-    <div id="loginSection" class="account-section">
+    <div
+      id="loginSection"
+      class="account-section"
+    >
 
       <h3>Login</h3>
+
 
       <input
         type="tel"
@@ -3473,11 +3483,13 @@ function logoutAccount(){
         placeholder="Phone Number"
       >
 
+
       <input
         type="password"
         id="loginPassword"
         placeholder="Password"
       >
+
 
       <button
         type="button"
@@ -3486,10 +3498,12 @@ function logoutAccount(){
         Login
       </button>
 
+
       <p onclick="showCreateAccount()">
         Don't have an account?
         <b>Create Account</b>
       </p>
+
 
       <p onclick="showForgotPassword()">
         <b>Forgot Password?</b>
@@ -3508,11 +3522,13 @@ function logoutAccount(){
 
       <h3>Create Account</h3>
 
+
       <input
         type="text"
         id="accountName"
         placeholder="Full Name"
       >
+
 
       <input
         type="tel"
@@ -3520,11 +3536,13 @@ function logoutAccount(){
         placeholder="Phone Number"
       >
 
+
       <input
         type="password"
         id="accountPassword"
         placeholder="Create Password"
       >
+
 
       <input
         type="password"
@@ -3532,12 +3550,14 @@ function logoutAccount(){
         placeholder="Confirm Password"
       >
 
+
       <button
         type="button"
         onclick="createAccount()"
       >
         Create Account
       </button>
+
 
       <p onclick="showLogin()">
         Already have an account?
@@ -3557,9 +3577,11 @@ function logoutAccount(){
 
       <h3>Forgot Password?</h3>
 
+
       <p class="account-info">
         আপনার Account-এর Phone Number দিন।
       </p>
+
 
       <input
         type="tel"
@@ -3567,12 +3589,14 @@ function logoutAccount(){
         placeholder="Phone Number"
       >
 
+
       <button
         type="button"
         onclick="forgotPassword()"
       >
         Find Password
       </button>
+
 
       <p onclick="showLogin()">
         ← Back to Login
@@ -3593,14 +3617,17 @@ function logoutAccount(){
         👤
       </div>
 
+
       <h3 id="profileName">
         User Name
       </h3>
+
 
       <p>
         User ID:
         <b id="profileUserId"></b>
       </p>
+
 
       <div class="my-orders-box">
 
@@ -3611,6 +3638,7 @@ function logoutAccount(){
         </p>
 
       </div>
+
 
       <button
         type="button"
