@@ -1,16 +1,11 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JMR GADGETS</title>
 
 <style>
-
 *{
     box-sizing:border-box;
 }
@@ -28,18 +23,21 @@ header{
     position:sticky;
     top:0;
     z-index:1000;
-    height:64px;
-    background:#fff;
-    border-bottom:1px solid #eee;
+    height:100px;
+    background:#f5c400;
+    border-bottom:1px solid #d9ad00;
     display:flex;
     align-items:center;
     padding:0 15px;
 }
 
-.menu-btn,
-.search-btn{
-    font-size:26px;
+.menu-btn{
+    width:42px;
+    font-size:34px;
+    line-height:1;
     cursor:pointer;
+    color:#111;
+    text-align:center;
 }
 
 .logo{
@@ -47,27 +45,51 @@ header{
     text-align:center;
     font-size:22px;
     font-weight:800;
+    color:#111;
 }
 
-.logo span{
-    color:#f5c400;
+.header-space{
+    width:42px;
 }
 
 /* ================= SEARCH ================= */
 
 .search-box{
-    display:none;
-    padding:10px 15px;
-    border-bottom:1px solid #eee;
+    display:block;
+    padding:10px 16px;
+    background:#f4f4f4;
+    border-bottom:1px solid #ddd;
+}
+
+.search-box-inner{
+    width:100%;
+    height:64px;
+    display:flex;
+    align-items:center;
     background:#fff;
+    border:2px solid #222;
+    border-radius:10px;
+    overflow:hidden;
 }
 
 .search-box input{
-    width:100%;
-    padding:12px;
-    border:1px solid #ddd;
-    border-radius:8px;
-    font-size:15px;
+    flex:1;
+    height:100%;
+    border:0;
+    outline:0;
+    padding:0 15px;
+    font-size:17px;
+    background:#fff;
+}
+
+.search-button{
+    width:60px;
+    height:64px;
+    border:0;
+    background:#111;
+    color:#fff;
+    font-size:28px;
+    cursor:pointer;
 }
 
 /* ================= MENU ================= */
@@ -75,29 +97,48 @@ header{
 .side-menu{
     position:fixed;
     top:0;
-    left:-290px;
-    width:280px;
+    left:-310px;
+    width:290px;
     height:100%;
     background:#fff;
     z-index:3000;
     box-shadow:3px 0 15px #0003;
     transition:.3s;
     padding:20px;
+    overflow-y:auto;
 }
 
 .side-menu.active{
     left:0;
 }
 
-.side-menu h2{
-    text-align:center;
-    margin:10px 0 25px;
+.side-menu-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding-bottom:18px;
+    border-bottom:1px solid #eee;
 }
 
-.side-menu div{
-    padding:14px 10px;
+.side-menu h2{
+    margin:0;
+    font-size:21px;
+}
+
+.menu-close{
+    font-size:30px;
+    cursor:pointer;
+}
+
+.side-menu-item{
+    padding:15px 5px;
     border-bottom:1px solid #eee;
     cursor:pointer;
+    font-size:16px;
+}
+
+.side-menu-item small{
+    color:#777;
 }
 
 .overlay{
@@ -112,26 +153,52 @@ header{
     display:block;
 }
 
+/* ================= ORDER TRACK BOX ================= */
+
+.track-box-wrap{
+    display:none;
+    padding:12px 16px;
+    background:#fff;
+    border-bottom:1px solid #eee;
+}
+
+.track-box-wrap.active{
+    display:block;
+}
+
+.track-box{
+    width:100%;
+    height:52px;
+    border:1px solid #aaa;
+    border-radius:8px;
+    padding:0 14px;
+    font-size:16px;
+    outline:none;
+}
+
 /* ================= BANNER ================= */
 
 .banner{
     width:100%;
     overflow:hidden;
-    background:#f5c400;
-    position:relative;
+    background:#f5f5f5;
+    padding:10px 16px;
 }
 
 .banner-track{
+    width:100%;
     display:flex;
-    transition:transform .5s ease;
+    overflow:hidden;
+    border-radius:18px;
 }
 
 .banner-slide{
     min-width:100%;
-    height:230px;
+    height:293px;
     display:flex;
     align-items:center;
     justify-content:center;
+    overflow:hidden;
     background:#f5c400;
 }
 
@@ -140,40 +207,6 @@ header{
     height:100%;
     object-fit:cover;
     display:block;
-}
-
-.banner-placeholder{
-    font-size:30px;
-    font-weight:800;
-    text-align:center;
-}
-
-.banner-placeholder small{
-    font-size:16px;
-}
-
-/* ================= BANNER DOTS ================= */
-
-.banner-dots{
-    position:absolute;
-    bottom:10px;
-    left:0;
-    right:0;
-    display:flex;
-    justify-content:center;
-    gap:6px;
-}
-
-.banner-dot{
-    width:8px;
-    height:8px;
-    border-radius:50%;
-    background:#ffffff99;
-    cursor:pointer;
-}
-
-.banner-dot.active{
-    background:#111;
 }
 
 /* ================= CATEGORY ================= */
@@ -301,7 +334,7 @@ header{
     z-index:2;
 }
 
-/* ================= DETAILS ================= */
+/* ================= DETAILS IMAGE ================= */
 
 .details-image{
     width:100%;
@@ -373,8 +406,6 @@ header{
     font-weight:700;
 }
 
-/* ================= QUANTITY ================= */
-
 .qty{
     display:flex;
     align-items:center;
@@ -395,8 +426,6 @@ header{
     text-align:center;
     font-weight:700;
 }
-
-/* ================= ORDER ================= */
 
 .order-total{
     padding:12px 0;
@@ -427,22 +456,27 @@ header{
     right:0;
     bottom:0;
     z-index:1000;
+    height:68px;
     background:#fff;
     border-top:1px solid #ddd;
-    display:flex;
-    justify-content:space-around;
-    padding:9px 0;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    align-items:center;
+    box-shadow:0 -2px 8px #0001;
 }
 
 .bottom-nav div{
     text-align:center;
     font-size:12px;
     cursor:pointer;
+    color:#222;
 }
 
 .bottom-nav b{
     display:block;
-    font-size:21px;
+    font-size:22px;
+    line-height:25px;
+    margin-bottom:2px;
 }
 
 /* ================= SUCCESS ================= */
@@ -506,36 +540,38 @@ header{
 }
 
 @keyframes pop{
-
     from{
         transform:scale(.7);
         opacity:0;
     }
-
     to{
         transform:scale(1);
         opacity:1;
     }
-
 }
 
 /* ================= DESKTOP ================= */
 
 @media(min-width:700px){
 
-    .products{
-        grid-template-columns:repeat(4,1fr);
-        padding-left:25px;
-        padding-right:25px;
-    }
+.banner-slide{
+    height:330px;
+}
 
-    .product-image{
-        height:230px;
-    }
+.products{
+    grid-template-columns:repeat(4,1fr);
+    padding-left:25px;
+    padding-right:25px;
+}
 
-    .banner-slide{
-        height:330px;
-    }
+.product-image{
+    height:230px;
+}
+
+.banner{
+    padding-left:16px;
+    padding-right:16px;
+}
 
 }
 
@@ -543,14 +579,12 @@ header{
 
 @media(max-width:380px){
 
-    .product-image{
-        height:165px;
-    }
-
+.product-image{
+    height:165px;
 }
 
+}
 </style>
-
 </head>
 
 <body>
@@ -559,24 +593,21 @@ header{
 
 <header>
 
-<div class="menu-btn" onclick="openMenu()">
-☰
-</div>
+<div class="menu-btn" onclick="openMenu()">⋮</div>
 
 <div class="logo">
-JMR <span>GADGETS</span>
+JMR GADGETS
 </div>
 
-<div class="search-btn" onclick="toggleSearch()">
-⌕
-</div>
+<div class="header-space"></div>
 
 </header>
 
-
 <!-- ================= SEARCH ================= -->
 
-<div class="search-box" id="searchBox">
+<div class="search-box">
+
+<div class="search-box-inner">
 
 <input
 type="text"
@@ -585,103 +616,107 @@ placeholder="প্রোডাক্ট সার্চ করুন..."
 oninput="renderProducts()"
 >
 
+<button
+class="search-button"
+onclick="document.getElementById('searchInput').focus()">
+⌕
+</button>
+
+</div>
+
+</div>
+
+<!-- ================= ORDER TRACK ================= -->
+
+<div
+class="track-box-wrap"
+id="trackBoxWrap">
+
+<input
+class="track-box"
+type="text"
+placeholder="অর্ডার আইডি লিখুন"
+>
+
 </div>
 
 <!-- ================= MENU ================= -->
 
-<div class="side-menu" id="sideMenu">
+<div
+class="side-menu"
+id="sideMenu">
 
-    <h2>JMR GADGETS</h2>
+<div class="side-menu-header">
 
-    <!-- Home -->
-    <div onclick="showAll()">
-        🏠 Home
-    </div>
+<h2>Menu</h2>
 
-    <!-- Order Tracking -->
-    <div onclick="openOrderTracking();closeMenu()">
-        📦 Order Tracking
-    </div>
-
-    <!-- Contact -->
-    <div onclick="openWhatsApp();closeMenu()">
-        📞 Contact
-    </div>
-
-    <!-- About Us -->
-    <div onclick="showAboutUs();closeMenu()">
-        ℹ️ About Us
-    </div>
-
-    <!-- Warranty Policy -->
-    <div onclick="showWarrantyPolicy();closeMenu()">
-        🛡️ Warranty Policy
-    </div>
+<div
+class="menu-close"
+onclick="closeMenu()">
+×
+</div>
 
 </div>
 
+<div
+class="side-menu-item"
+onclick="showAll()">
 
-<!-- ================= OVERLAY ================= -->
+Home
+
+</div>
+
+<div
+class="side-menu-item"
+onclick="openOrderTrack()">
+
+Order Track
+
+</div>
+
+<div
+class="side-menu-item"
+onclick="loginRegister()">
+
+Login / Register
+
+<br>
+
+<small>এখনও আপডেট হয়নি</small>
+
+</div>
+
+<div
+class="side-menu-item"
+onclick="openWhatsApp()">
+
+Chat Support
+
+</div>
+
+<div
+class="side-menu-item"
+onclick="emptyMenuOption()">
+
+Warranty Service
+
+</div>
+
+<div
+class="side-menu-item"
+onclick="emptyMenuOption()">
+
+About Us
+
+</div>
+
+</div>
 
 <div
 class="overlay"
 id="overlay"
 onclick="closeMenu()">
 </div>
-
-
-<!-- ================= MENU FUNCTIONS ================= -->
-
-<script>
-
-function openOrderTracking() {
-
-    const orderId = prompt(
-        "অর্ডার আইডি লিখে সার্চ করুন"
-    );
-
-    if (orderId !== null && orderId.trim() !== "") {
-
-        alert(
-            "অর্ডার ট্র্যাকিং সিস্টেম শীঘ্রই চালু হবে।"
-        );
-
-    }
-}
-
-
-function openWhatsApp() {
-
-    window.open(
-        "https://wa.me/8801789283142",
-        "_blank"
-    );
-
-}
-
-
-function showAboutUs() {
-
-    alert(`আমরা চাই অনলাইনে কেনাকাটা হোক আপনার জন্য সহজ, নিরাপদ আর আনন্দদায়ক।
-
-প্রতিটি অর্ডার আমরা সতর্কতার সাথে প্যাকেজিং করে পাঠাই, যাতে প্রোডাক্ট ভাঙা বা ক্ষতিগ্রস্ত হওয়ার কোনো সুযোগ না থাকে।
-
-আমাদের টিম সর্বদা চেষ্টা করে আপনাদের কাছে অর্ডারকৃত প্রোডাক্ট দ্রুত পৌঁছে দিতে — সাধারণত ৩ থেকে ৪ দিনের মধ্যেই ডেলিভারি সম্পন্ন হয়। ✅
-
-আমাদের লক্ষ্য শুধু প্রোডাক্ট বিক্রি নয়, বরং আপনাদের আস্থা অর্জন করা এবং দীর্ঘমেয়াদী সম্পর্ক তৈরি করা।`);
-
-}
-
-
-function showWarrantyPolicy() {
-
-    alert(`আপডেট হয়নি`);
-
-}
-
-</script>
-
-
 
 <!-- ================= BANNER ================= -->
 
@@ -691,31 +726,11 @@ function showWarrantyPolicy() {
 class="banner-track"
 id="bannerTrack">
 
-<div class="banner-slide">
+<div class="banner-slide"></div>
 
-<div class="banner-placeholder">
-
-JMR GADGETS
-
-<br>
-
-<small>
-Smart Products, Better Life
-</small>
-
-</div>
-
-</div>
-
-</div>
-
-<div
-class="banner-dots"
-id="bannerDots">
 </div>
 
 </section>
-
 
 <!-- ================= CATEGORY ================= -->
 
@@ -727,7 +742,6 @@ Categories
 class="categories"
 id="categories">
 </div>
-
 
 <!-- ================= PRODUCTS ================= -->
 
@@ -745,181 +759,427 @@ id="products">
 
 </div>
 
-
 <!-- ================= BOTTOM NAV ================= -->
+
 <div class="bottom-nav">
 
-<div onclick="window.location.href='tel:01941900221'">
-<b>☎️</b>
-Call
-</div>
+<div onclick="openWhatsApp()">
 
-<div onclick="window.open('https://wa.me/8801789283142','_blank')">
-<b>📞</b>
+<b>◉</b>
+
 WhatsApp
+
 </div>
 
 <div onclick="showAll()">
+
 <b>⌂</b>
+
 Home
-</div>
-
-<div onclick="alert('My Account Coming Soon')">
-<b>👤</b>
-My Account
-</div>
 
 </div>
-<!-- ================= BOTTOM NAV ================= -->
-<div class="bottom-nav">
 
-<div onclick="window.location.href='tel:01941900221'">
-<b>☎️</b>
+<div onclick="callNumber()">
+
+<b>☎</b>
+
 Call
-</div>
-
-<div onclick="window.open('https://wa.me/8801789283142','_blank')">
-<b>📞</b>
-WhatsApp
-</div>
-
-<div onclick="showAll()">
-<b>⌂</b>
-Home
-</div>
-
-<div onclick="openAccount()">
-<b>👤</b>
-My Account
-</div>
 
 </div>
 
+<div onclick="cartMessage()">
+
+<b>🛒</b>
+
+Cart
+
+</div>
+
+<div onclick="accountMessage()">
+
+<b>♙</b>
+
+Account
+
+</div>
+
+</div>
+
+<!-- ================= PRODUCT DETAILS ================= -->
+
+<div
+class="modal"
+id="detailsModal">
+
+<div class="modal-box">
+
+<div
+class="close"
+onclick="closeModal('detailsModal')">
+×
+</div>
+
+<img
+id="detailsImage"
+class="details-image"
+src=""
+alt=""
+>
+
+<div
+id="detailsTitle"
+class="details-title">
+</div>
+
+<div
+id="detailsPrice"
+class="details-price">
+</div>
+
+<div
+id="detailsWarranty"
+class="details-text">
+</div>
+
+<div
+id="detailsDescription"
+class="details-text">
+</div>
+
+<br>
+
+<button
+class="order-btn"
+onclick="openOrder()">
+
+অর্ডার করুন
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ================= ORDER MODAL ================= -->
+
+<div
+class="modal"
+id="orderModal">
+
+<div class="modal-box">
+
+<div
+class="close"
+onclick="closeModal('orderModal')">
+×
+</div>
+
+<h2>
+অর্ডার করুন
+</h2>
+
+<div class="form-group">
+
+<label>
+নাম *
+</label>
+
+<input
+id="customerName"
+type="text"
+placeholder="আপনার নাম"
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+মোবাইল নাম্বার *
+</label>
+
+<input
+id="customerPhone"
+type="tel"
+placeholder="আপনার মোবাইল নাম্বার"
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+ঠিকানা *
+</label>
+
+<textarea
+id="customerAddress"
+placeholder="আপনার সম্পূর্ণ ঠিকানা">
+</textarea>
+
+</div>
+
+</div>
+
+<!-- ================= ORDER EXTRA FIELDS ================= -->
+
+<div class="form-group">
+
+<label>
+রং
+</label>
+
+<div
+class="color-list"
+id="colorList">
+</div>
+
+</div>
+
+<div class="form-group">
+
+<label>
+পরিমাণ
+</label>
+
+<div class="qty">
+
+<button
+type="button"
+onclick="changeQty(-1)">
+−
+</button>
+
+<span id="quantity">
+1
+</span>
+
+<button
+type="button"
+onclick="changeQty(1)">
++
+</button>
+
+</div>
+
+</div>
+
+<div
+class="order-total"
+id="orderTotal">
+মোট: ৳0
+</div>
+
+<button
+class="order-btn"
+id="submitOrderBtn"
+onclick="submitOrder()">
+
+অর্ডার কনফার্ম করুন
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ================= SUCCESS MODAL ================= -->
+
+<div
+class="success-modal"
+id="successModal">
+
+<div class="success-box">
+
+<div class="success-icon">
+✓
+</div>
+
+<h3>
+অর্ডার সফল হয়েছে!
+</h3>
+
+<p id="successMessage">
+আপনার অর্ডারটি সফলভাবে গ্রহণ করা হয়েছে।
+</p>
+
+<button
+type="button"
+onclick="closeSuccess()">
+
+ঠিক আছে
+
+</button>
+
+</div>
+
+</div>
 
 <!-- ================= ACCOUNT MODAL ================= -->
 
-<div id="accountModal" class="account-modal">
+<div
+id="accountModal"
+class="account-modal">
 
 <div class="account-box">
 
-    <div class="account-header">
-        <b>My Account</b>
-        <span onclick="closeAccount()">✕</span>
-    </div>
+<div class="account-header">
 
+<b>My Account</b>
 
-    <!-- ================= LOGIN ================= -->
+<span onclick="closeAccount()">✕</span>
 
-    <div id="loginSection" class="account-section">
+</div>
 
-        <h3>Login</h3>
+<!-- LOGIN -->
 
-        <input
-            type="tel"
-            id="loginPhone"
-            placeholder="Phone Number"
-        >
+<div
+id="loginSection"
+class="account-section">
 
-        <input
-            type="password"
-            id="loginPassword"
-            placeholder="Password"
-        >
+<h3>
+Login
+</h3>
 
-        <button type="button" onclick="accountNotReady()">
-            Login
-        </button>
+<input
+type="tel"
+id="loginPhone"
+placeholder="Phone Number"
+>
 
-        <p onclick="showCreateAccount()">
-            Don't have an account?
-            <b>Create Account</b>
-        </p>
+<input
+type="password"
+id="loginPassword"
+placeholder="Password"
+>
 
-        <p onclick="showForgotPassword()">
-            <b>Forgot Password?</b>
-        </p>
+<button
+type="button"
+onclick="loginAccount()">
 
-    </div>
+Login
 
+</button>
 
-    <!-- ================= CREATE ACCOUNT ================= -->
+<p onclick="showCreateAccount()">
 
-    <div id="createAccountSection"
-         class="account-section"
-         style="display:none;">
+Don't have an account?
 
-        <h3>Create Account</h3>
+<b>Create Account</b>
 
-        <input
-            type="text"
-            id="accountName"
-            placeholder="Full Name"
-        >
+</p>
 
-        <input
-            type="tel"
-            id="accountPhone"
-            placeholder="Phone Number"
-        >
+<p onclick="showForgotPassword()">
 
-        <input
-            type="password"
-            id="accountPassword"
-            placeholder="Create Password"
-        >
+<b>Forgot Password?</b>
 
-        <input
-            type="password"
-            id="accountConfirmPassword"
-            placeholder="Confirm Password"
-        >
+</p>
 
-        <button type="button" onclick="accountNotReady()">
-            Create Account
-        </button>
+</div>
 
-        <p onclick="showLogin()">
-            Already have an account?
-            <b>Login</b>
-        </p>
+<!-- CREATE ACCOUNT -->
 
-    </div>
+<div
+id="createAccountSection"
+class="account-section"
+style="display:none;">
 
+<h3>
+Create Account
+</h3>
 
-    <!-- ================= FORGOT PASSWORD ================= -->
+<input
+type="text"
+id="accountName"
+placeholder="Full Name"
+>
 
-    <div id="forgotPasswordSection"
-         class="account-section"
-         style="display:none;">
+<input
+type="tel"
+id="accountPhone"
+placeholder="Phone Number"
+>
 
-        <h3>Forgot Password?</h3>
+<input
+type="password"
+id="accountPassword"
+placeholder="Create Password"
+>
 
-        <p class="account-info">
-            আপনার Account-এর Phone Number দিন।
-        </p>
+<input
+type="password"
+id="accountConfirmPassword"
+placeholder="Confirm Password"
+>
 
-        <input
-            type="tel"
-            id="forgotPhone"
-            placeholder="Phone Number"
-        >
+<button
+type="button"
+onclick="createAccount()">
 
-        <button type="button" onclick="sendWhatsAppRequest()">
-            WhatsApp এ Request করুন
-        </button>
+Create Account
 
-        <p onclick="showLogin()">
-            ← Back to Login
-        </p>
+</button>
 
-    </div>
+<p onclick="showLogin()">
+
+Already have an account?
+
+<b>Login</b>
+
+</p>
+
+</div>
+
+<!-- FORGOT PASSWORD -->
+
+<div
+id="forgotPasswordSection"
+class="account-section"
+style="display:none;">
+
+<h3>
+Forgot Password?
+</h3>
+
+<p class="account-info">
+
+আপনার Account-এর Phone Number দিন।
+
+</p>
+
+<input
+type="tel"
+id="forgotPhone"
+placeholder="Phone Number"
+>
+
+<button
+type="button"
+onclick="forgotPassword()">
+
+Password দেখুন
+
+</button>
+
+<div
+id="forgotPasswordResult"
+style="display:none;margin-top:15px;text-align:center;">
+
+</div>
+
+<p onclick="showLogin()">
+
+← Back to Login
+
+</p>
 
 </div>
 
 </div>
 
+</div>
 
-<!-- ================= ACCOUNT CSS ================= -->
+<!-- ================= ACCOUNT STYLE ================= -->
 
 <style>
 
@@ -1009,2093 +1269,2281 @@ My Account
 
 </style>
 
+  <input
+  id="phone"
+  type="tel"
+  placeholder="01XXXXXXXXX"
+  >
 
-<!-- ================= ACCOUNT SCRIPT ================= -->
+  </div>
 
-<script>
+  <div class="form-group">
 
-function openAccount(){
+  <label>
+  জেলা *
+  </label>
 
-    document.getElementById("accountModal").style.display = "flex";
+  <input
+  id="district"
+  type="text"
+  placeholder="জেলার নাম"
+  >
 
-    showLogin();
+  </div>
 
-}
+  <div class="form-group">
 
+  <label>
+  থানা *
+  </label>
 
-function closeAccount(){
+  <input
+  id="thana"
+  type="text"
+  placeholder="থানার নাম"
+  >
 
-    document.getElementById("accountModal").style.display = "none";
+  </div>
 
-}
+  <div class="form-group">
 
+  <label>
+  লোকাল ঠিকানা *
+  </label>
 
-function hideAccountSections(){
+  <textarea
+  id="address"
+  placeholder="বাড়ি/রোড/এলাকা">
+  </textarea>
 
-    document.getElementById("loginSection").style.display = "none";
+  </div>
 
-    document.getElementById("createAccountSection").style.display = "none";
+  <div class="form-group">
 
-    document.getElementById("forgotPasswordSection").style.display = "none";
+  <label>
+  Colour
+  </label>
 
-}
+  <div
+  id="colorList"
+  class="color-list">
+  </div>
 
+  </div>
 
-function showLogin(){
+  <div class="form-group">
 
-    hideAccountSections();
+  <label>
+  Quantity
+  </label>
 
-    document.getElementById("loginSection").style.display = "block";
+  <div class="qty">
 
-}
+  <button
+  type="button"
+  onclick="changeQty(-1)">
+  −
+  </button>
 
+  <span id="quantity">
+  1
+  </span>
 
-function showCreateAccount(){
+  <button
+  type="button"
+  onclick="changeQty(1)">
+  +
+  </button>
 
-    hideAccountSections();
+  </div>
 
-    document.getElementById("createAccountSection").style.display = "block";
+  </div>
 
-}
+  <div id="orderSummary">
+  </div>
 
+  <div
+  id="orderTotal"
+  class="order-total">
+  </div>
 
-function showForgotPassword(){
+  <button
+  id="submitOrderBtn"
+  class="order-btn"
+  onclick="submitOrder()">
 
-    hideAccountSections();
+  অর্ডার কনফার্ম করুন
 
-    document.getElementById("forgotPasswordSection").style.display = "block";
+  </button>
 
-}
+  </div>
 
+  </div>
 
-/* ================= WHATSAPP REQUEST ================= */
+  <!-- ================= SUCCESS ================= -->
 
-function sendWhatsAppRequest(){
+  <div
+  class="success-modal"
+  id="successModal">
 
-    const phone =
-        document.getElementById("forgotPhone").value.trim();
+  <div class="success-box">
 
+  <div class="success-icon">
+  ✓
+  </div>
 
-    if(!phone){
+  <h3>
+  অর্ডার সফল হয়েছে!
+  </h3>
 
-        alert("অনুগ্রহ করে আপনার Phone Number দিন।");
+  <p>
+  আপনার অর্ডারটি প্লেস করা হয়েছে, আমাদের একজন প্রতিনিধি আপনাকে ফোন দিবে।
+  </p>
 
-        return;
+  <button onclick="closeSuccess()">
+  ঠিক আছে
+  </button>
 
-    }
+  </div>
 
+  </div>
 
-    const message =
-        "আসসালামু আলাইকুম, আমি JMR GADGETS-এর একজন Account User।%0A%0A" +
-        "আমার Password মনে নেই।%0A" +
-        "আমার Phone Number: " + encodeURIComponent(phone) + "%0A%0A" +
-        "অনুগ্রহ করে আমার Password জানিয়ে দিন।";
 
+  <script>
 
-    const whatsappUrl =
-        "https://wa.me/8801789283142?text=" + message;
+  /* ===============================
+     GOOGLE SHEET PRODUCT CSV
+  ================================ */
 
+  const SHEET_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRc_FdQ5OxU48pfoDdyY0hS6S0urj_u7JP5dQrWgW52qXAS2TawrUG34vbtx5wDwECcNFvImlnnTadQ/pub?output=csv";
 
-    window.open(whatsappUrl, "_blank");
 
-}
+  /* ===============================
+     ORDER WEB APP
+  ================================ */
 
-</script>
-<!-- ================= PRODUCT DETAILS ================= -->
+  const ORDER_WEB_APP_URL =
+  "https://script.google.com/macros/s/AKfycbyX60WFfL-VROwkYPitw_3m-FMDi98kxVhNp3GuhC3zcYX2EH_2qBgmBi9wlG8ToamLEg/exec";
 
-<div
-class="modal"
-id="detailsModal">
 
-<div class="modal-box">
+  /* ===============================
+     ACCOUNT WEB APP
+  ================================ */
 
-<div
-class="close"
-onclick="closeModal('detailsModal')">
-×
-</div>
+  const ACCOUNT_WEB_APP_URL =
+  "https://script.google.com/macros/s/AKfycbw0piPfRvFSWfdyiKszwFXEot5MMFHm-YkMGbCHI__dUcGrxcbHCbMXl2C6aO2NumV9cg/exec";
 
 
-<img
-id="detailsImage"
-class="details-image"
-src=""
-alt=""
->
+  const DELIVERY_CHARGE = 120;
 
+  const WHATSAPP_NUMBER = "8801789283142";
 
-<div
-id="detailsTitle"
-class="details-title">
-</div>
+  const CALL_NUMBER = "01941900221";
 
 
-<div
-id="detailsPrice"
-class="details-price">
-</div>
+  let products = [];
 
+  let filteredProducts = [];
 
-<div
-id="detailsWarranty"
-class="details-text">
-</div>
+  let selectedProduct = null;
 
+  let selectedColor = "";
 
-<div
-id="detailsDescription"
-class="details-text">
-</div>
+  let currentQty = 1;
 
+  let currentCategory = "All";
 
-<br>
 
+  /* ===============================
+     MENU
+  ================================ */
 
-<button
-class="order-btn"
-onclick="openOrder()">
+  function openMenu(){
 
-অর্ডার করুন
+  document
+  .getElementById("sideMenu")
+  .classList.add("active");
 
-</button>
+  document
+  .getElementById("overlay")
+  .classList.add("active");
 
-</div>
+  }
 
-</div>
 
+  function closeMenu(){
 
-<!-- ================= ORDER MODAL ================= -->
+  document
+  .getElementById("sideMenu")
+  .classList.remove("active");
 
-<div
-class="modal"
-id="orderModal">
+  document
+  .getElementById("overlay")
+  .classList.remove("active");
 
-<div class="modal-box">
+  }
 
-<div
-class="close"
-onclick="closeModal('orderModal')">
-×
-</div>
 
+  /* ===============================
+     HOME
+  ================================ */
 
-<h2>
-অর্ডার করুন
-</h2>
+  function showAll(){
 
+  currentCategory = "All";
 
-<div class="form-group">
+  buildCategories();
 
-<label>
-নাম *
-</label>
+  renderProducts();
 
-<input
-id="customerName"
-type="text"
-placeholder="আপনার নাম"
->
+  closeMenu();
 
-</div>
+  window.scrollTo({
+  top:0,
+  behavior:"smooth"
+  });
 
+  }
 
-<div class="form-group">
 
-<label>
-মোবাইল নাম্বার *
-</label>
+  /* ===============================
+     ORDER TRACK
+  ================================ */
 
-<input
-id="phone"
-type="tel"
-placeholder="01XXXXXXXXX"
->
+  function openOrderTrack(){
 
-</div>
+  closeMenu();
 
+  const box =
+  document.getElementById("trackBoxWrap");
 
-<div class="form-group">
+  box.classList.add("active");
 
-<label>
-জেলা *
-</label>
+  setTimeout(function(){
 
-<input
-id="district"
-type="text"
-placeholder="জেলার নাম"
->
+  box
+  .querySelector("input")
+  .focus();
 
-</div>
+  },100);
 
+  window.scrollTo({
+  top:0,
+  behavior:"smooth"
+  });
 
-<div class="form-group">
+  }
 
-<label>
-থানা *
-</label>
 
-<input
-id="thana"
-type="text"
-placeholder="থানার নাম"
->
+  /* ===============================
+     CHAT SUPPORT
+  ================================ */
 
-</div>
+  function openWhatsApp(){
 
+  window.open(
+  "https://wa.me/" + WHATSAPP_NUMBER,
+  "_blank"
+  );
 
-<div class="form-group">
+  }
 
-<label>
-লোকাল ঠিকানা *
-</label>
 
-<textarea
-id="address"
-placeholder="বাড়ি/রোড/এলাকা">
-</textarea>
+  /* ===============================
+     CALL
+  ================================ */
 
-</div>
+  function callNumber(){
 
+  window.location.href =
+  "tel:" + CALL_NUMBER;
 
-<div class="form-group">
+  }
 
-<label>
-Colour
-</label>
 
-<div
-id="colorList"
-class="color-list">
-</div>
+  /* ===============================
+     OTHER MENU OPTIONS
+  ================================ */
 
-</div>
+  function loginRegister(){
 
+  openAccount();
 
-<div class="form-group">
+  }
 
-<label>
-Quantity
-</label>
 
-<div class="qty">
+  function emptyMenuOption(){
 
-<button
-type="button"
-onclick="changeQty(-1)">
-−
-</button>
+  closeMenu();
 
-<span id="quantity">
-1
-</span>
+  }
 
-<button
-type="button"
-onclick="changeQty(1)">
-+
-</button>
 
-</div>
+  /* ===============================
+     CART
+  ================================ */
 
-</div>
+  function cartMessage(){
 
+  alert("Cart এখনও আপডেট হয়নি।");
 
-<div id="orderSummary">
-</div>
+  }
 
 
-<div
-id="orderTotal"
-class="order-total">
-</div>
+  /* ===============================
+     ACCOUNT
+  ================================ */
 
+  function openAccount(){
 
-<button
-id="submitOrderBtn"
-class="order-btn"
-onclick="submitOrder()">
+  document
+  .getElementById("accountModal")
+  .style.display = "flex";
 
-অর্ডার কনফার্ম করুন
+  const savedUser =
+  localStorage.getItem("jmrUser");
 
-</button>
+  if(savedUser){
 
-</div>
+  showLoggedInAccount();
 
-</div>
+  }else{
 
+  showLogin();
 
-<!-- ================= SUCCESS ================= -->
+  }
 
-<div
-class="success-modal"
-id="successModal">
+  }
 
-<div class="success-box">
 
-<div class="success-icon">
-✓
-</div>
+  function closeAccount(){
 
+  document
+  .getElementById("accountModal")
+  .style.display = "none";
 
-<h3>
-অর্ডার সফল হয়েছে!
-</h3>
+  }
 
 
-<p>
-আপনার অর্ডারটি প্লেস করা হয়েছে, আমাদের একজন প্রতিনিধি আপনাকে ফোন দিবে।
-</p>
+  function hideAccountSections(){
 
+  document
+  .getElementById("loginSection")
+  .style.display = "none";
 
-<button onclick="closeSuccess()">
-ঠিক আছে
-</button>
+  document
+  .getElementById("createAccountSection")
+  .style.display = "none";
 
-</div>
+  document
+  .getElementById("forgotPasswordSection")
+  .style.display = "none";
 
-</div>
+  const logged =
+  document.getElementById("loggedInSection");
 
+  if(logged){
 
-<script>
+  logged.style.display = "none";
 
-/* =========================================================
-   GOOGLE SHEET PRODUCT CSV
-========================================================= */
+  }
 
-const SHEET_URL =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vRc_FdQ5OxU48pfoDdyY0hS6S0urj_u7JP5dQrWgW52qXAS2TawrUG34vbtx5wDwECcNFvImlnnTadQ/pub?output=csv";
+  }
 
 
-/* =========================================================
-   ORDER WEB APP
-========================================================= */
+  function showLogin(){
 
-const ORDER_WEB_APP_URL =
-"https://script.google.com/macros/s/AKfycbyX6cP9GXLxPIiOr_rvTnltAm44E9W8gWDJpYJrLNgJsAIzjQiRSgOi4ppgMSCe3Nejgw/exec";
+  hideAccountSections();
 
+  document
+  .getElementById("loginSection")
+  .style.display = "block";
 
-/* =========================================================
-   ACCOUNT WEB APP
-========================================================= */
+  }
 
-const ACCOUNT_WEB_APP_URL =
-"https://script.google.com/macros/s/AKfycbw0piPfRvFSWfdyiKszwFXEot5MMFHm-YkMGbCHI__dUcGrxcbHCbMXl2C6aO2NumV9cg/exec";
 
+  function showCreateAccount(){
 
-/* =========================================================
-   SETTINGS
-========================================================= */
+  hideAccountSections();
 
-const DELIVERY_CHARGE = 120;
+  document
+  .getElementById("createAccountSection")
+  .style.display = "block";
 
-/* =========================================================
-   GLOBAL VARIABLES
-========================================================= */
+  }
 
-let products = [];
 
-let filteredProducts = [];
+  function showForgotPassword(){
 
-let selectedProduct = null;
+  hideAccountSections();
 
-let selectedColor = "";
+  document
+  .getElementById("forgotPasswordSection")
+  .style.display = "block";
 
-let currentQty = 1;
+  }
 
-let currentCategory = "All";
 
-let banners = [];
+  /* ===============================
+     ACCOUNT REQUEST
+  ================================ */
 
-let currentBanner = 0;
+  async function accountRequest(data){
 
-let bannerTimer = null;
+  const response =
+  await fetch(
+  ACCOUNT_WEB_APP_URL,
+  {
 
+  method:"POST",
 
-/* =========================================================
-   MENU
-========================================================= */
+  headers:{
+  "Content-Type":
+  "text/plain;charset=utf-8"
+  },
 
-function openMenu(){
+  body:
+  JSON.stringify(data)
 
-    document
-    .getElementById("sideMenu")
-    .classList.add("active");
+  }
+  );
 
-    document
-    .getElementById("overlay")
-    .classList.add("active");
+  return await response.json();
 
-}
+  }
 
 
-function closeMenu(){
+  /* ===============================
+     CREATE ACCOUNT
+  ================================ */
 
-    document
-    .getElementById("sideMenu")
-    .classList.remove("active");
+  async function createAccount(){
 
-    document
-    .getElementById("overlay")
-    .classList.remove("active");
+  const name =
+  document
+  .getElementById("accountName")
+  .value
+  .trim();
 
-}
+  const phone =
+  document
+  .getElementById("accountPhone")
+  .value
+  .trim();
 
+  const password =
+  document
+  .getElementById("accountPassword")
+  .value
+  .trim();
 
-/* =========================================================
-   SEARCH
-========================================================= */
+  const confirmPassword =
+  document
+  .getElementById("accountConfirmPassword")
+  .value
+  .trim();
 
-function toggleSearch(){
 
-    const box =
-    document.getElementById("searchBox");
+  if(!name || !phone || !password || !confirmPassword){
 
-    box.style.display =
-    box.style.display === "block"
-    ? "none"
-    : "block";
+  alert("অনুগ্রহ করে সব তথ্য পূরণ করুন।");
 
+  return;
 
-    if(box.style.display === "block"){
+  }
 
-        document
-        .getElementById("searchInput")
-        .focus();
 
-    }
+  if(password !== confirmPassword){
 
-}
+  alert("Password এবং Confirm Password মিলছে না।");
 
+  return;
 
-/* =========================================================
-   MODAL
-========================================================= */
+  }
 
-function openModal(id){
 
-    document
-    .getElementById(id)
-    .classList.add("active");
+  try{
 
-}
+  const result =
+  await accountRequest({
 
+  action:"createAccount",
 
-function closeModal(id){
+  name:name,
 
-    document
-    .getElementById(id)
-    .classList.remove("active");
+  phone:phone,
 
-}
+  password:password
 
+  });
 
-/* =========================================================
-   CSV PARSER
-========================================================= */
 
-function csvParse(text){
+  if(result.success){
 
-    const rows = [];
+  localStorage.setItem(
+  "jmrUser",
+  JSON.stringify({
 
-    let row = [];
+  userId:result.userId,
 
-    let cell = "";
+  name:result.name,
 
-    let quoted = false;
+  phone:result.phone
 
+  })
+  );
 
-    for(let i = 0; i < text.length; i++){
 
-        const c = text[i];
+  alert(
+  "Account সফলভাবে তৈরি হয়েছে।\n\nআপনার User ID: " +
+  result.userId
+  );
 
-        const n = text[i + 1];
 
+  showLoggedInAccount();
 
-        if(c === '"'){
 
-            if(quoted && n === '"'){
+  }else{
 
-                cell += '"';
+  alert(
+  result.message ||
+  "Account তৈরি করা যায়নি।"
+  );
 
-                i++;
+  }
 
-            }else{
 
-                quoted = !quoted;
+  }catch(error){
 
-            }
+  console.error(error);
 
-        }
+  alert(
+  "Account তৈরি করা যায়নি। আবার চেষ্টা করুন।"
+  );
 
-        else if(c === ',' && !quoted){
+  }
 
-            row.push(cell);
+  }
 
-            cell = "";
 
-        }
+  /* ===============================
+     LOGIN
+  ================================ */
 
-        else if(
-            (c === '\n' || c === '\r')
-            &&
-            !quoted
-        ){
+  async function loginAccount(){
 
-            if(c === '\r' && n === '\n'){
+  const phone =
+  document
+  .getElementById("loginPhone")
+  .value
+  .trim();
 
-                i++;
+  const password =
+  document
+  .getElementById("loginPassword")
+  .value
+  .trim();
 
-            }
 
+  if(!phone || !password){
 
-            row.push(cell);
+  alert(
+  "Phone Number এবং Password দিন।"
+  );
 
-            cell = "";
+  return;
 
+  }
 
-            if(
-                row.some(
-                    x => x.trim() !== ""
-                )
-            ){
 
-                rows.push(row);
+  try{
 
-            }
+  const result =
+  await accountRequest({
 
+  action:"login",
 
-            row = [];
+  phone:phone,
 
-        }
+  password:password
 
-        else{
+  });
 
-            cell += c;
 
-        }
+  if(result.success){
 
-    }
+  localStorage.setItem(
+  "jmrUser",
+  JSON.stringify({
 
+  userId:result.userId,
 
-    if(cell !== "" || row.length){
+  name:result.name,
 
-        row.push(cell);
+  phone:result.phone
 
+  })
+  );
 
-        if(
-            row.some(
-                x => x.trim() !== ""
-            )
-        ){
 
-            rows.push(row);
+  alert("Login সফল হয়েছে।");
 
-        }
+  showLoggedInAccount();
 
-    }
 
+  }else{
 
-    return rows;
+  alert(
+  result.message ||
+  "Login করা যায়নি।"
+  );
 
-}
+  }
 
 
-/* =========================================================
-   GOOGLE DRIVE IMAGE
-========================================================= */
+  }catch(error){
 
-function driveImage(url){
+  console.error(error);
 
-    if(!url){
+  alert(
+  "Login করা যায়নি। আবার চেষ্টা করুন।"
+  );
 
-        return "";
+  }
 
-    }
+  }
 
 
-    url = String(url).trim();
+  /* ===============================
+     FORGOT PASSWORD
+  ================================ */
 
+  async function recoverPassword(){
 
-    const match =
-    url.match(/[-\w]{25,}/);
+  const phone =
+  document
+  .getElementById("forgotPhone")
+  .value
+  .trim();
 
 
-    if(match){
+  if(!phone){
 
-        return "https://drive.google.com/thumbnail?id="
-        + match[0]
-        + "&sz=w1200";
+  alert(
+  "অনুগ্রহ করে আপনার Phone Number দিন।"
+  );
 
-    }
+  return;
 
+  }
 
-    return url;
 
-}
+  try{
 
+  const result =
+  await accountRequest({
 
-/* =========================================================
-   NORMALIZE
-========================================================= */
+  action:"forgotPassword",
 
-function normalize(s){
+  phone:phone
 
-    return String(s || "")
-    .trim()
-    .toLowerCase();
+  });
 
-}
 
+  if(result.success){
 
-/* =========================================================
-   VALUE
-========================================================= */
+  alert(
+  "আপনার Password: " +
+  result.password
+  );
 
-function getValue(obj, keys){
+  }else{
 
-    for(const key of keys){
+  alert(
+  result.message ||
+  "এই Phone Number দিয়ে কোনো Account পাওয়া যায়নি।"
+  );
 
-        if(
-            obj[key] !== undefined
-            &&
-            String(obj[key]).trim() !== ""
-        ){
+  }
 
-            return obj[key];
 
-        }
+  }catch(error){
 
-    }
+  console.error(error);
 
+  alert(
+  "Password খুঁজে পাওয়া যায়নি। আবার চেষ্টা করুন।"
+  );
 
-    return "";
+  }
 
-}
+  }
 
 
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
+  /* ===============================
+     LOGGED IN ACCOUNT
+  ================================ */
 
-function escapeHtml(text){
+  function showLoggedInAccount(){
 
-    return String(text || "")
-    .replace(
-        /[&<>"']/g,
-        function(match){
+  hideAccountSections();
 
-            return {
+  let section =
+  document.getElementById(
+  "loggedInSection"
+  );
 
-                "&":"&amp;",
-                "<":"&lt;",
-                ">":"&gt;",
-                '"':"&quot;",
-                "'":"&#039;"
 
-            }[match];
+  if(!section){
 
-        }
-    );
+  section =
+  document.createElement("div");
 
-}
+  section.id =
+  "loggedInSection";
 
+  section.className =
+  "account-section";
 
-/* =========================================================
-   LOAD PRODUCTS
-========================================================= */
+  document
+  .querySelector(".account-box")
+  .appendChild(section);
 
-async function loadProducts(){
+  }
 
-    try{
 
-        const response =
-        await fetch(
-            SHEET_URL
-            + "&t="
-            + Date.now()
-        );
+  const user =
+  JSON.parse(
+  localStorage.getItem("jmrUser")
+  );
 
 
-        if(!response.ok){
+  if(!user){
 
-            throw new Error(
-                "Google Sheet could not be loaded"
-            );
+  showLogin();
 
-        }
+  return;
 
+  }
 
-        const text =
-        await response.text();
 
+  section.innerHTML = `
 
-        const rows =
-        csvParse(text);
+  <div style="text-align:center;">
 
+  <div style="
+  font-size:45px;
+  margin-bottom:10px;
+  ">
+  👤
+  </div>
 
-        if(rows.length < 2){
+  <h3 style="margin-bottom:15px;">
+  ${escapeHtml(user.name)}
+  </h3>
 
-            throw new Error(
-                "No product data"
-            );
+  <p style="
+  margin:8px 0;
+  cursor:default;
+  ">
+  <b>User ID:</b>
+  ${escapeHtml(user.userId)}
+  </p>
 
-        }
+  <p style="
+  margin:8px 0;
+  cursor:default;
+  ">
+  <b>Phone:</b>
+  ${escapeHtml(user.phone)}
+  </p>
 
+  <button
+  type="button"
+  onclick="logoutAccount()"
+  style="
+  width:100%;
+  padding:13px;
+  border:none;
+  border-radius:8px;
+  background:#ffd400;
+  color:#000;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:15px;
+  "
+  >
+  Logout
+  </button>
 
-        /* HEADERS */
+  </div>
 
-        const headers =
-        rows[0].map(
-            x => normalize(x)
-        );
+  `;
 
+  section.style.display =
+  "block";
 
-        /* PRODUCTS */
+  }
 
-        products =
-        rows
-        .slice(1)
-        .map(row => {
 
-            const obj = {};
+  /* ===============================
+     LOGOUT
+  ================================ */
 
+  function logoutAccount(){
 
-            headers.forEach(
-                (h,i) => {
+  localStorage.removeItem(
+  "jmrUser"
+  );
 
-                    obj[h] =
-                    (row[i] || "").trim();
+  showLogin();
 
-                }
-            );
+  }
 
 
-            const priceText =
-            getValue(
-                obj,
-                [
-                    "regular price",
-                    "price",
-                    "selling price"
-                ]
-            );
+  /* ===============================
+     CSV PARSER
+  ================================ */
 
+  function csvParse(text){
 
-            return {
+  const rows=[];
 
-                code:getValue(
-                    obj,
-                    [
-                        "product id",
-                        "product code",
-                        "code"
-                    ]
-                ),
+  let row=[];
 
+  let cell="";
 
-                name:getValue(
-                    obj,
-                    [
-                        "product name",
-                        "name",
-                        "product"
-                    ]
-                ),
+  let quoted=false;
 
 
-                category:
-                getValue(
-                    obj,
-                    [
-                        "category",
-                        "categories"
-                    ]
-                )
-                ||
-                "Other",
+  for(
+  let i=0;
+  i<text.length;
+  i++
+  ){
 
+  const c=text[i];
 
-                colors:
-                getValue(
-                    obj,
-                    [
-                        "colors & stock",
-                        "color & stock",
-                        "colors",
-                        "colour & stock"
-                    ]
-                ),
+  const n=text[i+1];
 
 
-                price:
-                parseFloat(
-                    String(priceText)
-                    .replace(
-                        /[^\d.]/g,
-                        ""
-                    )
-                )
-                ||
-                0,
+  if(c === '"'){
 
+  if(
+  quoted &&
+  n === '"'
+  ){
 
-                warranty:
-                getValue(
-                    obj,
-                    [
-                        "warranty"
-                    ]
-                ),
+  cell += '"';
 
+  i++;
 
-                image:
-                driveImage(
-                    getValue(
-                        obj,
-                        [
-                            "image",
-                            "image url",
-                            "photo"
-                        ]
-                    )
-                ),
+  }else{
 
+  quoted = !quoted;
 
-                description:
-                getValue(
-                    obj,
-                    [
-                        "description",
-                        "details"
-                    ]
-                ),
+  }
 
+  }
 
-                banner:
-                driveImage(
-                    getValue(
-                        obj,
-                        [
-                            "banner",
-                            "banner image",
-                            "banner url"
-                        ]
-                    )
-                )
 
-            };
+  else if(
+  c === ',' &&
+  !quoted
+  ){
 
-        })
-        .filter(
-            p => p.name
-        );
+  row.push(cell);
 
+  cell="";
 
-        /* LOAD BANNERS */
+  }
 
-        loadBanners();
 
+  else if(
+  (c === '\n' || c === '\r') &&
+  !quoted
+  ){
 
-        /* BUILD CATEGORY */
+  if(
+  c === '\r' &&
+  n === '\n'
+  ){
 
-        buildCategories();
+  i++;
 
+  }
 
-        /* SHOW PRODUCTS */
 
-        renderProducts();
+  row.push(cell);
 
-    }
+  cell="";
 
-    catch(error){
 
-        console.error(
-            "Product Loading Error:",
-            error
-        );
+  if(
+  row.some(
+  x =>
+  x.trim() !== ""
+  )
+  ){
 
+  rows.push(row);
 
-        document
-        .getElementById("products")
-        .innerHTML =
+  }
 
-        '<div class="empty">'
-        +
-        'প্রোডাক্ট লোড করা যাচ্ছে না।<br><br>'
-        +
-        'Google Sheet Published আছে কিনা দেখুন।'
-        +
-        '</div>';
 
-    }
+  row=[];
 
-}
+  }
 
 
-/* =========================================================
-   LOAD BANNERS FROM SHEET
-========================================================= */
+  else{
 
-function loadBanners(){
+  cell += c;
 
-    const bannerList = [];
+  }
 
+  }
 
-    products.forEach(
-        product => {
 
-            if(
-                product.banner
-                &&
-                !bannerList.includes(
-                    product.banner
-                )
-            ){
+  if(
+  cell !== "" ||
+  row.length
+  ){
 
-                bannerList.push(
-                    product.banner
-                );
+  row.push(cell);
 
-            }
 
-        }
-    );
+  if(
+  row.some(
+  x =>
+  x.trim() !== ""
+  )
+  ){
 
+  rows.push(row);
 
-    banners = bannerList;
+  }
 
+  }
 
-    renderBanners();
 
-}
+  return rows;
 
+  }
 
-/* =========================================================
-   RENDER BANNERS
-========================================================= */
 
-function renderBanners(){
+  /* ===============================
+     GOOGLE DRIVE IMAGE
+  ================================ */
 
-    const track =
-    document.getElementById(
-        "bannerTrack"
-    );
+  function driveImage(url){
 
+  if(!url){
 
-    const dots =
-    document.getElementById(
-        "bannerDots"
-    );
+  return "";
 
+  }
 
-    /* NO BANNER */
 
-    if(!banners.length){
+  url =
+  url.trim();
 
-        track.innerHTML = `
 
-        <div class="banner-slide">
+  const match =
+  url.match(/[-\w]{25,}/);
 
-            <div class="banner-placeholder">
 
-                JMR GADGETS
+  if(match){
 
-                <br>
+  return
+  "https://drive.google.com/thumbnail?id="
+  +
+  match[0]
+  +
+  "&sz=w1200";
 
-                <small>
-                Smart Products, Better Life
-                </small>
+  }
 
-            </div>
 
-        </div>
+  return url;
 
-        `;
+  }
 
 
-        dots.innerHTML = "";
+  /* ===============================
+     NORMALIZE
+  ================================ */
 
-        return;
+  function normalize(s){
 
-    }
+  return String(s || "")
+  .trim()
+  .toLowerCase();
 
+  }
 
-    /* BANNER SLIDES */
 
-    track.innerHTML =
-    banners
-    .map(
-        banner => `
+  /* ===============================
+     VALUE
+  ================================ */
 
-        <div class="banner-slide">
+  function getValue(
+  obj,
+  keys
+  ){
 
-            <img
-                src="${escapeHtml(banner)}"
-                alt="JMR GADGETS Banner"
-                onerror="this.style.display='none'"
-            >
+  for(
+  const key of keys
+  ){
 
-        </div>
+  if(
+  obj[key] !== undefined &&
+  String(
+  obj[key]
+  ).trim() !== ""
+  ){
 
-        `
-    )
-    .join("");
+  return obj[key];
 
+  }
 
-    /* DOTS */
+  }
 
-    dots.innerHTML =
-    banners
-    .map(
-        (_,index) => `
 
-        <div
-            class="banner-dot ${
-                index === 0
-                ? "active"
-                : ""
-            }"
-            onclick="goToBanner(${index})"
-        ></div>
+  return "";
 
-        `
-    )
-    .join("");
+  }
 
 
-    currentBanner = 0;
+  /* ===============================
+     LOAD PRODUCTS
+  ================================ */
 
+  async function loadProducts(){
 
-    updateBanner();
+  try{
 
+  const response =
+  await fetch(
+  SHEET_URL
+  +
+  "&t="
+  +
+  Date.now()
+  );
 
-    /* AUTO SLIDER */
 
-    if(banners.length > 1){
+  const text =
+  await response.text();
 
-        clearInterval(
-            bannerTimer
-        );
 
+  const rows =
+  csvParse(text);
 
-        bannerTimer =
-        setInterval(
-            () => {
 
-                currentBanner++;
+  if(
+  rows.length < 2
+  ){
 
-                if(
-                    currentBanner
-                    >=
-                    banners.length
-                ){
+  throw new Error(
+  "No product data"
+  );
 
-                    currentBanner = 0;
+  }
 
-                }
 
+  const headers =
+  rows[0].map(
+  x =>
+  normalize(x)
+  );
 
-                updateBanner();
 
-            },
-            4000
-        );
+  products =
+  rows
+  .slice(1)
+  .map(
+  row => {
 
-    }
+  const obj={};
 
-}
 
+  headers.forEach(
+  (h,i) => {
 
-/* =========================================================
-   UPDATE BANNER
-========================================================= */
+  obj[h] =
+  (row[i] || "")
+  .trim();
 
-function updateBanner(){
+  });
 
-    const track =
-    document.getElementById(
-        "bannerTrack"
-    );
 
+  return {
 
-    track.style.transform =
-    "translateX(-"
-    +
-    (currentBanner * 100)
-    +
-    "%)";
+  name:getValue(
+  obj,
+  [
+  "product name",
+  "name",
+  "product"
+  ]
+  ),
 
+  category:getValue(
+  obj,
+  [
+  "category",
+  "categories"
+  ]
+  )
+  ||
+  "Other",
 
-    document
-    .querySelectorAll(
-        ".banner-dot"
-    )
-    .forEach(
-        (dot,index) => {
+  price:
+  parseFloat(
+  String(
+  getValue(
+  obj,
+  [
+  "regular price",
+  "price",
+  "selling price"
+  ]
+  )
+  )
+  .replace(
+  /[^\d.]/g,
+  ""
+  )
+  )
+  ||
+  0,
 
-            dot.classList.toggle(
-                "active",
-                index === currentBanner
-            );
+  colors:getValue(
+  obj,
+  [
+  "colors & stock",
+  "color & stock",
+  "colors",
+  "colour & stock"
+  ]
+  ),
 
-        }
-    );
+  image:
+  driveImage(
+  getValue(
+  obj,
+  [
+  "image",
+  "image url",
+  "photo"
+  ]
+  )
+  ),
 
-}
+  warranty:getValue(
+  obj,
+  [
+  "warranty"
+  ]
+  ),
 
+  description:getValue(
+  obj,
+  [
+  "description",
+  "details"
+  ]
+  ),
 
-/* =========================================================
-   GO TO BANNER
-========================================================= */
+  code:getValue(
+  obj,
+  [
+  "product id",
+  "product code",
+  "code"
+  ]
+  ),
 
-function goToBanner(index){
+  banner:
+  driveImage(
+  getValue(
+  obj,
+  [
+  "banner",
+  "banner image",
+  "banner url",
+  "banner image url"
+  ]
+  )
+  )
 
-    currentBanner = index;
+  };
 
-    updateBanner();
+  }
+  )
+  .filter(
+  p =>
+  p.name
+  );
 
-}
 
+  loadBannersFromProducts(products);
 
-/* =========================================================
-   CATEGORIES
-========================================================= */
+  buildCategories();
 
-function buildCategories(){
+  renderProducts();
 
-    const cats = [
 
-        "All",
+  }
 
-        ...new Set(
-            products
-            .map(
-                p => p.category
-            )
-            .filter(Boolean)
-        )
+  catch(error){
 
-    ];
+  console.error(error);
 
 
-    document
-    .getElementById("categories")
-    .innerHTML =
+  document
+  .getElementById("products")
+  .innerHTML =
+  '<div class="empty">প্রোডাক্ট লোড করা যাচ্ছে না। Google Sheet Published আছে কিনা দেখুন।</div>';
 
-    cats
-    .map(
-        category => `
+  }
 
-        <div
-            class="category ${
-                category === currentCategory
-                ? "active"
-                : ""
-            }"
-            onclick='filterCategory(${JSON.stringify(category)})'
-        >
+  }
 
-            ${escapeHtml(category)}
 
-        </div>
+  /* ===============================
+     BANNER FROM SHEET
+  ================================ */
 
-        `
-    )
-    .join("");
+  function loadBannersFromProducts(data){
 
-}
+  const bannerUrls = [];
 
 
-/* =========================================================
-   FILTER CATEGORY
-========================================================= */
+  data.forEach(
+  product => {
 
-function filterCategory(category){
+  if(
+  product.banner &&
+  !bannerUrls.includes(
+  product.banner
+  )
+  ){
 
-    currentCategory =
-    category;
+  bannerUrls.push(
+  product.banner
+  );
 
+  }
 
-    buildCategories();
+  }
+  );
 
 
-    renderProducts();
+  const track =
+  document.getElementById(
+  "bannerTrack"
+  );
 
-}
 
+  if(
+  !bannerUrls.length
+  ){
 
-/* =========================================================
-   SHOW ALL
-========================================================= */
+  track.innerHTML =
+  '<div class="banner-slide"></div>';
 
-function showAll(){
+  return;
 
-    currentCategory =
-    "All";
+  }
 
 
-    buildCategories();
+  track.innerHTML =
+  bannerUrls
+  .map(
+  url => `
 
+  <div class="banner-slide">
 
-    renderProducts();
+  <img
+  src="${escapeHtml(url)}"
+  alt="JMR GADGETS Banner"
+  onerror="this.style.display='none'"
+  >
 
+  </div>
 
-    closeMenu();
+  `
+  )
+  .join("");
 
+  }
 
-    window.scrollTo({
 
-        top:0,
+  /* ===============================
+     CATEGORIES
+  ================================ */
 
-        behavior:"smooth"
+  function buildCategories(){
 
-    });
+  const cats = [
+  "All",
+  ...
+  new Set(
+  products
+  .map(
+  p =>
+  p.category
+  )
+  .filter(Boolean)
+  )
+  ];
 
-}
 
+  document
+  .getElementById(
+  "categories"
+  )
+  .innerHTML =
 
-/* =========================================================
-   RENDER PRODUCTS
-========================================================= */
+  cats
+  .map(
+  category => `
 
-function renderProducts(){
+  <div
+  class="category ${
+  category === currentCategory
+  ? "active"
+  : ""
+  }"
+  onclick='filterCategory(${JSON.stringify(category)})'
+  >
 
-    const search =
-    normalize(
-        document
-        .getElementById("searchInput")
-        ?.value
-    );
+  ${escapeHtml(category)}
 
+  </div>
 
-    filteredProducts =
-    products.filter(
-        product => {
+  `
+  )
+  .join("");
 
-            const categoryOK =
-            currentCategory === "All"
-            ||
-            product.category ===
-            currentCategory;
+  }
 
 
-            const searchOK =
-            !search
-            ||
-            normalize(
-                product.name
-            ).includes(search)
-            ||
-            normalize(
-                product.category
-            ).includes(search)
-            ||
-            normalize(
-                product.code
-            ).includes(search);
+  /* ===============================
+     FILTER
+  ================================ */
 
+  function filterCategory(
+  category
+  ){
 
-            return (
-                categoryOK
-                &&
-                searchOK
-            );
+  currentCategory =
+  category;
 
-        }
-    );
+  buildCategories();
 
+  renderProducts();
 
-    const box =
-    document.getElementById(
-        "products"
-    );
+  }
 
 
-    if(!filteredProducts.length){
+  /* ===============================
+     RENDER PRODUCTS
+  ================================ */
 
-        box.innerHTML =
-        '<div class="empty">'
-        +
-        'কোনো প্রোডাক্ট পাওয়া যায়নি।'
-        +
-        '</div>';
+  function renderProducts(){
 
-        return;
+  const search =
+  normalize(
+  document
+  .getElementById(
+  "searchInput"
+  )
+  ?.value
+  );
 
-    }
 
+  filteredProducts =
+  products.filter(
+  product => {
 
-    box.innerHTML =
-    filteredProducts
-    .map(
-        (product,index) => `
+  const categoryOK =
+  currentCategory === "All"
+  ||
+  product.category ===
+  currentCategory;
 
-        <div
-            class="product-card"
-            onclick="openDetails(${index})"
-        >
 
-            <img
-                class="product-image"
-                src="${escapeHtml(product.image)}"
-                alt="${escapeHtml(product.name)}"
-                onerror="this.style.visibility='hidden'"
-            >
+  const searchOK =
+  !search
+  ||
+  normalize(
+  product.name
+  )
+  .includes(search)
+  ||
+  normalize(
+  product.category
+  )
+  .includes(search)
+  ||
+  normalize(
+  product.code
+  )
+  .includes(search);
 
 
-            <div class="product-info">
+  return
+  categoryOK &&
+  searchOK;
 
-                <div class="product-name">
+  }
+  );
 
-                    ${escapeHtml(product.name)}
 
-                </div>
+  const box =
+  document.getElementById(
+  "products"
+  );
 
 
-                <div class="price">
+  if(
+  !filteredProducts.length
+  ){
 
-                    ৳${formatMoney(product.price)}
+  box.innerHTML =
+  '<div class="empty">কোনো প্রোডাক্ট পাওয়া যায়নি।</div>';
 
-                </div>
+  return;
 
-            </div>
+  }
 
 
-            <button
-                onclick="event.stopPropagation();openDetails(${index})"
-            >
+  box.innerHTML =
+  filteredProducts
+  .map(
+  (product,index) => `
 
-                অর্ডার করুন
+  <div
+  class="product-card"
+  onclick="openDetails(${index})"
+  >
 
-            </button>
+  <img
+  class="product-image"
+  src="${escapeHtml(product.image)}"
+  alt="${escapeHtml(product.name)}"
+  onerror="this.style.visibility='hidden'"
+  >
 
-        </div>
+  <div class="product-info">
 
-        `
-    )
-    .join("");
+  <div class="product-name">
 
-}
+  ${escapeHtml(product.name)}
 
+  </div>
 
-/* =========================================================
-   MONEY
-========================================================= */
+  <div class="price">
 
-function formatMoney(number){
+  ৳${formatMoney(product.price)}
 
-    return Number(
-        number || 0
-    )
-    .toLocaleString(
-        "en-US"
-    );
+  </div>
 
-}
+  </div>
 
+  <button
+  onclick="event.stopPropagation();openDetails(${index})"
+  >
 
-/* =========================================================
-   PRODUCT DETAILS
-========================================================= */
+  অর্ডার করুন
 
-function openDetails(index){
+  </button>
 
-    selectedProduct =
-    filteredProducts[index];
+  </div>
 
+  `
+  )
+  .join("");
 
-    selectedColor = "";
+  }
 
-    currentQty = 1;
 
+  /* ===============================
+     ESCAPE HTML
+  ================================ */
 
-    document
-    .getElementById(
-        "detailsImage"
-    )
-    .src =
-    selectedProduct.image;
+  function escapeHtml(text){
 
+  return String(text || "")
+  .replace(
+  /[&<>"']/g,
+  function(match){
 
-    document
-    .getElementById(
-        "detailsTitle"
-    )
-    .textContent =
-    selectedProduct.name;
+  return {
 
+  "&":"&amp;",
+  "<":"&lt;",
+  ">":"&gt;",
+  '"':"&quot;",
+  "'":"&#039;"
 
-    document
-    .getElementById(
-        "detailsPrice"
-    )
-    .textContent =
-    "৳"
-    +
-    formatMoney(
-        selectedProduct.price
-    );
+  }[match];
 
+  }
+  );
 
-    document
-    .getElementById(
-        "detailsWarranty"
-    )
-    .innerHTML =
-    selectedProduct.warranty
-    ?
-    "<b>Warranty:</b> "
-    +
-    escapeHtml(
-        selectedProduct.warranty
-    )
-    +
-    "<br>"
-    :
-    "";
+  }
 
 
-    document
-    .getElementById(
-        "detailsDescription"
-    )
-    .innerHTML =
-    selectedProduct.description
-    ?
-    "<br>"
-    +
-    escapeHtml(
-        selectedProduct.description
-    )
-    .replace(
-        /\n/g,
-        "<br>"
-    )
-    :
-    "";
+  /* ===============================
+     MONEY
+  ================================ */
 
+  function formatMoney(
+  number
+  ){
 
-    openModal(
-        "detailsModal"
-    );
+  return Number(
+  number || 0
+  )
+  .toLocaleString(
+  "en-US"
+  );
 
-}
+  }
 
 
-/* =========================================================
-   COLORS & STOCK
-========================================================= */
+  /* ===============================
+     DETAILS
+  ================================ */
 
-function parseColors(text){
+  function openDetails(
+  index
+  ){
 
-    if(!text){
+  selectedProduct =
+  filteredProducts[index];
 
-        return [];
+  selectedColor="";
 
-    }
+  currentQty=1;
 
 
-    return text
-    .split(/[,|;]/)
-    .map(
-        x => x.trim()
-    )
-    .filter(Boolean)
-    .map(
-        item => {
+  document
+  .getElementById(
+  "detailsImage"
+  )
+  .src =
+  selectedProduct.image;
 
-            let parts =
-            item.split(
-                /[:\-]/
-            );
 
+  document
+  .getElementById(
+  "detailsTitle"
+  )
+  .textContent =
+  selectedProduct.name;
 
-            let name =
-            parts[0]
-            .trim();
 
+  document
+  .getElementById(
+  "detailsPrice"
+  )
+  .textContent =
+  "৳"
+  +
+  formatMoney(
+  selectedProduct.price
+  );
 
-            let stock =
-            parts.length > 1
-            ?
-            parseInt(
-                parts[1]
-                .replace(
-                    /[^\d]/g,
-                    ""
-                )
-            )
-            :
-            999;
 
+  document
+  .getElementById(
+  "detailsWarranty"
+  )
+  .innerHTML =
 
-            return {
+  selectedProduct.warranty
+  ?
 
-                name:name,
+  "<b>Warranty:</b> "
+  +
+  escapeHtml(
+  selectedProduct.warranty
+  )
+  +
+  "<br>"
 
-                stock:stock
+  :
 
-            };
+  "";
 
-        }
-    )
-    .filter(
-        x =>
-        x.name
-        &&
-        x.stock > 0
-    );
 
-}
+  document
+  .getElementById(
+  "detailsDescription"
+  )
+  .innerHTML =
 
+  selectedProduct.description
+  ?
 
-/* =========================================================
-   OPEN ORDER
-========================================================= */
+  "<br>"
+  +
+  escapeHtml(
+  selectedProduct.description
+  )
+  .replace(
+  /\n/g,
+  "<br>"
+  )
 
-function openOrder(){
+  :
 
-    if(!selectedProduct){
+  "";
 
-        return;
 
-    }
+  openModal(
+  "detailsModal"
+  );
 
+  }
 
-    closeModal(
-        "detailsModal"
-    );
 
+  /* ===============================
+     COLORS
+  ================================ */
 
-    currentQty = 1;
+  function parseColors(
+  text
+  ){
 
-    selectedColor = "";
+  if(!text){
 
+  return [];
 
-    document
-    .getElementById(
-        "quantity"
-    )
-    .textContent =
-    currentQty;
+  }
 
 
-    const colors =
-    parseColors(
-        selectedProduct.colors
-    );
+  return text
+  .split(
+  /[,|;]/
+  )
+  .map(
+  x =>
+  x.trim()
+  )
+  .filter(Boolean)
+  .map(
+  item => {
 
+  let parts =
+  item.split(
+  /[:\-]/
+  );
 
-    const list =
-    document.getElementById(
-        "colorList"
-    );
 
+  let name =
+  parts[0]
+  .trim();
 
-    if(colors.length){
 
-        list.innerHTML =
-        colors
-        .map(
-            color => `
+  let stock =
+  parts.length > 1
+  ?
 
-            <div
-                class="color-option"
-                onclick='selectColor(this,${JSON.stringify(color.name)})'
-            >
+  parseInt(
+  parts[1]
+  .replace(
+  /[^\d]/g,
+  ""
+  )
+  )
 
-                ${escapeHtml(color.name)}
+  :
 
-            </div>
+  999;
 
-            `
-        )
-        .join("");
 
-    }
+  return {
+  name,
+  stock
+  };
 
-    else{
+  }
+  )
+  .filter(
+  x =>
+  x.name &&
+  x.stock > 0
+  );
 
-        list.innerHTML =
-        '<span style="color:#777">Default</span>';
+  }
 
-        selectedColor =
-        "Default";
 
-    }
+  /* ===============================
+     OPEN ORDER
+  ================================ */
 
+  function openOrder(){
 
-    updateOrderSummary();
+  if(
+  !selectedProduct
+  ){
 
+  return;
 
-    openModal(
-        "orderModal"
-    );
+  }
 
-}
 
+  closeModal(
+  "detailsModal"
+  );
 
-/* =========================================================
-   SELECT COLOR
-========================================================= */
 
-function selectColor(
-    element,
-    color
-){
+  currentQty=1;
 
-    document
-    .querySelectorAll(
-        ".color-option"
-    )
-    .forEach(
-        x =>
-        x.classList.remove(
-            "selected"
-        )
-    );
+  selectedColor="";
 
 
-    element.classList.add(
-        "selected"
-    );
+  document
+  .getElementById(
+  "quantity"
+  )
+  .textContent =
+  currentQty;
 
 
-    selectedColor =
-    color;
+  const colors =
+  parseColors(
+  selectedProduct.colors
+  );
 
-}
 
+  const list =
+  document.getElementById(
+  "colorList"
+  );
 
-/* =========================================================
-   QUANTITY
-========================================================= */
 
-function changeQty(change){
+  if(
+  colors.length
+  ){
 
-    currentQty =
-    Math.max(
-        1,
-        currentQty + change
-    );
+  list.innerHTML =
+  colors
+  .map(
+  color => `
 
+  <div
+  class="color-option"
+  onclick='selectColor(this,${JSON.stringify(color.name)})'
+  >
 
-    document
-    .getElementById(
-        "quantity"
-    )
-    .textContent =
-    currentQty;
+  ${escapeHtml(
+  color.name
+  )}
 
+  </div>
 
-    updateOrderSummary();
+  `
+  )
+  .join("");
 
-}
+  }
 
+  else{
 
-/* =========================================================
-   ORDER SUMMARY
-========================================================= */
+  list.innerHTML =
+  '<span style="color:#777">Default</span>';
 
-function updateOrderSummary(){
+  selectedColor =
+  "Default";
 
-    if(!selectedProduct){
+  }
 
-        return;
 
-    }
+  updateOrderSummary();
 
 
-    const productTotal =
-    selectedProduct.price
-    *
-    currentQty;
+  openModal(
+  "orderModal"
+  );
 
+  }
 
-    const total =
-    productTotal
-    +
-    DELIVERY_CHARGE;
 
+  /* ===============================
+     SELECT COLOR
+  ================================ */
 
-    document
-    .getElementById(
-        "orderSummary"
-    )
-    .innerHTML = `
+  function selectColor(
+  element,
+  color
+  ){
 
-        <b>
-            ${escapeHtml(
-                selectedProduct.name
-            )}
-        </b>
+  document
+  .querySelectorAll(
+  ".color-option"
+  )
+  .forEach(
+  x =>
+  x.classList.remove(
+  "selected"
+  )
+  );
 
-        <br>
 
-        প্রতি পিস:
-        ৳${formatMoney(
-            selectedProduct.price
-        )}
+  element.classList.add(
+  "selected"
+  );
 
-        <br>
 
-        Quantity:
-        ${currentQty}
+  selectedColor =
+  color;
 
-        <br>
+  }
 
-        ডেলিভারি:
-        ৳${formatMoney(
-            DELIVERY_CHARGE
-        )}
 
-    `;
+  /* ===============================
+     QUANTITY
+  ================================ */
 
+  function changeQty(
+  change
+  ){
 
-    document
-    .getElementById(
-        "orderTotal"
-    )
-    .textContent =
-    "মোট: ৳"
-    +
-    formatMoney(
-        total
-    );
+  currentQty =
+  Math.max(
+  1,
+  currentQty + change
+  );
 
-}
 
+  document
+  .getElementById(
+  "quantity"
+  )
+  .textContent =
+  currentQty;
 
-/* =========================================================
-   ORDER ID
-========================================================= */
 
-function generateOrderId(){
+  updateOrderSummary();
 
-    let lastOrder =
-    localStorage.getItem(
-        "jmrLastOrderNumber"
-    );
+  }
 
 
-    if(!lastOrder){
+  /* ===============================
+     SUMMARY
+  ================================ */
 
-        lastOrder = 1000;
+  function updateOrderSummary(){
 
-    }
+  if(
+  !selectedProduct
+  ){
 
+  return;
 
-    const next =
-    parseInt(lastOrder)
-    +
-    1;
+  }
 
 
-    localStorage.setItem(
-        "jmrLastOrderNumber",
-        next
-    );
+  const productTotal =
+  selectedProduct.price
+  *
+  currentQty;
 
 
-    return "JMR-" + next;
+  const total =
+  productTotal
+  +
+  DELIVERY_CHARGE;
 
-}
 
+  document
+  .getElementById(
+  "orderSummary"
+  )
+  .innerHTML = `
 
-/* =========================================================
-   SUBMIT ORDER
-========================================================= */
+  <b>
+  ${escapeHtml(
+  selectedProduct.name
+  )}
+  </b>
 
-async function submitOrder(){
+  <br>
 
-    if(!selectedProduct){
+  প্রতি পিস:
+  ৳${formatMoney(
+  selectedProduct.price
+  )}
 
-        return;
+  <br>
 
-    }
+  ডেলিভারি:
+  ৳${formatMoney(
+  DELIVERY_CHARGE
+  )}
 
+  `;
 
-    const name =
-    document
-    .getElementById(
-        "customerName"
-    )
-    .value
-    .trim();
 
+  document
+  .getElementById(
+  "orderTotal"
+  )
+  .textContent =
+  "মোট: ৳"
+  +
+  formatMoney(
+  total
+  );
 
-    const phone =
-    document
-    .getElementById(
-        "phone"
-    )
-    .value
-    .trim();
+  }
 
 
-    const district =
-    document
-    .getElementById(
-        "district"
-    )
-    .value
-    .trim();
+  /* ===============================
+     ORDER ID
+  ================================ */
 
+  function generateOrderId(){
 
-    const thana =
-    document
-    .getElementById(
-        "thana"
-    )
-    .value
-    .trim();
+  let lastOrder =
+  localStorage.getItem(
+  "jmrLastOrderNumber"
+  );
 
 
-    const address =
-    document
-    .getElementById(
-        "address"
-    )
-    .value
-    .trim();
+  if(
+  !lastOrder
+  ){
 
+  lastOrder=1000;
 
-    if(
-        !name
-        ||
-        !phone
-        ||
-        !district
-        ||
-        !thana
-        ||
-        !address
-    ){
+  }
 
-        alert(
-            "অনুগ্রহ করে সব তথ্য পূরণ করুন।"
-        );
 
-        return;
+  const next =
+  parseInt(
+  lastOrder
+  )
+  +
+  1;
 
-    }
 
+  localStorage.setItem(
+  "jmrLastOrderNumber",
+  next
+  );
 
-    if(
-        parseColors(
-            selectedProduct.colors
-        ).length
-        &&
-        !selectedColor
-    ){
 
-        alert(
-            "অনুগ্রহ করে Colour নির্বাচন করুন।"
-        );
+  return "JMR-" + next;
 
-        return;
+  }
 
-    }
 
+  /* ===============================
+     SUBMIT ORDER
+  ================================ */
 
-    const productTotal =
-    selectedProduct.price
-    *
-    currentQty;
+  async function submitOrder(){
 
+  if(
+  !selectedProduct
+  ){
 
-    const total =
-    productTotal
-    +
-    DELIVERY_CHARGE;
+  return;
 
+  }
 
-    const orderId =
-    generateOrderId();
 
+  const name =
+  document
+  .getElementById(
+  "customerName"
+  )
+  .value
+  .trim();
 
-    const orderData = {
 
-        orderId:orderId,
+  const phone =
+  document
+  .getElementById(
+  "phone"
+  )
+  .value
+  .trim();
 
-        customerName:name,
 
-        phone:phone,
+  const district =
+  document
+  .getElementById(
+  "district"
+  )
+  .value
+  .trim();
 
-        district:district,
 
-        thana:thana,
+  const thana =
+  document
+  .getElementById(
+  "thana"
+  )
+  .value
+  .trim();
 
-        address:address,
 
-        productCode:
-        selectedProduct.code,
+  const address =
+  document
+  .getElementById(
+  "address"
+  )
+  .value
+  .trim();
 
-        productName:
-        selectedProduct.name,
 
-        color:
-        selectedColor
-        ||
-        "Default",
+  if(
+  !name
+  ||
+  !phone
+  ||
+  !district
+  ||
+  !thana
+  ||
+  !address
+  ){
 
-        quantity:
-        currentQty,
+  alert(
+  "অনুগ্রহ করে সব তথ্য পূরণ করুন।"
+  );
 
-        productPrice:
-        productTotal,
+  return;
 
-        deliveryCharge:
-        DELIVERY_CHARGE,
+  }
 
-        totalAmount:
-        total
 
-    };
+  if(
+  parseColors(
+  selectedProduct.colors
+  )
+  .length
+  &&
+  !selectedColor
+  ){
 
+  alert(
+  "অনুগ্রহ করে Colour নির্বাচন করুন।"
+  );
 
-    const button =
-    document
-    .getElementById(
-        "submitOrderBtn"
-    );
+  return;
 
+  }
 
-    button.disabled = true;
 
-    button.textContent =
-    "অর্ডার পাঠানো হচ্ছে...";
+  const productTotal =
+  selectedProduct.price
+  *
+  currentQty;
 
 
-    try{
+  const total =
+  productTotal
+  +
+  DELIVERY_CHARGE;
 
-        await fetch(
-            ORDER_WEB_APP_URL,
-            {
 
-                method:"POST",
+  const orderId =
+  generateOrderId();
 
-                mode:"no-cors",
 
-                headers:{
+  const orderData = {
 
-                    "Content-Type":
-                    "text/plain;charset=utf-8"
+  orderId:orderId,
 
-                },
+  customerName:name,
 
-                body:
-                JSON.stringify(
-                    orderData
-                )
+  phone:phone,
 
-            }
-        );
+  district:district,
 
+  thana:thana,
 
-        closeModal(
-            "orderModal"
-        );
+  address:address,
 
+  productCode:
+  selectedProduct.code,
 
-        document
-        .getElementById(
-            "successModal"
-        )
-        .classList
-        .add("show");
+  productName:
+  selectedProduct.name,
 
+  color:
+  selectedColor
+  ||
+  "Default",
 
-        document
-        .getElementById(
-            "customerName"
-        )
-        .value = "";
+  quantity:
+  currentQty,
 
+  productPrice:
+  productTotal,
 
-        document
-        .getElementById(
-            "phone"
-        )
-        .value = "";
+  deliveryCharge:
+  DELIVERY_CHARGE,
 
+  totalAmount:
+  total
 
-        document
-        .getElementById(
-            "district"
-        )
-        .value = "";
+  };
 
 
-        document
-        .getElementById(
-            "thana"
-        )
-        .value = "";
+  const button =
+  document
+  .getElementById(
+  "submitOrderBtn"
+  );
 
 
-        document
-        .getElementById(
-            "address"
-        )
-        .value = "";
+  button.disabled=true;
 
-    }
+  button.textContent =
+  "অর্ডার পাঠানো হচ্ছে...";
 
 
-    catch(error){
+  try{
 
-        console.error(
-            error
-        );
+  await fetch(
+  ORDER_WEB_APP_URL,
+  {
 
+  method:"POST",
 
-        alert(
-            "অর্ডার পাঠানো যায়নি। আবার চেষ্টা করুন।"
-        );
+  mode:"no-cors",
 
-    }
+  headers:{
 
+  "Content-Type":
+  "text/plain;charset=utf-8"
 
-    finally{
+  },
 
-        button.disabled = false;
+  body:
+  JSON.stringify(
+  orderData
+  )
 
-        button.textContent =
-        "অর্ডার কনফার্ম করুন";
+  }
+  );
 
-    }
 
-}
+  closeModal(
+  "orderModal"
+  );
 
 
-/* =========================================================
-   SUCCESS CLOSE
-========================================================= */
+  document
+  .getElementById(
+  "successModal"
+  )
+  .classList.add(
+  "show"
+  );
 
-function closeSuccess(){
 
-    document
-    .getElementById(
-        "successModal"
-    )
-    .classList
-    .remove(
-        "show"
-    );
+  document
+  .getElementById(
+  "customerName"
+  )
+  .value="";
 
-}
 
+  document
+  .getElementById(
+  "phone"
+  )
+  .value="";
 
-/* =========================================================
-   START
-========================================================= */
 
-loadProducts();
+  document
+  .getElementById(
+  "district"
+  )
+  .value="";
 
-</script>
+
+  document
+  .getElementById(
+  "thana"
+  )
+  .value="";
+
+
+  document
+  .getElementById(
+  "address"
+  )
+  .value="";
+
+
+  }
+
+  catch(error){
+
+  console.error(error);
+
+
+  alert(
+  "অর্ডার পাঠানো যায়নি। আবার চেষ্টা করুন।"
+  );
+
+  }
+
+
+  finally{
+
+  button.disabled=false;
+
+  button.textContent =
+  "অর্ডার কনফার্ম করুন";
+
+  }
+
+  }
+
+
+  /* ===============================
+     SUCCESS CLOSE
+  ================================ */
+
+  function closeSuccess(){
+
+  document
+  .getElementById(
+  "successModal"
+  )
+  .classList.remove(
+  "show"
+  );
+
+  }
+
+
+  /* ===============================
+     START
+  ================================ */
+
+  loadProducts();
+
+
+  </script>
 
 </body>
 
 </html>
+
