@@ -770,7 +770,347 @@ My Account
 </div>
 
 </div>
+<!-- ================= BOTTOM NAV ================= -->
+<div class="bottom-nav">
 
+<div onclick="window.location.href='tel:01941900221'">
+<b>☎️</b>
+Call
+</div>
+
+<div onclick="window.open('https://wa.me/8801789283142','_blank')">
+<b>📞</b>
+WhatsApp
+</div>
+
+<div onclick="showAll()">
+<b>⌂</b>
+Home
+</div>
+
+<div onclick="openAccount()">
+<b>👤</b>
+My Account
+</div>
+
+</div>
+
+
+<!-- ================= ACCOUNT MODAL ================= -->
+
+<div id="accountModal" class="account-modal">
+
+<div class="account-box">
+
+    <div class="account-header">
+        <b>My Account</b>
+        <span onclick="closeAccount()">✕</span>
+    </div>
+
+
+    <!-- ================= LOGIN ================= -->
+
+    <div id="loginSection" class="account-section">
+
+        <h3>Login</h3>
+
+        <input
+            type="tel"
+            id="loginPhone"
+            placeholder="Phone Number"
+        >
+
+        <input
+            type="password"
+            id="loginPassword"
+            placeholder="Password"
+        >
+
+        <button type="button" onclick="accountNotReady()">
+            Login
+        </button>
+
+        <p onclick="showCreateAccount()">
+            Don't have an account?
+            <b>Create Account</b>
+        </p>
+
+        <p onclick="showForgotPassword()">
+            <b>Forgot Password?</b>
+        </p>
+
+    </div>
+
+
+    <!-- ================= CREATE ACCOUNT ================= -->
+
+    <div id="createAccountSection"
+         class="account-section"
+         style="display:none;">
+
+        <h3>Create Account</h3>
+
+        <input
+            type="text"
+            id="accountName"
+            placeholder="Full Name"
+        >
+
+        <input
+            type="tel"
+            id="accountPhone"
+            placeholder="Phone Number"
+        >
+
+        <input
+            type="password"
+            id="accountPassword"
+            placeholder="Create Password"
+        >
+
+        <input
+            type="password"
+            id="accountConfirmPassword"
+            placeholder="Confirm Password"
+        >
+
+        <button type="button" onclick="accountNotReady()">
+            Create Account
+        </button>
+
+        <p onclick="showLogin()">
+            Already have an account?
+            <b>Login</b>
+        </p>
+
+    </div>
+
+
+    <!-- ================= FORGOT PASSWORD ================= -->
+
+    <div id="forgotPasswordSection"
+         class="account-section"
+         style="display:none;">
+
+        <h3>Forgot Password?</h3>
+
+        <p class="account-info">
+            আপনার Account-এর Phone Number দিন।
+        </p>
+
+        <input
+            type="tel"
+            id="forgotPhone"
+            placeholder="Phone Number"
+        >
+
+        <button type="button" onclick="sendWhatsAppRequest()">
+            WhatsApp এ Request করুন
+        </button>
+
+        <p onclick="showLogin()">
+            ← Back to Login
+        </p>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- ================= ACCOUNT CSS ================= -->
+
+<style>
+
+.account-modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.55);
+    z-index:9999;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.account-box{
+    width:100%;
+    max-width:400px;
+    background:#fff;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 10px 35px rgba(0,0,0,0.25);
+}
+
+.account-header{
+    background:#ffd400;
+    color:#000;
+    padding:17px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:20px;
+}
+
+.account-header span{
+    cursor:pointer;
+    font-size:20px;
+}
+
+.account-section{
+    padding:22px;
+}
+
+.account-section h3{
+    margin:0 0 18px;
+    text-align:center;
+    font-size:22px;
+}
+
+.account-section input{
+    width:100%;
+    padding:13px;
+    margin-bottom:12px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-size:15px;
+    outline:none;
+}
+
+.account-section button{
+    width:100%;
+    padding:13px;
+    border:none;
+    border-radius:8px;
+    background:#ffd400;
+    color:#000;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:3px;
+}
+
+.account-section p{
+    text-align:center;
+    font-size:14px;
+    margin:15px 0 0;
+    cursor:pointer;
+}
+
+.account-section p b{
+    cursor:pointer;
+}
+
+.account-info{
+    color:#666;
+    cursor:default !important;
+}
+
+</style>
+
+
+<!-- ================= ACCOUNT SCRIPT ================= -->
+
+<script>
+
+function openAccount(){
+
+    document.getElementById("accountModal").style.display = "flex";
+
+    showLogin();
+
+}
+
+
+function closeAccount(){
+
+    document.getElementById("accountModal").style.display = "none";
+
+}
+
+
+function hideAccountSections(){
+
+    document.getElementById("loginSection").style.display = "none";
+
+    document.getElementById("createAccountSection").style.display = "none";
+
+    document.getElementById("forgotPasswordSection").style.display = "none";
+
+}
+
+
+function showLogin(){
+
+    hideAccountSections();
+
+    document.getElementById("loginSection").style.display = "block";
+
+}
+
+
+function showCreateAccount(){
+
+    hideAccountSections();
+
+    document.getElementById("createAccountSection").style.display = "block";
+
+}
+
+
+function showForgotPassword(){
+
+    hideAccountSections();
+
+    document.getElementById("forgotPasswordSection").style.display = "block";
+
+}
+
+
+/* ================= TEMPORARY ================= */
+/* এখন Login / Create Account কাজ করবে না */
+
+function accountNotReady(){
+
+    alert("Account System এখনো চালু করা হয়নি। বর্তমানে Submit কাজ করবে না।");
+
+}
+
+
+/* ================= WHATSAPP REQUEST ================= */
+
+function sendWhatsAppRequest(){
+
+    const phone =
+        document.getElementById("forgotPhone").value.trim();
+
+
+    if(!phone){
+
+        alert("অনুগ্রহ করে আপনার Phone Number দিন।");
+
+        return;
+
+    }
+
+
+    const message =
+        "আসসালামু আলাইকুম, আমি JMR GADGETS-এর একজন Account User।%0A%0A" +
+        "আমার Password মনে নেই।%0A" +
+        "আমার Phone Number: " + encodeURIComponent(phone) + "%0A%0A" +
+        "অনুগ্রহ করে আমার Password জানিয়ে দিন।";
+
+
+    const whatsappUrl =
+        "https://wa.me/8801789283142?text=" + message;
+
+
+    window.open(whatsappUrl, "_blank");
+
+}
+
+</script>
 <!-- ================= PRODUCT DETAILS ================= -->
 
 <div
