@@ -11,6 +11,128 @@ content="width=device-width, initial-scale=1.0">
 
 <style>
 
+/* ================= ACCOUNT MODAL ================= */
+
+.account-modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.55);
+    z-index:9999;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.account-box{
+    width:100%;
+    max-width:400px;
+    background:#fff;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 10px 35px rgba(0,0,0,0.25);
+}
+
+.account-header{
+    background:#ffd400;
+    color:#000;
+    padding:17px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:20px;
+}
+
+.account-header span{
+    cursor:pointer;
+    font-size:20px;
+}
+
+.account-section{
+    padding:22px;
+}
+
+.account-section h3{
+    margin:0 0 18px;
+    text-align:center;
+    font-size:22px;
+}
+
+.account-section input{
+    width:100%;
+    padding:13px;
+    margin-bottom:12px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-size:15px;
+    outline:none;
+}
+
+.account-section input:focus{
+    border-color:#ffd400;
+}
+
+.account-section button{
+    width:100%;
+    padding:13px;
+    border:none;
+    border-radius:8px;
+    background:#ffd400;
+    color:#000;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:3px;
+}
+
+.account-section p{
+    text-align:center;
+    font-size:14px;
+    margin:15px 0 0;
+    cursor:pointer;
+}
+
+.account-section p b{
+    cursor:pointer;
+}
+
+.account-info{
+    color:#666;
+    cursor:default !important;
+}
+
+.account-profile-icon{
+    width:75px;
+    height:75px;
+    margin:0 auto 12px;
+    border-radius:50%;
+    background:#f5f5f5;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:38px;
+}
+
+.my-orders-box{
+    margin-top:20px;
+    padding:15px;
+    border:1px solid #eee;
+    border-radius:10px;
+    background:#fafafa;
+}
+
+.my-orders-box h4{
+    margin:0 0 8px;
+    text-align:center;
+    font-size:17px;
+}
+
+.my-orders-box p{
+    margin:0;
+    color:#777;
+    cursor:default;
+}
+
 *{
     box-sizing:border-box;
 }
@@ -3093,6 +3215,643 @@ function closeSuccess(){
 ========================================================= */
 
 loadProducts();
+
+</script>
+
+<!-- ================= ACCOUNT MODAL ================= -->
+
+<div id="accountModal" class="account-modal">
+
+  <div class="account-box">
+
+    <div class="account-header">
+      <b>My Account</b>
+      <span onclick="closeAccount()">✕</span>
+    </div>
+
+    <div id="loginSection" class="account-section">
+
+      <h3>Login</h3>
+
+      <input
+        type="tel"
+        id="loginPhone"
+        placeholder="Phone Number"
+      >
+
+      <input
+        type="password"
+        id="loginPassword"
+        placeholder="Password"
+      >
+
+      <button
+        type="button"
+        onclick="loginAccount()"
+      >
+        Login
+      </button>
+
+      <p onclick="showCreateAccount()">
+        Don't have an account?
+        <b>Create Account</b>
+      </p>
+
+      <p onclick="showForgotPassword()">
+        <b>Forgot Password?</b>
+      </p>
+
+    </div>
+
+
+    <div
+      id="createAccountSection"
+      class="account-section"
+      style="display:none;"
+    >
+
+      <h3>Create Account</h3>
+
+      <input
+        type="text"
+        id="accountName"
+        placeholder="Full Name"
+      >
+
+      <input
+        type="tel"
+        id="accountPhone"
+        placeholder="Phone Number"
+      >
+
+      <input
+        type="password"
+        id="accountPassword"
+        placeholder="Create Password"
+      >
+
+      <input
+        type="password"
+        id="accountConfirmPassword"
+        placeholder="Confirm Password"
+      >
+
+      <button
+        type="button"
+        onclick="createAccount()"
+      >
+        Create Account
+      </button>
+
+      <p onclick="showLogin()">
+        Already have an account?
+        <b>Login</b>
+      </p>
+
+    </div>
+
+
+    <div
+      id="forgotPasswordSection"
+      class="account-section"
+      style="display:none;"
+    >
+
+      <h3>Forgot Password?</h3>
+
+      <p class="account-info">
+        আপনার Account-এর Phone Number দিন।
+      </p>
+
+      <input
+        type="tel"
+        id="forgotPhone"
+        placeholder="Phone Number"
+      >
+
+      <button
+        type="button"
+        onclick="forgotPassword()"
+      >
+        Find Password
+      </button>
+
+      <p onclick="showLogin()">
+        ← Back to Login
+      </p>
+
+    </div>
+
+
+    <div
+      id="profileSection"
+      class="account-section"
+      style="display:none;"
+    >
+
+      <div class="account-profile-icon">
+        👤
+      </div>
+
+      <h3 id="profileName">
+        User Name
+      </h3>
+
+      <p>
+        User ID:
+        <b id="profileUserId"></b>
+      </p>
+
+      <div class="my-orders-box">
+
+        <h4>My Orders</h4>
+
+        <p>
+          আপনার অর্ডারগুলো এখানে দেখা যাবে।
+        </p>
+
+      </div>
+
+      <button
+        type="button"
+        onclick="logoutAccount()"
+      >
+        Logout
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+/* ================= ACCOUNT SYSTEM ================= */
+
+const ACCOUNT_WEB_APP_URL =
+    "https://script.google.com/macros/s/AKfycbw0piPfRvFSWfdyiKszwFXEot5MMFHm-YkMGbCHI__dUcGrxcbHCbMXl2C6aO2NumV9cg/exec";
+
+
+function openAccount(){
+
+    document.getElementById("accountModal").style.display = "flex";
+
+    const savedUser =
+        localStorage.getItem("jmrUser");
+
+    if(savedUser){
+
+        try{
+
+            const user =
+                JSON.parse(savedUser);
+
+            showProfile(user);
+
+        }catch(error){
+
+            showLogin();
+
+        }
+
+    }else{
+
+        showLogin();
+
+    }
+
+}
+
+
+function closeAccount(){
+
+    document.getElementById("accountModal").style.display = "none";
+
+}
+
+
+function showLogin(){
+
+    document.getElementById("loginSection").style.display = "block";
+
+    document.getElementById("createAccountSection").style.display = "none";
+
+    document.getElementById("forgotPasswordSection").style.display = "none";
+
+    document.getElementById("profileSection").style.display = "none";
+
+}
+
+
+function showCreateAccount(){
+
+    document.getElementById("loginSection").style.display = "none";
+
+    document.getElementById("createAccountSection").style.display = "block";
+
+    document.getElementById("forgotPasswordSection").style.display = "none";
+
+    document.getElementById("profileSection").style.display = "none";
+
+}
+
+
+function showForgotPassword(){
+
+    document.getElementById("loginSection").style.display = "none";
+
+    document.getElementById("createAccountSection").style.display = "none";
+
+    document.getElementById("forgotPasswordSection").style.display = "block";
+
+    document.getElementById("profileSection").style.display = "none";
+
+}
+
+
+async function createAccount(){
+
+    const name =
+        document.getElementById("accountName").value.trim();
+
+    const phone =
+        document.getElementById("accountPhone").value.trim();
+
+    const password =
+        document.getElementById("accountPassword").value.trim();
+
+    const confirmPassword =
+        document.getElementById("accountConfirmPassword").value.trim();
+
+
+    if(!name){
+
+        alert("আপনার নাম লিখুন।");
+
+        return;
+
+    }
+
+
+    if(!phone){
+
+        alert("আপনার Phone Number লিখুন।");
+
+        return;
+
+    }
+
+
+    if(!password){
+
+        alert("Password লিখুন।");
+
+        return;
+
+    }
+
+
+    if(password.length < 4){
+
+        alert("Password কমপক্ষে ৪ অক্ষরের হতে হবে।");
+
+        return;
+
+    }
+
+
+    if(password !== confirmPassword){
+
+        alert("Password দুটো মিলছে না।");
+
+        return;
+
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+                ACCOUNT_WEB_APP_URL,
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                        "text/plain;charset=utf-8"
+                    },
+
+                    body:
+                    JSON.stringify({
+                        action:"createAccount",
+                        name:name,
+                        phone:phone,
+                        password:password
+                    })
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if(result.success){
+
+            const user = {
+
+                userId:result.userId,
+
+                name:result.name,
+
+                phone:result.phone
+
+            };
+
+
+            localStorage.setItem(
+                "jmrUser",
+                JSON.stringify(user)
+            );
+
+
+            alert(
+                "Account সফলভাবে তৈরি হয়েছে।\n\nআপনার User ID: " +
+                result.userId
+            );
+
+
+            showProfile(user);
+
+
+        }else{
+
+            alert(
+                result.message ||
+                "Account তৈরি করা যায়নি।"
+            );
+
+        }
+
+
+    }catch(error){
+
+        alert(
+            "Server-এর সাথে যোগাযোগ করা যাচ্ছে না।"
+        );
+
+        console.error(error);
+
+    }
+
+}
+
+
+async function loginAccount(){
+
+    const phone =
+        document.getElementById("loginPhone").value.trim();
+
+    const password =
+        document.getElementById("loginPassword").value.trim();
+
+
+    if(!phone){
+
+        alert("Phone Number লিখুন।");
+
+        return;
+
+    }
+
+
+    if(!password){
+
+        alert("Password লিখুন।");
+
+        return;
+
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+                ACCOUNT_WEB_APP_URL,
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                        "text/plain;charset=utf-8"
+                    },
+
+                    body:
+                    JSON.stringify({
+                        action:"login",
+                        phone:phone,
+                        password:password
+                    })
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if(result.success){
+
+            const user = {
+
+                userId:result.userId,
+
+                name:result.name,
+
+                phone:result.phone
+
+            };
+
+
+            localStorage.setItem(
+                "jmrUser",
+                JSON.stringify(user)
+            );
+
+
+            showProfile(user);
+
+
+        }else{
+
+            alert(
+                result.message ||
+                "Phone number অথবা Password ভুল।"
+            );
+
+        }
+
+
+    }catch(error){
+
+        alert(
+            "Server-এর সাথে যোগাযোগ করা যাচ্ছে না।"
+        );
+
+        console.error(error);
+
+    }
+
+}
+
+
+async function forgotPassword(){
+
+    const phone =
+        document.getElementById("forgotPhone").value.trim();
+
+
+    if(!phone){
+
+        alert(
+            "আপনার Phone Number লিখুন।"
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+                ACCOUNT_WEB_APP_URL,
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                        "text/plain;charset=utf-8"
+                    },
+
+                    body:
+                    JSON.stringify({
+                        action:"forgotPassword",
+                        phone:phone
+                    })
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if(result.success){
+
+            if(result.whatsappUrl){
+
+                window.open(
+                    result.whatsappUrl,
+                    "_blank"
+                );
+
+            }else{
+
+                alert(
+                    "WhatsApp request তৈরি হয়েছে।"
+                );
+
+            }
+
+        }else{
+
+            alert(
+                result.message ||
+                "Request পাঠানো যায়নি।"
+            );
+
+        }
+
+
+    }catch(error){
+
+        alert(
+            "Server-এর সাথে যোগাযোগ করা যাচ্ছে না।"
+        );
+
+        console.error(error);
+
+    }
+
+}
+
+
+function showProfile(user){
+
+    document.getElementById("loginSection").style.display = "none";
+
+    document.getElementById("createAccountSection").style.display = "none";
+
+    document.getElementById("forgotPasswordSection").style.display = "none";
+
+    document.getElementById("profileSection").style.display = "block";
+
+
+    document.getElementById("profileName").textContent =
+        user.name;
+
+
+    document.getElementById("profileUserId").textContent =
+        user.userId;
+
+}
+
+
+function logoutAccount(){
+
+    localStorage.removeItem("jmrUser");
+
+    showLogin();
+
+
+    document.getElementById("loginPhone").value = "";
+
+    document.getElementById("loginPassword").value = "";
+
+
+    alert(
+        "আপনি Logout করেছেন।"
+    );
+
+}
+
+
+(function(){
+
+    const savedUser =
+        localStorage.getItem("jmrUser");
+
+
+    if(savedUser){
+
+        try{
+
+            JSON.parse(savedUser);
+
+        }catch(error){
+
+            localStorage.removeItem("jmrUser");
+
+        }
+
+    }
+
+})();
 
 </script>
 
