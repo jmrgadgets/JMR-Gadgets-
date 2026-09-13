@@ -604,7 +604,7 @@ oninput="renderProducts()"
     </div>
 
     <!-- Contact -->
-    <div onclick="openWhatsApp();closeMenu()">
+    <div onclick="showWhatsApp();closeMenu()">
         📞 Contact
     </div>
 
@@ -903,12 +903,52 @@ My Account
             <p style="margin:0 0 5px; text-align:left;"><b>Phone:</b> <span id="userPhoneDisplay"></span></p>
         </div>
 
-        <h4 style="margin:10px 0; text-align:left;">My Orders</h4>
-        <div id="userOrdersList" style="max-height:200px; overflow-y:auto; text-align:left; font-size:13px;">
-            <p style="color:#777;">অর্ডার তথ্য লোড হচ্ছে...</p>
+        <!-- MY ORDERS -->
+        <div class="dash-block">
+            <h4 style="margin:10px 0 5px; text-align:left; border-bottom: 2px solid #ffd400; padding-bottom: 4px;">My Orders</h4>
+            <div id="userOrdersList" style="max-height:180px; overflow-y:auto; text-align:left; font-size:13px; margin-bottom: 15px;">
+                <p style="color:#777;">অর্ডার তথ্য লোড হচ্ছে...</p>
+            </div>
         </div>
 
-        <button type="button" onclick="handleLogout()" style="background:#ff4d4d; color:#fff; margin-top:15px;">
+        <!-- ACCOUNTS DETAILS -->
+        <div class="dash-block" style="text-align: left; margin-bottom: 15px;">
+            <h4 style="margin:10px 0 10px; border-bottom: 2px solid #ffd400; padding-bottom: 4px;">Accounts Details</h4>
+            
+            <div style="display: flex; gap: 8px;">
+                <input type="text" id="accFirstName" placeholder="First Name" style="margin-bottom:8px;">
+                <input type="text" id="accLastName" placeholder="Last Name" style="margin-bottom:8px;">
+            </div>
+
+            <div style="font-weight: bold; margin: 8px 0 4px; font-size: 14px;">Password Change</div>
+            
+            <input type="password" id="currPassword" placeholder="Current password" style="margin-bottom:8px;">
+            <input type="password" id="newPassword" placeholder="New password" style="margin-bottom:8px;">
+            <input type="password" id="confirmNewPassword" placeholder="Confirm new password" style="margin-bottom:8px;">
+
+            <button type="button" onclick="saveAccountDetails()" style="background:#f5c400; color:#000; margin-top:5px;">
+                Save Changes
+            </button>
+        </div>
+
+        <!-- ADDRESS SECTION -->
+        <div class="dash-block" style="text-align: left; margin-bottom: 15px;">
+            <h4 style="margin:10px 0 10px; border-bottom: 2px solid #ffd400; padding-bottom: 4px;">Address (Billing Address)</h4>
+            
+            <input type="text" id="billingName" placeholder="আপনার নাম" style="margin-bottom:8px;">
+            <input type="text" id="billingDistrict" placeholder="জেলা" style="margin-bottom:8px;">
+            <input type="text" id="billingThana" placeholder="থানা" style="margin-bottom:8px;">
+            <textarea id="billingAddress" placeholder="সম্পূর্ণ ঠিকানা" style="width: 100%; padding: 11px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; margin-bottom: 8px; min-height: 60px;"></textarea>
+            <input type="tel" id="billingPhone" placeholder="ফোন নাম্বার" style="margin-bottom:8px;">
+            <input type="email" id="billingEmail" placeholder="ইমেইল" style="margin-bottom:8px;">
+
+            <button type="button" onclick="saveAddressDetails()" style="background:#f5c400; color:#000; margin-top:5px;">
+                Save Address
+            </button>
+        </div>
+
+        <!-- LOGOUT -->
+        <button type="button" onclick="handleLogout()" style="background:#ff4d4d; color:#fff; margin-top:15px; width: 100%;">
             Logout
         </button>
 
@@ -916,6 +956,18 @@ My Account
 
 </div>
 
+</div>
+
+
+<!-- ================= ACCOUNT CREATED ANIMATED MODAL ================= -->
+
+<div class="success-modal" id="accountCreatedModal">
+    <div class="success-box">
+        <div class="success-icon">✓</div>
+        <h3>আপনার এ্যাকাউন্ট সফল ভাবে তৈরি হয়েছে</h3>
+        <p>এখন আপনি লগইন অবস্থায় আছেন।</p>
+        <button onclick="closeAccountCreatedModal()">ঠিক আছে</button>
+    </div>
 </div>
 
 
@@ -931,15 +983,16 @@ My Account
     z-index:9999;
     align-items:center;
     justify-content:center;
-    padding:20px;
+    padding:10px;
 }
 
 .account-box{
     width:100%;
-    max-width:400px;
+    max-width:680px; /* বড় স্ক্রিনের জন্য সাইজ বাড়ানো হয়েছে */
+    max-height: 90vh;
     background:#fff;
     border-radius:15px;
-    overflow:hidden;
+    overflow-y:auto;
     box-shadow:0 10px 35px rgba(0,0,0,0.25);
 }
 
@@ -951,6 +1004,9 @@ My Account
     justify-content:space-between;
     align-items:center;
     font-size:20px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 .account-header span{
@@ -1090,9 +1146,22 @@ function showDashboard(user){
 
     document.getElementById("dashboardSection").style.display = "block";
 
-    document.getElementById("userNameDisplay").textContent = user.name || "User";
+    document.getElementById("userNameDisplay").textContent = (user.firstName ? user.firstName + " " + (user.lastName || "") : user.name) || "User";
 
     document.getElementById("userPhoneDisplay").textContent = user.phone || "";
+
+    // Load inputs for Account Details
+    document.getElementById("accFirstName").value = user.firstName || "";
+    document.getElementById("accLastName").value = user.lastName || "";
+
+    // Load Address Details
+    const savedAddress = JSON.parse(localStorage.getItem("jmrAddress_" + user.phone) || "{}");
+    document.getElementById("billingName").value = savedAddress.name || "";
+    document.getElementById("billingDistrict").value = savedAddress.district || "";
+    document.getElementById("billingThana").value = savedAddress.thana || "";
+    document.getElementById("billingAddress").value = savedAddress.address || "";
+    document.getElementById("billingPhone").value = savedAddress.phone || user.phone || "";
+    document.getElementById("billingEmail").value = savedAddress.email || "";
 
     loadUserOrders(user.phone);
 
@@ -1139,7 +1208,7 @@ async function handleCreateAccount(){
 
     try{
 
-        const response = await fetch(ACCOUNT_WEB_APP_URL, {
+        await fetch(ACCOUNT_WEB_APP_URL, {
 
             method: "POST",
 
@@ -1166,12 +1235,17 @@ async function handleCreateAccount(){
         });
 
 
-        const userData = { name: name, phone: phone };
+        const nameParts = name.split(" ");
+        const firstName = nameParts[0] || name;
+        const lastName = nameParts.slice(1).join(" ") || "";
+
+        const userData = { name: name, firstName: firstName, lastName: lastName, phone: phone, password: password };
 
         localStorage.setItem("jmrUser", JSON.stringify(userData));
 
 
-        alert("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!");
+        // Show Animated Modal
+        document.getElementById("accountCreatedModal").classList.add("show");
 
         showDashboard(userData);
 
@@ -1201,6 +1275,11 @@ async function handleCreateAccount(){
 }
 
 
+function closeAccountCreatedModal(){
+    document.getElementById("accountCreatedModal").classList.remove("show");
+}
+
+
 async function handleLogin(){
 
     const phone = document.getElementById("loginPhone").value.trim();
@@ -1226,7 +1305,15 @@ async function handleLogin(){
 
     try{
 
-        const userData = { phone: phone, name: "Customer" };
+        // Local check if password matches locally updated password
+        let currentUser = JSON.parse(localStorage.getItem("jmrUser") || "null");
+        
+        if(currentUser && currentUser.phone === phone && currentUser.password && currentUser.password !== password) {
+            alert("পাসওয়ার্ড ভুল হয়েছে!");
+            return;
+        }
+
+        const userData = currentUser && currentUser.phone === phone ? currentUser : { phone: phone, name: "Customer", password: password };
 
         localStorage.setItem("jmrUser", JSON.stringify(userData));
 
@@ -1254,6 +1341,61 @@ async function handleLogin(){
 
     }
 
+}
+
+
+function saveAccountDetails(){
+    let currentUser = JSON.parse(localStorage.getItem("jmrUser") || "null");
+    if(!currentUser) return;
+
+    const firstName = document.getElementById("accFirstName").value.trim();
+    const lastName = document.getElementById("accLastName").value.trim();
+    const currPass = document.getElementById("currPassword").value.trim();
+    const newPass = document.getElementById("newPassword").value.trim();
+    const confirmNewPass = document.getElementById("confirmNewPassword").value.trim();
+
+    if(firstName) currentUser.firstName = firstName;
+    if(lastName) currentUser.lastName = lastName;
+    if(firstName || lastName) currentUser.name = (firstName + " " + lastName).trim();
+
+    if(currPass || newPass || confirmNewPass) {
+        if(currentUser.password && currentUser.password !== currPass) {
+            alert("বর্তমান পাসওয়ার্ড সঠিক নয়!");
+            return;
+        }
+        if(!newPass || newPass !== confirmNewPass) {
+            alert("নতুন পাসওয়ার্ড মিলছে না!");
+            return;
+        }
+        currentUser.password = newPass;
+    }
+
+    localStorage.setItem("jmrUser", JSON.stringify(currentUser));
+    alert("অ্যাকাউন্টের তথ্য সফলভাবে আপডেট করা হয়েছে!");
+
+    document.getElementById("currPassword").value = "";
+    document.getElementById("newPassword").value = "";
+    document.getElementById("confirmNewPassword").value = "";
+
+    showDashboard(currentUser);
+}
+
+
+function saveAddressDetails(){
+    let currentUser = JSON.parse(localStorage.getItem("jmrUser") || "null");
+    if(!currentUser) return;
+
+    const addressData = {
+        name: document.getElementById("billingName").value.trim(),
+        district: document.getElementById("billingDistrict").value.trim(),
+        thana: document.getElementById("billingThana").value.trim(),
+        address: document.getElementById("billingAddress").value.trim(),
+        phone: document.getElementById("billingPhone").value.trim(),
+        email: document.getElementById("billingEmail").value.trim()
+    };
+
+    localStorage.setItem("jmrAddress_" + currentUser.phone, JSON.stringify(addressData));
+    alert("বিলিং এড্রেস সফলভাবে সেভ করা হয়েছে!");
 }
 
 
@@ -1286,11 +1428,15 @@ function loadUserOrders(phone){
 
         <div class="order-item-card">
 
-            <b>ID: ${escapeHtml(order.orderId)}</b><br>
+            <b>অর্ডার আইডি: ${escapeHtml(order.orderId)}</b><br>
 
-            প্রোডাক্ট: ${escapeHtml(order.productName)} (x${order.quantity})<br>
+            <b>তারিখ:</b> ${order.date || new Date().toLocaleDateString('bn-BD')}<br>
 
-            মোট: ৳${formatMoney(order.totalAmount)}
+            <b>প্রোডাক্ট:</b> ${escapeHtml(order.productName)} (x${order.quantity})<br>
+
+            <b>মোট:</b> ৳${formatMoney(order.totalAmount)}<br>
+
+            <b>ডেলিভারি স্ট্যাটাস:</b> <span style="color:#28a745; font-weight:bold;">${escapeHtml(order.status || 'Pending / Processing')}</span>
 
         </div>
 
@@ -3181,7 +3327,11 @@ async function submitOrder(){
         DELIVERY_CHARGE,
 
         totalAmount:
-        total
+        total,
+
+        date: new Date().toLocaleDateString('bn-BD'),
+
+        status: 'Pending'
 
     };
 
