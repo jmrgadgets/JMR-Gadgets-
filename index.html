@@ -37,9 +37,16 @@ header{
 }
 
 .menu-btn,
-.search-btn{
-    font-size:26px;
+.search-btn,
+.cart-header-btn{
+    font-size:24px;
     cursor:pointer;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 .logo{
@@ -51,6 +58,18 @@ header{
 
 .logo span{
     color:#f5c400;
+}
+
+.cart-count-badge {
+    background: #111;
+    color: #f5c400;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 2px 6px;
+    position: relative;
+    top: -10px;
+    left: -8px;
 }
 
 /* ================= SEARCH ================= */
@@ -382,16 +401,17 @@ header{
 }
 
 .qty button{
-    width:35px;
-    height:35px;
+    width:32px;
+    height:32px;
     border:0;
     border-radius:6px;
     background:#f5c400;
-    font-size:20px;
+    font-size:18px;
+    cursor:pointer;
 }
 
 .qty span{
-    min-width:25px;
+    min-width:20px;
     text-align:center;
     font-weight:700;
 }
@@ -419,6 +439,52 @@ header{
     opacity:.6;
 }
 
+/* ================= CART STYLES ================= */
+
+.cart-item-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background: #fff;
+    position: relative;
+}
+
+.cart-item-img {
+    width: 65px;
+    height: 65px;
+    object-fit: contain;
+}
+
+.cart-item-details {
+    flex: 1;
+}
+
+.cart-item-title {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.cart-item-price {
+    font-weight: bold;
+    color: #111;
+    font-size: 14px;
+}
+
+.cart-remove-btn {
+    position: absolute;
+    top: 5px;
+    right: 8px;
+    font-size: 18px;
+    color: #ff4d4d;
+    cursor: pointer;
+    font-weight: bold;
+}
+
 /* ================= BOTTOM NAV ================= */
 
 .bottom-nav{
@@ -438,6 +504,7 @@ header{
     text-align:center;
     font-size:12px;
     cursor:pointer;
+    position: relative;
 }
 
 .bottom-nav b{
@@ -567,8 +634,14 @@ header{
 JMR <span>GADGETS</span>
 </div>
 
-<div class="search-btn" onclick="toggleSearch()">
-⌕
+<div class="header-right">
+    <div class="search-btn" onclick="toggleSearch()">
+    ⌕
+    </div>
+
+    <div class="cart-header-btn" onclick="openCartModal()">
+    🛒<span class="cart-count-badge cart-count-val">0</span>
+    </div>
 </div>
 
 </header>
@@ -598,13 +671,18 @@ oninput="renderProducts()"
         🏠 Home
     </div>
 
+    <!-- View Cart -->
+    <div onclick="openCartModal();closeMenu()">
+        🛒 View Cart
+    </div>
+
     <!-- Order Tracking -->
     <div onclick="openOrderTracking();closeMenu()">
         📦 Order Tracking
     </div>
 
     <!-- Contact -->
-    <div onclick="showWhatsApp();closeMenu()">
+    <div onclick="openWhatsApp();closeMenu()">
         📞 Contact
     </div>
 
@@ -764,6 +842,11 @@ WhatsApp
 Home
 </div>
 
+<div onclick="openCartModal()">
+<b>🛒</b>
+Cart <span class="cart-count-badge cart-count-val" style="position:absolute; top:-3px; right:10px;">0</span>
+</div>
+
 <div onclick="openAccount()">
 <b>👤</b>
 My Account
@@ -891,64 +974,82 @@ My Account
     </div>
 
 
-    <!-- ================= USER DASHBOARD ================= -->
+    <!-- ================= USER DASHBOARD (ACCORDION STYLING) ================= -->
 
-    <div id="dashboardSection"
-         class="account-section"
-         style="display:none;">
+    <div id="dashboardSection" class="account-section" style="display:none;">
 
-        <h3>Welcome, <span id="userNameDisplay">User</span></h3>
+        <h3 style="margin-bottom: 5px;">Welcome, <span id="userNameDisplay">User</span></h3>
+        <p style="margin: 0 0 20px 0; color: #666; font-size: 14px; cursor: default;">Phone: <span id="userPhoneDisplay"></span></p>
 
-        <div style="background:#f9f9f9; padding:12px; border-radius:8px; margin-bottom:15px;">
-            <p style="margin:0 0 5px; text-align:left;"><b>Phone:</b> <span id="userPhoneDisplay"></span></p>
-        </div>
-
-        <!-- MY ORDERS -->
-        <div class="dash-block">
-            <h4 style="margin:10px 0 5px; text-align:left; border-bottom: 2px solid #ffd400; padding-bottom: 4px;">My Orders</h4>
-            <div id="userOrdersList" style="max-height:180px; overflow-y:auto; text-align:left; font-size:13px; margin-bottom: 15px;">
-                <p style="color:#777;">অর্ডার তথ্য লোড হচ্ছে...</p>
+        <!-- 1. MY ORDERS BOX -->
+        <div class="dash-card">
+            <div class="dash-card-header" onclick="toggleDashTab('ordersTab')">
+                <span>📦 My Orders</span>
+                <span class="dash-arrow">▼</span>
+            </div>
+            <div id="ordersTab" class="dash-card-body" style="display:none;">
+                <div id="userOrdersList" style="max-height:220px; overflow-y:auto; font-size:13px;">
+                    <p style="color:#777; text-align:center;">অর্ডার তথ্য লোড হচ্ছে...</p>
+                </div>
             </div>
         </div>
 
-        <!-- ACCOUNTS DETAILS -->
-        <div class="dash-block" style="text-align: left; margin-bottom: 15px;">
-            <h4 style="margin:10px 0 10px; border-bottom: 2px solid #ffd400; padding-bottom: 4px;">Accounts Details</h4>
-            
-            <div style="display: flex; gap: 8px;">
-                <input type="text" id="accFirstName" placeholder="First Name" style="margin-bottom:8px;">
-                <input type="text" id="accLastName" placeholder="Last Name" style="margin-bottom:8px;">
+        <!-- 2. ACCOUNT DETAILS BOX -->
+        <div class="dash-card">
+            <div class="dash-card-header" onclick="toggleDashTab('accDetailsTab')">
+                <span>👤 Account Details</span>
+                <span class="dash-arrow">▼</span>
             </div>
-
-            <div style="font-weight: bold; margin: 8px 0 4px; font-size: 14px;">Password Change</div>
-            
-            <input type="password" id="currPassword" placeholder="Current password" style="margin-bottom:8px;">
-            <input type="password" id="newPassword" placeholder="New password" style="margin-bottom:8px;">
-            <input type="password" id="confirmNewPassword" placeholder="Confirm new password" style="margin-bottom:8px;">
-
-            <button type="button" onclick="saveAccountDetails()" style="background:#f5c400; color:#000; margin-top:5px;">
-                Save Changes
-            </button>
+            <div id="accDetailsTab" class="dash-card-body" style="display:none;">
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="accFirstName" placeholder="First Name">
+                    <input type="text" id="accLastName" placeholder="Last Name">
+                </div>
+                <button type="button" onclick="saveAccountDetails()" style="background:#f5c400; color:#000; margin-top:5px;">
+                    Save Changes
+                </button>
+            </div>
         </div>
 
-        <!-- ADDRESS SECTION -->
-        <div class="dash-block" style="text-align: left; margin-bottom: 15px;">
-            <h4 style="margin:10px 0 10px; border-bottom: 2px solid #ffd400; padding-bottom: 4px;">Address (Billing Address)</h4>
-            
-            <input type="text" id="billingName" placeholder="আপনার নাম" style="margin-bottom:8px;">
-            <input type="text" id="billingDistrict" placeholder="জেলা" style="margin-bottom:8px;">
-            <input type="text" id="billingThana" placeholder="থানা" style="margin-bottom:8px;">
-            <textarea id="billingAddress" placeholder="সম্পূর্ণ ঠিকানা" style="width: 100%; padding: 11px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; margin-bottom: 8px; min-height: 60px;"></textarea>
-            <input type="tel" id="billingPhone" placeholder="ফোন নাম্বার" style="margin-bottom:8px;">
-            <input type="email" id="billingEmail" placeholder="ইমেইল" style="margin-bottom:8px;">
+        <!-- 3. ADDRESS BOX -->
+        <div class="dash-card">
+            <div class="dash-card-header" onclick="toggleDashTab('addressTab')">
+                <span>🏠 Address (Billing Address)</span>
+                <span class="dash-arrow">▼</span>
+            </div>
+            <div id="addressTab" class="dash-card-body" style="display:none;">
+                <input type="text" id="billingName" placeholder="আপনার নাম" style="margin-bottom:8px;">
+                <input type="text" id="billingDistrict" placeholder="জেলা" style="margin-bottom:8px;">
+                <input type="text" id="billingThana" placeholder="থানা" style="margin-bottom:8px;">
+                <textarea id="billingAddress" placeholder="সম্পূর্ণ ঠিকানা" style="width: 100%; padding: 11px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; margin-bottom: 8px; min-height: 60px;"></textarea>
+                <input type="tel" id="billingPhone" placeholder="ফোন নাম্বার" style="margin-bottom:8px;">
+                <input type="email" id="billingEmail" placeholder="ইমেইল" style="margin-bottom:8px;">
 
-            <button type="button" onclick="saveAddressDetails()" style="background:#f5c400; color:#000; margin-top:5px;">
-                Save Address
-            </button>
+                <button type="button" onclick="saveAddressDetails()" style="background:#f5c400; color:#000; margin-top:5px;">
+                    Save Address
+                </button>
+            </div>
         </div>
 
-        <!-- LOGOUT -->
-        <button type="button" onclick="handleLogout()" style="background:#ff4d4d; color:#fff; margin-top:15px; width: 100%;">
+        <!-- 4. PASSWORD CHANGE BOX -->
+        <div class="dash-card">
+            <div class="dash-card-header" onclick="toggleDashTab('passChangeTab')">
+                <span>🔒 Password Change</span>
+                <span class="dash-arrow">▼</span>
+            </div>
+            <div id="passChangeTab" class="dash-card-body" style="display:none;">
+                <input type="password" id="currPassword" placeholder="Current password" style="margin-bottom:8px;">
+                <input type="password" id="newPassword" placeholder="New password" style="margin-bottom:8px;">
+                <input type="password" id="confirmNewPassword" placeholder="Confirm new password" style="margin-bottom:8px;">
+
+                <button type="button" onclick="savePasswordDetails()" style="background:#f5c400; color:#000; margin-top:5px;">
+                    Save Password Change
+                </button>
+            </div>
+        </div>
+
+        <!-- LOGOUT BUTTON -->
+        <button type="button" onclick="handleLogout()" style="background:#ff4d4d; color:#fff; margin-top:20px; width: 100%; border-radius: 10px; font-size:16px;">
             Logout
         </button>
 
@@ -971,7 +1072,47 @@ My Account
 </div>
 
 
-<!-- ================= ACCOUNT CSS ================= -->
+<!-- ================= VIEW CART MODAL ================= -->
+
+<div class="modal" id="cartModal">
+
+<div class="modal-box">
+
+<div class="close" onclick="closeModal('cartModal')">×</div>
+
+<h2 style="margin-top:0; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+🛒 Your Shopping Cart
+</h2>
+
+<div id="cartItemsContainer" style="max-height: 300px; overflow-y: auto;">
+    <!-- Dynamic Cart Items -->
+</div>
+
+<div id="cartSummaryBox" style="border-top: 1px solid #eee; padding-top: 12px; margin-top: 10px;">
+    <div style="display: flex; justify-content: space-between; font-size: 16px; margin-bottom: 5px;">
+        <span>Subtotal:</span>
+        <b id="cartSubtotal">৳0</b>
+    </div>
+    <div style="display: flex; justify-content: space-between; font-size: 16px; margin-bottom: 12px;">
+        <span>Delivery Charge:</span>
+        <b id="cartDelivery">৳120</b>
+    </div>
+    <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; margin-bottom: 15px; background: #fff9d6; padding: 10px; border-radius: 8px;">
+        <span>Total:</span>
+        <span id="cartTotal">৳120</span>
+    </div>
+
+    <button class="order-btn" onclick="proceedToCheckoutFromCart()">
+        Proceed to Checkout →
+    </button>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================= ACCOUNT STYLES ================= -->
 
 <style>
 
@@ -979,7 +1120,7 @@ My Account
     display:none;
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.55);
+    background:rgba(0,0,0,0.6);
     z-index:9999;
     align-items:center;
     justify-content:center;
@@ -988,12 +1129,12 @@ My Account
 
 .account-box{
     width:100%;
-    max-width:680px; /* বড় স্ক্রিনের জন্য সাইজ বাড়ানো হয়েছে */
-    max-height: 90vh;
+    max-width:680px; 
+    max-height: 92vh;
     background:#fff;
-    border-radius:15px;
+    border-radius:16px;
     overflow-y:auto;
-    box-shadow:0 10px 35px rgba(0,0,0,0.25);
+    box-shadow:0 10px 35px rgba(0,0,0,0.3);
 }
 
 .account-header{
@@ -1026,8 +1167,8 @@ My Account
 
 .account-section input{
     width:100%;
-    padding:13px;
-    margin-bottom:12px;
+    padding:12px;
+    margin-bottom:10px;
     border:1px solid #ddd;
     border-radius:8px;
     font-size:15px;
@@ -1044,7 +1185,6 @@ My Account
     font-size:16px;
     font-weight:bold;
     cursor:pointer;
-    margin-top:3px;
 }
 
 .account-section p{
@@ -1063,25 +1203,195 @@ My Account
     cursor:default !important;
 }
 
-.order-item-card {
-    border: 1px solid #eee;
-    padding: 10px;
-    border-radius: 6px;
-    margin-bottom: 8px;
+/* DASHBOARD CARDS & ACCORDION STYLE */
+.dash-card {
+    border: 1px solid #e2e2e2;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    background: #fff;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    transition: all 0.2s ease;
+}
+
+.dash-card-header {
+    background: #fdfdfd;
+    padding: 15px 18px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    border-bottom: 1px solid transparent;
+}
+
+.dash-card-header:hover {
+    background: #fff9d6;
+}
+
+.dash-card-body {
+    padding: 15px 18px;
+    border-top: 1px solid #eee;
     background: #fafafa;
+}
+
+.dash-arrow {
+    font-size: 12px;
+    transition: transform 0.3s ease;
+    color: #555;
+}
+
+.dash-card-header.active .dash-arrow {
+    transform: rotate(180deg);
+}
+
+.order-item-card {
+    border: 1px solid #e0e0e0;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background: #fff;
 }
 
 </style>
 
 
-<!-- ================= ACCOUNT SCRIPT ================= -->
+<!-- ================= ACCOUNT & CART SCRIPT ================= -->
 
 <script>
 
+/* CART GLOBAL SYSTEM */
+let cart = [];
+
+function loadCartFromStorage(){
+    cart = JSON.parse(localStorage.getItem("jmrCart") || "[]");
+    updateCartCountUI();
+}
+
+function saveCartToStorage(){
+    localStorage.setItem("jmrCart", JSON.stringify(cart));
+    updateCartCountUI();
+}
+
+function updateCartCountUI(){
+    const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+    document.querySelectorAll(".cart-count-val").forEach(el => el.textContent = totalCount);
+}
+
+function addToCartItem(product, color, qty){
+    const selectedColorVal = color || "Default";
+    const existingIndex = cart.findIndex(item => item.code === product.code && item.color === selectedColorVal);
+
+    if(existingIndex > -1){
+        cart[existingIndex].qty += qty;
+    } else {
+        cart.push({
+            code: product.code,
+            name: product.name,
+            price: product.price,
+            image: product.image,
+            color: selectedColorVal,
+            qty: qty
+        });
+    }
+
+    saveCartToStorage();
+    alert("প্রোডাক্ট কার্টে যোগ করা হয়েছে!");
+}
+
+function openCartModal(){
+    renderCartItems();
+    openModal("cartModal");
+}
+
+function renderCartItems(){
+    const container = document.getElementById("cartItemsContainer");
+    
+    if(!cart.length){
+        container.innerHTML = '<div style="text-align:center; padding:30px; color:#777;">আপনার কার্ট খালি রয়েছে।</div>';
+        document.getElementById("cartSubtotal").textContent = "৳0";
+        document.getElementById("cartTotal").textContent = "৳0";
+        return;
+    }
+
+    let subtotal = 0;
+
+    container.innerHTML = cart.map((item, index) => {
+        const itemTotal = item.price * item.qty;
+        subtotal += itemTotal;
+
+        return `
+            <div class="cart-item-card">
+                <span class="cart-remove-btn" onclick="removeCartItem(${index})">✕</span>
+                <img src="${escapeHtml(item.image)}" class="cart-item-img" alt="${escapeHtml(item.name)}">
+                <div class="cart-item-details">
+                    <div class="cart-item-title">${escapeHtml(item.name)}</div>
+                    <div style="font-size:12px; color:#666; margin-bottom: 4px;">Color: ${escapeHtml(item.color)}</div>
+                    <div class="cart-item-price">৳${formatMoney(item.price)}</div>
+                </div>
+                <div class="qty">
+                    <button type="button" onclick="changeCartQty(${index}, -1)">−</button>
+                    <span>${item.qty}</span>
+                    <button type="button" onclick="changeCartQty(${index}, 1)">+</button>
+                </div>
+            </div>
+        `;
+    }).join("");
+
+    const grandTotal = subtotal + DELIVERY_CHARGE;
+    document.getElementById("cartSubtotal").textContent = "৳" + formatMoney(subtotal);
+    document.getElementById("cartDelivery").textContent = "৳" + formatMoney(DELIVERY_CHARGE);
+    document.getElementById("cartTotal").textContent = "৳" + formatMoney(grandTotal);
+}
+
+function changeCartQty(index, delta){
+    if(cart[index]){
+        cart[index].qty += delta;
+        if(cart[index].qty <= 0){
+            cart.splice(index, 1);
+        }
+        saveCartToStorage();
+        renderCartItems();
+    }
+}
+
+function removeCartItem(index){
+    if(cart[index]){
+        cart.splice(index, 1);
+        saveCartToStorage();
+        renderCartItems();
+    }
+}
+
+function proceedToCheckoutFromCart(){
+    if(!cart.length){
+        alert("আপনার কার্টে কোনো প্রোডাক্ট নেই!");
+        return;
+    }
+
+    closeModal("cartModal");
+
+    // Select first product for checkout compatibility
+    selectedProduct = products.find(p => p.code === cart[0].code) || {
+        code: cart[0].code,
+        name: cart[0].name,
+        price: cart[0].price,
+        colors: cart[0].color
+    };
+
+    selectedColor = cart[0].color;
+    currentQty = cart[0].qty;
+
+    openOrder();
+}
+
+
+/* ACCOUNT FUNCTIONS */
+
 function openAccount(){
-
     document.getElementById("accountModal").style.display = "flex";
-
     const currentUser = JSON.parse(localStorage.getItem("jmrUser") || "null");
 
     if(currentUser){
@@ -1089,72 +1399,58 @@ function openAccount(){
     } else {
         showLogin();
     }
-
 }
-
 
 function closeAccount(){
-
     document.getElementById("accountModal").style.display = "none";
-
 }
-
 
 function hideAccountSections(){
-
     document.getElementById("loginSection").style.display = "none";
-
     document.getElementById("createAccountSection").style.display = "none";
-
     document.getElementById("forgotPasswordSection").style.display = "none";
-
     document.getElementById("dashboardSection").style.display = "none";
-
 }
-
 
 function showLogin(){
-
     hideAccountSections();
-
     document.getElementById("loginSection").style.display = "block";
-
 }
-
 
 function showCreateAccount(){
-
     hideAccountSections();
-
     document.getElementById("createAccountSection").style.display = "block";
-
 }
-
 
 function showForgotPassword(){
-
     hideAccountSections();
-
     document.getElementById("forgotPasswordSection").style.display = "block";
-
 }
 
+/* ACCORDION / TAB TOGGLE LOGIC */
+function toggleDashTab(tabId){
+    const body = document.getElementById(tabId);
+    const header = body.previousElementSibling;
+    const isCurrentlyOpen = body.style.display === "block";
+
+    document.querySelectorAll(".dash-card-body").forEach(el => el.style.display = "none");
+    document.querySelectorAll(".dash-card-header").forEach(el => el.classList.remove("active"));
+
+    if(!isCurrentlyOpen){
+        body.style.display = "block";
+        header.classList.add("active");
+    }
+}
 
 function showDashboard(user){
-
     hideAccountSections();
-
     document.getElementById("dashboardSection").style.display = "block";
-
     document.getElementById("userNameDisplay").textContent = (user.firstName ? user.firstName + " " + (user.lastName || "") : user.name) || "User";
-
     document.getElementById("userPhoneDisplay").textContent = user.phone || "";
 
-    // Load inputs for Account Details
     document.getElementById("accFirstName").value = user.firstName || "";
     document.getElementById("accLastName").value = user.lastName || "";
 
-    // Load Address Details
     const savedAddress = JSON.parse(localStorage.getItem("jmrAddress_" + user.phone) || "{}");
     document.getElementById("billingName").value = savedAddress.name || "";
     document.getElementById("billingDistrict").value = savedAddress.district || "";
@@ -1164,185 +1460,103 @@ function showDashboard(user){
     document.getElementById("billingEmail").value = savedAddress.email || "";
 
     loadUserOrders(user.phone);
-
 }
 
-
-/* ================= ACCOUNT ACTIONS ================= */
-
 async function handleCreateAccount(){
-
     const name = document.getElementById("accountName").value.trim();
-
     const phone = document.getElementById("accountPhone").value.trim();
-
     const password = document.getElementById("accountPassword").value.trim();
-
     const confirmPassword = document.getElementById("accountConfirmPassword").value.trim();
 
-
     if(!name || !phone || !password || !confirmPassword){
-
         alert("অনুগ্রহ করে সব তথ্য সঠিকভাবে পূরণ করুন।");
-
         return;
-
     }
-
 
     if(password !== confirmPassword){
-
         alert("পাসওয়ার্ড এবং কনফার্ম পাসওয়ার্ড মিলছে না!");
-
         return;
-
     }
 
-
     const btn = document.getElementById("createAccountBtn");
-
     btn.disabled = true;
-
     btn.textContent = "Account তৈরি হচ্ছে...";
 
-
     try{
-
         await fetch(ACCOUNT_WEB_APP_URL, {
-
             method: "POST",
-
             mode: "no-cors",
-
-            headers: {
-
-                "Content-Type": "text/plain;charset=utf-8"
-
-            },
-
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
             body: JSON.stringify({
-
                 action: "createAccount",
-
                 name: name,
-
                 phone: phone,
-
                 password: password
-
             })
-
         });
-
 
         const nameParts = name.split(" ");
         const firstName = nameParts[0] || name;
         const lastName = nameParts.slice(1).join(" ") || "";
-
         const userData = { name: name, firstName: firstName, lastName: lastName, phone: phone, password: password };
 
         localStorage.setItem("jmrUser", JSON.stringify(userData));
-
-
-        // Show Animated Modal
         document.getElementById("accountCreatedModal").classList.add("show");
-
         showDashboard(userData);
 
-
         document.getElementById("accountName").value = "";
-
         document.getElementById("accountPhone").value = "";
-
         document.getElementById("accountPassword").value = "";
-
         document.getElementById("accountConfirmPassword").value = "";
-
     } catch(err){
-
         console.error(err);
-
         alert("অ্যাকাউন্ট তৈরি করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
-
     } finally {
-
         btn.disabled = false;
-
         btn.textContent = "Create Account";
-
     }
-
 }
-
 
 function closeAccountCreatedModal(){
     document.getElementById("accountCreatedModal").classList.remove("show");
 }
 
-
 async function handleLogin(){
-
     const phone = document.getElementById("loginPhone").value.trim();
-
     const password = document.getElementById("loginPassword").value.trim();
 
-
     if(!phone || !password){
-
         alert("অনুগ্রহ করে ফোন নাম্বার এবং পাসওয়ার্ড দিন।");
-
         return;
-
     }
 
-
     const btn = document.getElementById("loginBtn");
-
     btn.disabled = true;
-
     btn.textContent = "লগইন হচ্ছে...";
 
-
     try{
-
-        // Local check if password matches locally updated password
         let currentUser = JSON.parse(localStorage.getItem("jmrUser") || "null");
-        
         if(currentUser && currentUser.phone === phone && currentUser.password && currentUser.password !== password) {
             alert("পাসওয়ার্ড ভুল হয়েছে!");
             return;
         }
 
         const userData = currentUser && currentUser.phone === phone ? currentUser : { phone: phone, name: "Customer", password: password };
-
         localStorage.setItem("jmrUser", JSON.stringify(userData));
 
-
         alert("লগইন সফল হয়েছে!");
-
         showDashboard(userData);
 
-
         document.getElementById("loginPhone").value = "";
-
         document.getElementById("loginPassword").value = "";
-
     } catch(err){
-
         console.error(err);
-
         alert("লগইন করতে সমস্যা হয়েছে।");
-
     } finally {
-
         btn.disabled = false;
-
         btn.textContent = "Login";
-
     }
-
 }
-
 
 function saveAccountDetails(){
     let currentUser = JSON.parse(localStorage.getItem("jmrUser") || "null");
@@ -1350,28 +1564,36 @@ function saveAccountDetails(){
 
     const firstName = document.getElementById("accFirstName").value.trim();
     const lastName = document.getElementById("accLastName").value.trim();
-    const currPass = document.getElementById("currPassword").value.trim();
-    const newPass = document.getElementById("newPassword").value.trim();
-    const confirmNewPass = document.getElementById("confirmNewPassword").value.trim();
 
     if(firstName) currentUser.firstName = firstName;
     if(lastName) currentUser.lastName = lastName;
     if(firstName || lastName) currentUser.name = (firstName + " " + lastName).trim();
 
-    if(currPass || newPass || confirmNewPass) {
-        if(currentUser.password && currentUser.password !== currPass) {
-            alert("বর্তমান পাসওয়ার্ড সঠিক নয়!");
-            return;
-        }
-        if(!newPass || newPass !== confirmNewPass) {
-            alert("নতুন পাসওয়ার্ড মিলছে না!");
-            return;
-        }
-        currentUser.password = newPass;
-    }
-
     localStorage.setItem("jmrUser", JSON.stringify(currentUser));
     alert("অ্যাকাউন্টের তথ্য সফলভাবে আপডেট করা হয়েছে!");
+    showDashboard(currentUser);
+}
+
+function savePasswordDetails(){
+    let currentUser = JSON.parse(localStorage.getItem("jmrUser") || "null");
+    if(!currentUser) return;
+
+    const currPass = document.getElementById("currPassword").value.trim();
+    const newPass = document.getElementById("newPassword").value.trim();
+    const confirmNewPass = document.getElementById("confirmNewPassword").value.trim();
+
+    if(currentUser.password && currentUser.password !== currPass) {
+        alert("বর্তমান পাসওয়ার্ড সঠিক নয়!");
+        return;
+    }
+    if(!newPass || newPass !== confirmNewPass) {
+        alert("নতুন পাসওয়ার্ড মিলছে না!");
+        return;
+    }
+    
+    currentUser.password = newPass;
+    localStorage.setItem("jmrUser", JSON.stringify(currentUser));
+    alert("পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে!");
 
     document.getElementById("currPassword").value = "";
     document.getElementById("newPassword").value = "";
@@ -1379,7 +1601,6 @@ function saveAccountDetails(){
 
     showDashboard(currentUser);
 }
-
 
 function saveAddressDetails(){
     let currentUser = JSON.parse(localStorage.getItem("jmrUser") || "null");
@@ -1398,69 +1619,38 @@ function saveAddressDetails(){
     alert("বিলিং এড্রেস সফলভাবে সেভ করা হয়েছে!");
 }
 
-
 function handleLogout(){
-
     localStorage.removeItem("jmrUser");
-
     showLogin();
-
 }
-
 
 function loadUserOrders(phone){
-
     const ordersBox = document.getElementById("userOrdersList");
-
     let savedOrders = JSON.parse(localStorage.getItem("jmrOrders_" + phone) || "[]");
 
-
     if(!savedOrders.length){
-
         ordersBox.innerHTML = '<p style="color:#777; text-align:center;">আপনার কোনো অর্ডারের হিস্ট্রি নেই।</p>';
-
         return;
-
     }
-
 
     ordersBox.innerHTML = savedOrders.map(order => `
-
         <div class="order-item-card">
-
             <b>অর্ডার আইডি: ${escapeHtml(order.orderId)}</b><br>
-
             <b>তারিখ:</b> ${order.date || new Date().toLocaleDateString('bn-BD')}<br>
-
             <b>প্রোডাক্ট:</b> ${escapeHtml(order.productName)} (x${order.quantity})<br>
-
             <b>মোট:</b> ৳${formatMoney(order.totalAmount)}<br>
-
             <b>ডেলিভারি স্ট্যাটাস:</b> <span style="color:#28a745; font-weight:bold;">${escapeHtml(order.status || 'Pending / Processing')}</span>
-
         </div>
-
     `).join("");
-
 }
 
-
-/* ================= WHATSAPP REQUEST ================= */
-
 function sendWhatsAppRequest(){
-
-    const phone =
-        document.getElementById("forgotPhone").value.trim();
-
+    const phone = document.getElementById("forgotPhone").value.trim();
 
     if(!phone){
-
         alert("অনুগ্রহ করে আপনার Phone Number দিন।");
-
         return;
-
     }
-
 
     const message =
         "আসসালামু আলাইকুম, আমি JMR GADGETS-এর একজন Account User।%0A%0A" +
@@ -1468,16 +1658,12 @@ function sendWhatsAppRequest(){
         "আমার Phone Number: " + encodeURIComponent(phone) + "%0A%0A" +
         "অনুগ্রহ করে আমার Password জানিয়ে দিন।";
 
-
-    const whatsappUrl =
-        "https://wa.me/8801789283142?text=" + message;
-
-
+    const whatsappUrl = "https://wa.me/8801789283142?text=" + message;
     window.open(whatsappUrl, "_blank");
-
 }
 
 </script>
+
 <!-- ================= PRODUCT DETAILS ================= -->
 
 <div
@@ -1527,21 +1713,21 @@ class="details-text">
 
 <br>
 
-
-<button
-class="order-btn"
-onclick="openOrder()">
-
-অর্ডার করুন
-
-</button>
-
+<div style="display:flex; gap:10px;">
+    <button class="order-btn" style="background:#111; color:#fff;" onclick="addCurrentToCart()">
+        Add to Cart 🛒
+    </button>
+    <button class="order-btn" onclick="openOrder()">
+        অর্ডার করুন
+    </button>
 </div>
 
 </div>
 
+</div>
 
-<!-- ================= ORDER MODAL ================= -->
+
+<!-- ================= ORDER MODAL (ORIGINAL FORM - UNCHANGED) ================= -->
 
 <div
 class="modal"
@@ -2859,6 +3045,11 @@ function openDetails(index){
 
 }
 
+function addCurrentToCart(){
+    if(!selectedProduct) return;
+    addToCartItem(selectedProduct, selectedColor, currentQty);
+    closeModal("detailsModal");
+}
 
 /* =========================================================
    COLORS & STOCK
@@ -2945,9 +3136,9 @@ function openOrder(){
     );
 
 
-    currentQty = 1;
+    currentQty = currentQty || 1;
 
-    selectedColor = "";
+    selectedColor = selectedColor || "";
 
 
     document
@@ -2978,7 +3169,7 @@ function openOrder(){
             color => `
 
             <div
-                class="color-option"
+                class="color-option ${color.name === selectedColor ? 'selected' : ''}"
                 onclick='selectColor(this,${JSON.stringify(color.name)})'
             >
 
@@ -3000,6 +3191,18 @@ function openOrder(){
         selectedColor =
         "Default";
 
+    }
+
+    // Auto load user info if logged in
+    const currentUser = JSON.parse(localStorage.getItem("jmrUser") || "null");
+    if(currentUser){
+        document.getElementById("customerName").value = currentUser.name || "";
+        document.getElementById("phone").value = currentUser.phone || "";
+
+        const savedAddress = JSON.parse(localStorage.getItem("jmrAddress_" + currentUser.phone) || "{}");
+        if(savedAddress.district) document.getElementById("district").value = savedAddress.district;
+        if(savedAddress.thana) document.getElementById("thana").value = savedAddress.thana;
+        if(savedAddress.address) document.getElementById("address").value = savedAddress.address;
     }
 
 
@@ -3381,6 +3584,9 @@ async function submitOrder(){
 
         localStorage.setItem("jmrOrders_" + phone, JSON.stringify(savedOrders));
 
+        // Clear cart on successful order
+        cart = [];
+        saveCartToStorage();
 
         closeModal(
             "orderModal"
@@ -3481,6 +3687,7 @@ function closeSuccess(){
 ========================================================= */
 
 loadProducts();
+loadCartFromStorage();
 
 </script>
 
