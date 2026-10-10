@@ -11,6 +11,9 @@ content="width=device-width, initial-scale=1.0">
 
 <title>JMR GADGETS</title>
 
+<!-- Font Awesome Vector Icons for Original Social Logos -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <style>
 
 *{
@@ -684,8 +687,8 @@ header{
 }
 
 .social-icon-btn {
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
     background: #222;
     border-radius: 50%;
     display: flex;
@@ -693,9 +696,9 @@ header{
     justify-content: center;
     color: #fff;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 20px;
     border: 1px solid #444;
-    transition: 0.3s;
+    transition: 0.3s ease;
 }
 
 .social-icon-btn:hover {
@@ -888,8 +891,7 @@ function showAboutUs() {
 
 function showWarrantyPolicy() {
     openPolicyModal("Warranty Policy", `
-        <h3>রিপ্লেসমেন্ট ও ওয়ারেন্টি নীতিমালা</h3>
-        <p><b>Published:</b> 01 June 2026</p>
+        <h3># রিপ্লেসমেন্ট ও ওয়ারেন্টি নীতিমালা</h3>
         <p>প্রোডাক্টে কোনো সমস্যা পাওয়া গেলে নিচের শর্তাবলী অনুযায়ী রিপ্লেসমেন্ট অথবা ওয়ারেন্টি সার্ভিস প্রযোজ্য হবে।</p>
         
         <h4>🔄 প্রোডাক্ট রিপ্লেসমেন্ট নীতিমালা</h4>
@@ -921,7 +923,7 @@ function showWarrantyPolicy() {
             <li>প্রোডাক্ট আনবক্সিংয়ের সম্পূর্ণ A to Z ভিডিও (কোনো কাট ছাড়া) প্রদান করতে হবে।</li>
             <li>প্রোডাক্টের সমস্যাটি ভিডিওর মাধ্যমে স্পষ্টভাবে দেখাতে হবে।</li>
             <li>ইনভয়েস, আনবক্সিং ভিডিও এবং সমস্যার ভিডিও জমা দেওয়ার পর আমাদের কাছ থেকে একটি ফর্ম সংগ্রহ করে সঠিকভাবে পূরণ করতে হবে।</li>
-            <li>আমাদের টিম সমস্যা নিশ্চিত করার পর প্রোডাক্টের সাথে থাকা সকল অ্যাক্সেসরিজ ও উপকরণ মূল বক্সে রেখে সুন্দরভাবে প্যাকেজিং করতে হবে। <br><b style="color:red;">প্রোডাক্টের মূল বক্সে সরাসরি টেপ লাগানো যাবে না।</b></li>
+            <li>আমাদের টিম সমস্যা নিশ্চিত করার পর প্রোডাক্টের সাথে থাকা সকল অ্যাক্সেসরিজ ও উপকরণ মূল বক্সে রেখে সুন্দরভাবে প্যাকেজিং করতে হবে। <br><b style="color:red;">🚫 প্রোডাক্টের মূল বক্সে সরাসরি টেপ লাগানো যাবে না। 🚫</b></li>
             <li>নিরাপদ প্যাকেজিংয়ের জন্য ফোম, কার্টন বা বুদবুদযুক্ত (Bubble Wrap) প্লাস্টিক ব্যবহার করতে হবে। এরপর বাইরের অংশ মোটা কাগজ বা কার্টন দিয়ে মুড়িয়ে টেপ দিয়ে সুরক্ষিত করতে হবে।</li>
             <li>কাস্টমারকে অবশ্যই Steadfast Courier-এর মাধ্যমে আমাদের নির্ধারিত ঠিকানায় প্রোডাক্ট পাঠাতে হবে।</li>
             <li>রিপ্লেসমেন্ট অথবা ওয়ারেন্টি সার্ভিসের ক্ষেত্রে কাস্টমারকে একবারই ডেলিভারি চার্জ প্রদান করতে হবে। প্রোডাক্ট আমাদের কাছে পাঠানোর জন্য কাস্টমার একবার ডেলিভারি চার্জ দেবেন। পরবর্তীতে সার্ভিস সম্পন্ন বা রিপ্লেসমেন্টের পর প্রোডাক্ট কাস্টমারের কাছে ফেরত পাঠানোর জন্য কোনো অতিরিক্ত ডেলিভারি চার্জ দিতে হবে না।</li>
@@ -929,6 +931,7 @@ function showWarrantyPolicy() {
         <hr style="border:0; border-top:1px solid #ddd; margin:15px 0;">
         
         <h4>❌ যেসব ক্ষেত্রে রিপ্লেসমেন্ট বা ওয়ারেন্টি প্রযোজ্য হবে না</h4>
+        <p>নিম্নোক্ত ক্ষেত্রে রিপ্লেসমেন্ট বা ওয়ারেন্টি সার্ভিস গ্রহণযোগ্য হবে নাঃ</p>
         <ul>
             <li>ভুল ব্যবহার, অসাবধানতা বা দুর্ঘটনার কারণে প্রোডাক্ট ক্ষতিগ্রস্ত হলে।</li>
             <li>প্রোডাক্টে আঘাত, দাগ, ভাঙন, রঙের পরিবর্তন বা বাহ্যিক ক্ষতি থাকলে।</li>
@@ -1038,10 +1041,10 @@ id="products">
         <a href="tel:01941900221" class="footer-support-number">01941900221</a>
 
         <div class="footer-social-icons">
-            <a href="https://www.facebook.com/share/19rroNTfLL/" target="_blank" class="social-icon-btn" title="Facebook">f</a>
-            <a href="https://www.instagram.com/jmr_gadgets?vrfl=NjBkNWRybGZibzFv" target="_blank" class="social-icon-btn" title="Instagram">ig</a>
-            <a href="https://wa.me/8801789283142" target="_blank" class="social-icon-btn" title="WhatsApp">wa</a>
-            <a href="https://tiktok.com/@jmr.gadgets" target="_blank" class="social-icon-btn" title="TikTok">tk</a>
+            <a href="https://www.facebook.com/share/19rroNTfLL/" target="_blank" class="social-icon-btn" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/jmr_gadgets?vrfl=NjBkNWRybGZibzFv" target="_blank" class="social-icon-btn" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://wa.me/8801789283142" target="_blank" class="social-icon-btn" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://tiktok.com/@jmr.gadgets" target="_blank" class="social-icon-btn" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
         </div>
 
         <div class="footer-links-grid">
