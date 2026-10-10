@@ -638,6 +638,119 @@ header{
 
 }
 
+/* ================= WEB FOOTER STYLES ================= */
+.site-footer {
+    background: #111;
+    color: #fff;
+    padding: 40px 20px 80px 20px;
+    margin-top: 40px;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.footer-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.footer-support-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #f5c400;
+}
+
+.footer-support-number {
+    font-size: 22px;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.footer-support-number:hover {
+    color: #f5c400;
+}
+
+.footer-social-icons {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.social-icon-btn {
+    width: 42px;
+    height: 42px;
+    background: #222;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    border: 1px solid #444;
+    transition: 0.3s;
+}
+
+.social-icon-btn:hover {
+    background: #f5c400;
+    color: #111;
+    border-color: #f5c400;
+}
+
+.footer-links-grid {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    max-width: 600px;
+    border-top: 1px solid #333;
+    padding-top: 25px;
+    text-align: left;
+}
+
+.footer-col h4 {
+    font-size: 16px;
+    color: #f5c400;
+    margin-bottom: 12px;
+    font-weight: bold;
+}
+
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-col ul li {
+    margin-bottom: 8px;
+}
+
+.footer-col ul li span,
+.footer-col ul li a {
+    color: #ccc;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.footer-col ul li span:hover,
+.footer-col ul li a:hover {
+    color: #f5c400;
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .footer-links-grid {
+        justify-content: space-between;
+        padding: 25px 10px 0 10px;
+    }
+}
 </style>
 
 </head>
@@ -774,9 +887,81 @@ function showAboutUs() {
 
 
 function showWarrantyPolicy() {
+    openPolicyModal("Warranty Policy", `
+        <h3>রিপ্লেসমেন্ট ও ওয়ারেন্টি নীতিমালা</h3>
+        <p><b>Published:</b> 01 June 2026</p>
+        <p>প্রোডাক্টে কোনো সমস্যা পাওয়া গেলে নিচের শর্তাবলী অনুযায়ী রিপ্লেসমেন্ট অথবা ওয়ারেন্টি সার্ভিস প্রযোজ্য হবে।</p>
+        
+        <h4>🔄 প্রোডাক্ট রিপ্লেসমেন্ট নীতিমালা</h4>
+        <p>যেসব প্রোডাক্টে ৭ দিন, ১৪ দিন অথবা ১ মাসের রিপ্লেসমেন্ট ওয়ারেন্টি দেওয়া হয়, সেসব প্রোডাক্টের ক্ষেত্রে নিম্নোক্ত শর্তসমূহ প্রযোজ্যঃ</p>
+        <ul>
+            <li>প্রোডাক্ট গ্রহণের পর আনবক্সিংয়ের সম্পূর্ণ A to Z ভিডিও (কোনো কাট বা এডিট ছাড়া) সংরক্ষণ করতে হবে।</li>
+            <li>রিপ্লেসমেন্টের নির্ধারিত সময়সীমার মধ্যেই আমাদের সাথে যোগাযোগ করতে হবে।</li>
+            <li>প্রোডাক্টের সমস্যার ভিডিও ধারণ করে আমাদের কাছে পাঠাতে হবে।</li>
+            <li>সমস্যা যাচাইয়ের পর আমাদের টিম একটি ফর্ম প্রদান করবে, যা সঠিকভাবে পূরণ করতে হবে।</li>
+            <li>এক্সচেঞ্জের জন্য প্রোডাক্টটি ও এর সকল অ্যাক্সেসরিজ সুন্দরভাবে প্যাকেজিং করে প্রস্তুত রাখতে হবে।</li>
+            <li>রিপ্লেসমেন্টের ক্ষেত্রে কাস্টমারকে প্রথমে সমস্যাযুক্ত প্রোডাক্টটি আমাদের নির্ধারিত ঠিকানায় পাঠাতে হবে। প্রোডাক্টটি আমাদের কাছে পৌঁছানোর আগে কোনো নতুন প্রোডাক্ট পাঠানো হবে না।</li>
+            <li>প্রোডাক্টটি আমাদের কাছে পৌঁছানোর পর যাচাই-বাছাই করে একই মডেলের নতুন প্রোডাক্ট পাঠানো হবে।</li>
+        </ul>
+        <p><b>বিশেষ দ্রষ্টব্য:</b> যদি JMR Gadgets-এর পক্ষ থেকে ভুল প্রোডাক্ট বা ত্রুটিযুক্ত (ডিফেক্টিভ) প্রোডাক্ট পাঠানো হয়ে থাকে, তাহলে এক্সচেঞ্জ সংক্রান্ত সম্পূর্ণ দায়িত্ব JMR Gadgets বহন করবে। এ ক্ষেত্রে কাস্টমারকে কোনো অতিরিক্ত অর্থ প্রদান করতে হবে না।</p>
+        <hr style="border:0; border-top:1px solid #ddd; margin:15px 0;">
+        
+        <h4>🛠️ ওয়ারেন্টি সার্ভিস নীতিমালা</h4>
+        <p>যেসব প্রোডাক্টের সাথে ৩ মাস, ৬ মাস অথবা ১ বছরের ওয়ারেন্টি উল্লেখ থাকে, সেগুলোর ক্ষেত্রে নিচের শর্তসমূহ প্রযোজ্যঃ</p>
+        <ul>
+            <li>প্রোডাক্টে ম্যানুফ্যাকচারিংজনিত কোনো সমস্যা পাওয়া গেলে রিপ্লেসমেন্টের জন্য অবশ্যই ৭ দিনের মধ্যে যোগাযোগ করতে হবে।</li>
+            <li>৭ দিনের পর কোনো সমস্যা দেখা দিলে ওয়ারেন্টি সার্ভিস ক্লেইম করে প্রোডাক্ট আমাদের কাছে পাঠাতে হবে।</li>
+            <li>কাস্টমারের পাঠানো প্রোডাক্ট আমাদের কাছে পৌঁছানোর আগে কোনো রিপ্লেসমেন্ট প্রোডাক্ট পাঠানো হবে না।</li>
+            <li>আমাদের টেকনিশিয়ান টিম প্রোডাক্ট পরীক্ষা ও সার্ভিস সম্পন্ন করে পুনরায় কাস্টমারের কাছে পাঠাবে।</li>
+        </ul>
+        
+        <h4>ওয়ারেন্টি সার্ভিস গ্রহণের নিয়ম</h4>
+        <ol>
+            <li>কাস্টমারের ইনভয়েসের ছবি আমাদের কাছে জমা দিতে হবে।</li>
+            <li>প্রোডাক্ট আনবক্সিংয়ের সম্পূর্ণ A to Z ভিডিও (কোনো কাট ছাড়া) প্রদান করতে হবে।</li>
+            <li>প্রোডাক্টের সমস্যাটি ভিডিওর মাধ্যমে স্পষ্টভাবে দেখাতে হবে।</li>
+            <li>ইনভয়েস, আনবক্সিং ভিডিও এবং সমস্যার ভিডিও জমা দেওয়ার পর আমাদের কাছ থেকে একটি ফর্ম সংগ্রহ করে সঠিকভাবে পূরণ করতে হবে।</li>
+            <li>আমাদের টিম সমস্যা নিশ্চিত করার পর প্রোডাক্টের সাথে থাকা সকল অ্যাক্সেসরিজ ও উপকরণ মূল বক্সে রেখে সুন্দরভাবে প্যাকেজিং করতে হবে। <br><b style="color:red;">প্রোডাক্টের মূল বক্সে সরাসরি টেপ লাগানো যাবে না।</b></li>
+            <li>নিরাপদ প্যাকেজিংয়ের জন্য ফোম, কার্টন বা বুদবুদযুক্ত (Bubble Wrap) প্লাস্টিক ব্যবহার করতে হবে। এরপর বাইরের অংশ মোটা কাগজ বা কার্টন দিয়ে মুড়িয়ে টেপ দিয়ে সুরক্ষিত করতে হবে।</li>
+            <li>কাস্টমারকে অবশ্যই Steadfast Courier-এর মাধ্যমে আমাদের নির্ধারিত ঠিকানায় প্রোডাক্ট পাঠাতে হবে।</li>
+            <li>রিপ্লেসমেন্ট অথবা ওয়ারেন্টি সার্ভিসের ক্ষেত্রে কাস্টমারকে একবারই ডেলিভারি চার্জ প্রদান করতে হবে। প্রোডাক্ট আমাদের কাছে পাঠানোর জন্য কাস্টমার একবার ডেলিভারি চার্জ দেবেন। পরবর্তীতে সার্ভিস সম্পন্ন বা রিপ্লেসমেন্টের পর প্রোডাক্ট কাস্টমারের কাছে ফেরত পাঠানোর জন্য কোনো অতিরিক্ত ডেলিভারি চার্জ দিতে হবে না।</li>
+        </ol>
+        <hr style="border:0; border-top:1px solid #ddd; margin:15px 0;">
+        
+        <h4>❌ যেসব ক্ষেত্রে রিপ্লেসমেন্ট বা ওয়ারেন্টি প্রযোজ্য হবে না</h4>
+        <ul>
+            <li>ভুল ব্যবহার, অসাবধানতা বা দুর্ঘটনার কারণে প্রোডাক্ট ক্ষতিগ্রস্ত হলে।</li>
+            <li>প্রোডাক্টে আঘাত, দাগ, ভাঙন, রঙের পরিবর্তন বা বাহ্যিক ক্ষতি থাকলে।</li>
+            <li>থার্ড-পার্টি অ্যাপ, সফটওয়্যার বা অন্য কোনো অননুমোদিত ব্যবহারের কারণে সমস্যা হলে।</li>
+            <li>চার্জার, ক্যাবল বা অন্যান্য অ্যাক্সেসরিজের ক্ষেত্রে রিপ্লেসমেন্ট বা ওয়ারেন্টি প্রযোজ্য হবে না (যদি আলাদাভাবে উল্লেখ না থাকে)।</li>
+            <li>সার্ভিসের জন্য পাঠানোর সময় প্রোডাক্ট যথাযথভাবে প্যাকেজিং না করা হলে।</li>
+            <li>একবার রিপ্লেসমেন্ট দেওয়া প্রোডাক্ট দ্বিতীয়বার রিপ্লেসমেন্টের আওতায় আসবে না।</li>
+        </ul>
+        <p><b>চূড়ান্ত সিদ্ধান্ত:</b> রিপ্লেসমেন্ট বা ওয়ারেন্টি সংক্রান্ত সকল সিদ্ধান্ত গ্রহণের অধিকার JMR Gadgets সংরক্ষণ করে।</p>
+    `);
+}
 
-    alert(`আপডেট হয়নি`);
+function showPrivacyPolicyModal() {
+    openPolicyModal("Privacy Policy", `
+        <h3>Privacy Policy</h3>
+        <p><b>1. Third-Party Links</b><br>ওয়েবসাইট বা পেজে তৃতীয় পক্ষের লিঙ্ক থাকলে, আমরা তাদের প্রাইভেসি নীতির জন্য দায়ী নই।</p>
+        <p><b>2. Policy Updates</b><br>আমরা সময়ের সঙ্গে সঙ্গে প্রাইভেসি পলিসি আপডেট করতে পারি। কোনো পরিবর্তন হলে তা ওয়েবসাইট বা পেজে প্রকাশ করা হবে।</p>
+        <p><b>3. User Rights</b><br>আপনি চাইলে আপনার তথ্য সম্পর্কে জানতে বা পরিবর্তনের জন্য আমাদের সাথে যোগাযোগ করতে পারেন।</p>
+        <p><b>4. Confidentiality</b><br>আপনার ব্যক্তিগত তথ্য তৃতীয় পক্ষের সঙ্গে ভাগ করা হবে না, যদি না আইন অনুযায়ী বাধ্যতামূলক হয়।</p>
+        <p><b>5. Communication</b><br>আপনার কাছে অফার, আপডেট বা গুরুত্বপূর্ণ তথ্য পাঠানো হতে পারে, শুধুমাত্র ব্যবসার উদ্দেশ্যে।</p>
+        <p><b>6. Consent</b><br>ওয়েবসাইট বা পেজ ব্যবহার করে আপনি আমাদের প্রাইভেসি পলিসি মেনে চলছেন।</p>
+        <p><b>7. Contact</b><br>যদি কোনো প্রশ্ন বা অনুরোধ থাকে, আমাদের সাথে যোগাযোগ করুন। 01941900221</p>
+    `);
+}
 
+function showAboutUsModal() {
+    openPolicyModal("About Us", `
+        <h3>About Us</h3>
+        <p>আমরা চাই অনলাইনে কেনাকাটা হোক আপনার জন্য সহজ, নিরাপদ আর আনন্দদায়ক।</p>
+        <p>প্রতিটি অর্ডার আমরা সতর্কতার সাথে প্যাকেজিং করে পাঠাই, যাতে প্রোডাক্ট ভাঙা বা ক্ষতিগ্রস্ত হওয়ার কোনো সুযোগ না থাকে।</p>
+        <p>আমাদের টিম সর্বদা চেষ্টা করে আপনাদের কাছে অর্ডারকৃত প্রোডাক্ট দ্রুত পৌঁছে দিতে — সাধারণত ৩ থেকে ৪ দিনের মধ্যেই ডেলিভারি সম্পন্ন হয়। ✅</p>
+        <p>আমাদের লক্ষ্য শুধু প্রোডাক্ট বিক্রি নয়, বরং আপনাদের আস্থা অর্জন করা এবং দীর্ঘমেয়াদী সম্পর্ক তৈরি করা।</p>
+    `);
 }
 
 </script>
@@ -844,6 +1029,41 @@ id="products">
 </div>
 
 </div>
+
+
+<!-- ================= WEB FOOTER ================= -->
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-support-title">Support</div>
+        <a href="tel:01941900221" class="footer-support-number">01941900221</a>
+
+        <div class="footer-social-icons">
+            <a href="https://www.facebook.com/share/19rroNTfLL/" target="_blank" class="social-icon-btn" title="Facebook">f</a>
+            <a href="https://www.instagram.com/jmr_gadgets?vrfl=NjBkNWRybGZibzFv" target="_blank" class="social-icon-btn" title="Instagram">ig</a>
+            <a href="https://wa.me/8801789283142" target="_blank" class="social-icon-btn" title="WhatsApp">wa</a>
+            <a href="https://tiktok.com/@jmr.gadgets" target="_blank" class="social-icon-btn" title="TikTok">tk</a>
+        </div>
+
+        <div class="footer-links-grid">
+            <div class="footer-col">
+                <h4>About Us</h4>
+                <ul>
+                    <li><span onclick="showAboutUsModal()">About Us</span></li>
+                    <li><a href="tel:01941900221">Contact</a></li>
+                    <li><span onclick="alert('ব্লগ সেকশন ফাঁকা রয়েছে')">Blog</span></li>
+                    <li><span onclick="openOrderTracking()">Track Order</span></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Policy</h4>
+                <ul>
+                    <li><span onclick="showPrivacyPolicyModal()">Privacy Policy</span></li>
+                    <li><span onclick="showWarrantyPolicy()">Warranty Policy</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
 
 
 <!-- ================= BOTTOM NAV ================= -->
@@ -1134,6 +1354,16 @@ My Account
 </div>
 
 
+<!-- ================= POLICY MODAL ================= -->
+<div class="modal" id="policyModal">
+    <div class="modal-box">
+        <div class="close" onclick="closeModal('policyModal')">×</div>
+        <h2 id="policyModalTitle" style="margin-top:0; border-bottom: 1px solid #eee; padding-bottom: 10px;"></h2>
+        <div id="policyModalContent" style="margin-top: 15px; line-height: 1.6; color: #333;"></div>
+    </div>
+</div>
+
+
 <!-- ================= ACCOUNT STYLES ================= -->
 
 <style>
@@ -1283,6 +1513,13 @@ My Account
 <!-- ================= ACCOUNT & CART SCRIPT ================= -->
 
 <script>
+
+/* POLICY POPUP HELPER */
+function openPolicyModal(title, htmlContent) {
+    document.getElementById("policyModalTitle").textContent = title;
+    document.getElementById("policyModalContent").innerHTML = htmlContent;
+    openModal("policyModal");
+}
 
 /* CART GLOBAL SYSTEM */
 let cart = [];
@@ -2506,7 +2743,7 @@ async function loadProducts(){
 
         '<div class="empty">'
         +
-        'প্রোডাক্ট লোড করা যাচ্ছে না।<br><br>'
+        'প্রোডাক্ট লোড করা যাচ্ছে না。<br><br>'
         +
         'Google Sheet Published আছে কিনা দেখুন।'
         +
