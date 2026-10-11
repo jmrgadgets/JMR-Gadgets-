@@ -11,7 +11,7 @@ content="width=device-width, initial-scale=1.0">
 
 <title>JMR GADGETS</title>
 
-<!-- Font Awesome Vector Icons for Original Social Logos & Bottom Nav -->
+<!-- Font Awesome Vector Icons for Original Social Logos -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
@@ -505,32 +505,20 @@ header{
     font-weight: bold;
 }
 
-/* ================= BOTTOM NAV (PILL CONTAINER DESIGN) ================= */
-
-.bottom-nav-wrapper {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 10px;
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    padding: 0 15px;
-    pointer-events: none;
-}
+/* ================= BOTTOM NAV (CLEAN WEBSITE BOTTOM BAR) ================= */
 
 .bottom-nav{
-    pointer-events: auto;
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:1000;
     background:#fff;
-    border: 1px solid #e0e0e0;
-    border-radius: 40px;
+    border-top:1px solid #e0e0e0;
     display:flex;
     justify-content:space-around;
-    align-items: center;
-    padding: 8px 15px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    width: 100%;
-    max-width: 480px;
+    align-items:center;
+    padding:8px 0;
 }
 
 .bottom-nav div{
@@ -539,8 +527,7 @@ header{
     color: #111;
     cursor:pointer;
     position: relative;
-    padding: 4px 8px;
-    transition: 0.2s;
+    padding: 2px 10px;
 }
 
 .bottom-nav i {
@@ -549,20 +536,26 @@ header{
     margin-bottom: 3px;
 }
 
-/* Home Active Pill Highlight Effect */
+/* Home Active Style with Yellow Underline Indicator */
 .bottom-nav .nav-home {
-    background: #fff9d6;
-    border-radius: 20px;
-    padding: 4px 12px;
+    position: relative;
 }
 
-.bottom-nav .nav-home i {
-    color: #111;
+.bottom-nav .nav-home::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 25px;
+    height: 3px;
+    background: #f5c400;
+    border-radius: 2px;
 }
 
 .bottom-nav .cart-count-badge {
-    top: -2px;
-    right: 2px;
+    top: -4px;
+    right: 4px;
 }
 
 /* ================= SUCCESS ================= */
@@ -1097,36 +1090,34 @@ id="products">
 </footer>
 
 
-<!-- ================= BOTTOM NAV (PILL CONTAINER STYLE) ================= -->
-<div class="bottom-nav-wrapper">
-    <div class="bottom-nav">
+<!-- ================= BOTTOM NAV ================= -->
+<div class="bottom-nav">
 
-        <div onclick="window.location.href='tel:01941900221'">
-            <i class="fa-solid fa-phone"></i>
-            Call
-        </div>
+<div onclick="window.location.href='tel:01941900221'">
+<i class="fa-solid fa-phone"></i>
+Call
+</div>
 
-        <div onclick="window.open('https://wa.me/8801789283142','_blank')">
-            <i class="fa-brands fa-whatsapp"></i>
-            WhatsApp
-        </div>
+<div onclick="window.open('https://wa.me/8801789283142','_blank')">
+<i class="fa-brands fa-whatsapp"></i>
+WhatsApp
+</div>
 
-        <div class="nav-home" onclick="showAll()">
-            <i class="fa-solid fa-house"></i>
-            Home
-        </div>
+<div class="nav-home" onclick="showAll()">
+<i class="fa-solid fa-house"></i>
+Home
+</div>
 
-        <div onclick="openCartModal()">
-            <i class="fa-solid fa-cart-shopping"></i>
-            Cart <span class="cart-count-badge cart-count-val">0</span>
-        </div>
+<div onclick="openCartModal()">
+<i class="fa-solid fa-cart-shopping"></i>
+Cart <span class="cart-count-badge cart-count-val">0</span>
+</div>
 
-        <div onclick="openAccount()">
-            <i class="fa-regular fa-user"></i>
-            My Account
-        </div>
+<div onclick="openAccount()">
+<i class="fa-regular fa-user"></i>
+My Account
+</div>
 
-    </div>
 </div>
 
 
