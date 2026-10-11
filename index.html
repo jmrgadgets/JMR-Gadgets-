@@ -11,7 +11,7 @@ content="width=device-width, initial-scale=1.0">
 
 <title>JMR GADGETS</title>
 
-<!-- Font Awesome Vector Icons for Original Social Logos -->
+<!-- Font Awesome Vector Icons for Original Social Logos & Bottom Nav -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
@@ -505,36 +505,64 @@ header{
     font-weight: bold;
 }
 
-/* ================= BOTTOM NAV ================= */
+/* ================= BOTTOM NAV (PILL CONTAINER DESIGN) ================= */
+
+.bottom-nav-wrapper {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 10px;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    padding: 0 15px;
+    pointer-events: none;
+}
 
 .bottom-nav{
-    position:fixed;
-    left:0;
-    right:0;
-    bottom:0;
-    z-index:1000;
+    pointer-events: auto;
     background:#fff;
-    border-top:1px solid #ddd;
+    border: 1px solid #e0e0e0;
+    border-radius: 40px;
     display:flex;
     justify-content:space-around;
-    padding:9px 0;
+    align-items: center;
+    padding: 8px 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    width: 100%;
+    max-width: 480px;
 }
 
 .bottom-nav div{
     text-align:center;
     font-size:12px;
+    color: #111;
     cursor:pointer;
     position: relative;
+    padding: 4px 8px;
+    transition: 0.2s;
 }
 
-.bottom-nav b{
-    display:block;
-    font-size:21px;
+.bottom-nav i {
+    display: block;
+    font-size: 20px;
+    margin-bottom: 3px;
+}
+
+/* Home Active Pill Highlight Effect */
+.bottom-nav .nav-home {
+    background: #fff9d6;
+    border-radius: 20px;
+    padding: 4px 12px;
+}
+
+.bottom-nav .nav-home i {
+    color: #111;
 }
 
 .bottom-nav .cart-count-badge {
     top: -2px;
-    right: -6px;
+    right: 2px;
 }
 
 /* ================= SUCCESS ================= */
@@ -1069,34 +1097,36 @@ id="products">
 </footer>
 
 
-<!-- ================= BOTTOM NAV ================= -->
-<div class="bottom-nav">
+<!-- ================= BOTTOM NAV (PILL CONTAINER STYLE) ================= -->
+<div class="bottom-nav-wrapper">
+    <div class="bottom-nav">
 
-<div onclick="window.location.href='tel:01941900221'">
-<b>☎️</b>
-Call
-</div>
+        <div onclick="window.location.href='tel:01941900221'">
+            <i class="fa-solid fa-phone"></i>
+            Call
+        </div>
 
-<div onclick="window.open('https://wa.me/8801789283142','_blank')">
-<b>📞</b>
-WhatsApp
-</div>
+        <div onclick="window.open('https://wa.me/8801789283142','_blank')">
+            <i class="fa-brands fa-whatsapp"></i>
+            WhatsApp
+        </div>
 
-<div onclick="showAll()">
-<b>⌂</b>
-Home
-</div>
+        <div class="nav-home" onclick="showAll()">
+            <i class="fa-solid fa-house"></i>
+            Home
+        </div>
 
-<div onclick="openCartModal()">
-<b>🛒</b>
-Cart <span class="cart-count-badge cart-count-val">0</span>
-</div>
+        <div onclick="openCartModal()">
+            <i class="fa-solid fa-cart-shopping"></i>
+            Cart <span class="cart-count-badge cart-count-val">0</span>
+        </div>
 
-<div onclick="openAccount()">
-<b>👤</b>
-My Account
-</div>
+        <div onclick="openAccount()">
+            <i class="fa-regular fa-user"></i>
+            My Account
+        </div>
 
+    </div>
 </div>
 
 
