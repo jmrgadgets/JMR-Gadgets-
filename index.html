@@ -69,7 +69,6 @@ header{
     color:#f5c400;
 }
 
-/* নিখুঁত গোল কার্ট ব্যাজ ফিক্স (PERFECT CIRCLE BADGE) */
 .cart-header-btn {
     position: relative;
     display: inline-flex;
@@ -194,8 +193,6 @@ header{
 .banner-placeholder small{
     font-size:16px;
 }
-
-/* ================= BANNER DOTS ================= */
 
 .banner-dots{
     position:absolute;
@@ -436,31 +433,13 @@ header{
     margin-bottom: 15px;
 }
 
-.specs-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    background: #fff;
-    border-radius: 8px;
-    overflow: hidden;
+.specs-content-box {
+    background: #fafafa;
     border: 1px solid #eee;
-}
-
-.specs-table th, .specs-table td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
-    font-size: 14px;
-}
-
-.specs-table th {
-    background: #fdfdfd;
-    width: 35%;
-    color: #555;
-}
-
-.specs-table td {
-    color: #111;
+    border-radius: 8px;
+    padding: 15px 18px;
+    line-height: 1.6;
+    color: #333;
 }
 
 /* ================= MODAL ================= */
@@ -1014,32 +993,26 @@ JMR <span>GADGETS</span>
 
     <h2>JMR GADGETS</h2>
 
-    <!-- Home -->
     <div onclick="showAll()">
         🏠 Home
     </div>
 
-    <!-- View Cart -->
     <div onclick="openCartModal();closeMenu()">
         🛒 View Cart
     </div>
 
-    <!-- Order Tracking -->
     <div onclick="openOrderTracking();closeMenu()">
         📦 Order Tracking
     </div>
 
-    <!-- Contact -->
     <div onclick="openWhatsApp();closeMenu()">
         📞 Contact
     </div>
 
-    <!-- About Us -->
     <div onclick="showAboutUs();closeMenu()">
         ℹ️ About Us
     </div>
 
-    <!-- Warranty Policy -->
     <div onclick="showWarrantyPolicy();closeMenu()">
         🛡️ Warranty Policy
     </div>
@@ -1606,7 +1579,7 @@ function escapeHtml(text){
 }
 
 
-/* ================= LOAD PRODUCTS FROM SUPABASE ================= */
+/* ================= LOAD PRODUCTS FROM SUPABASE (SMALL LETTERS MAPPING) ================= */
 
 async function loadProducts(){
     try{
@@ -1618,32 +1591,30 @@ async function loadProducts(){
         if (!rows || rows.length === 0) throw new Error("No product data found in Supabase");
 
         products = rows.map(item => {
-            const code = item.product_id || item.productId || item.code || item.PRODUCT_ID || "";
-            const name = item.product_name || item.productName || item.name || item.PRODUCT_NAME || "";
-            const category = item.category || item.categories || "Other";
-            const colors = item.colors_and_stock || item.colors || item.color || "";
-            const priceText = item.regular_price || item.price || item.selling_price || 0;
+            // Mapped using all lowercase column names
+            const code = item.products_id || item.product_id || item.id || "";
+            const name = item.products_name || item.product_name || "";
+            const category = item.category || "Other";
+            const colours = item.colours || item.color || "";
+            const stock = parseInt(item.stock) || 0;
+            const priceText = item.regular_price || item.price || 0;
             
-            let rawImg = item.image || item.image_url || item.photo || "";
+            let rawImg = item.image_url || item.image || "";
             let imgList = String(rawImg).split(',').map(img => driveImage(img.trim())).filter(Boolean);
 
             return {
                 code: String(code),
                 name: String(name),
                 category: String(category),
-                colors: String(colors),
+                colours: String(colours),
+                stock: stock,
                 price: parseFloat(String(priceText).replace(/[^\d.]/g, "")) || 0,
                 warranty: String(item.warranty || ""),
                 image: imgList[0] || "",
                 images: imgList.length ? imgList : [""],
-                description: String(item.description || item.details || ""),
-                banner: driveImage(item.banner || item.banner_url || ""),
-                brand: String(item.brand || ""),
-                model: String(item.model || ""),
-                battery: String(item.battery || ""),
-                input: String(item.input || ""),
-                output: String(item.output || ""),
-                dimensions: String(item.dimensions || "")
+                description: String(item.description || ""),
+                technical_specification: String(item.technical_specification || ""),
+                banner: driveImage(item.banner_url || item.banner || "")
             };
         }).filter(p => p.name);
 
@@ -1794,7 +1765,7 @@ function loadProductDetailsBySlug(slug){
 
     selectedProduct = targetProduct;
     selectedColor = "";
-    selectedStock = 999;
+    selectedStock = targetProduct.stock || 999;
     currentQty = 1;
 
     document.getElementById("homeMainView").style.display = "none";
@@ -1819,23 +1790,13 @@ function renderProductDetailsContainer(){
         </div>
     ` : '';
 
-    // Technical Specifications Table (Product Code and Warranty Removed from table)
-    let specsRows = '';
-    if(selectedProduct.brand) specsRows += `<tr><th>Brand</th><td>${escapeHtml(selectedProduct.brand)}</td></tr>`;
-    if(selectedProduct.model) specsRows += `<tr><th>Model</th><td>${escapeHtml(selectedProduct.model)}</td></tr>`;
-    if(selectedProduct.battery) specsRows += `<tr><th>Battery Capacity</th><td>${escapeHtml(selectedProduct.battery)}</td></tr>`;
-    if(selectedProduct.input) specsRows += `<tr><th>Input</th><td>${escapeHtml(selectedProduct.input)}</td></tr>`;
-    if(selectedProduct.output) specsRows += `<tr><th>Output</th><td>${escapeHtml(selectedProduct.output)}</td></tr>`;
-    if(selectedProduct.dimensions) specsRows += `<tr><th>Dimensions</th><td>${escapeHtml(selectedProduct.dimensions)}</td></tr>`;
-
-    let specsSectionHtml = specsRows ? `
+    // Technical Specifications Render
+    let specsSectionHtml = selectedProduct.technical_specification ? `
         <div class="specs-section">
             <h3>Technical Specifications</h3>
-            <table class="specs-table">
-                <tbody>
-                    ${specsRows}
-                </tbody>
-            </table>
+            <div class="specs-content-box">
+                ${escapeHtml(selectedProduct.technical_specification).replace(/\n/g, "<br>")}
+            </div>
         </div>
     ` : '';
 
@@ -1936,7 +1897,7 @@ function changeDetailsQty(delta){
 
 function renderDetailsColors(){
     if(!selectedProduct) return;
-    const colors = parseColors(selectedProduct.colors);
+    const colors = parseColors(selectedProduct.colours, selectedProduct.stock);
     const list = document.getElementById("detailsColorList");
     if(!list) return;
 
@@ -1951,7 +1912,7 @@ function renderDetailsColors(){
     } else {
         list.innerHTML = '<span style="color:#777">Default</span>';
         selectedColor = "Default";
-        selectedStock = 999;
+        selectedStock = selectedProduct.stock || 999;
     }
 
     updateStockDisplay();
@@ -1999,7 +1960,7 @@ function addDetailsToCart(){
     }
     if(!selectedProduct) return;
     if(selectedStock <= 0){
-        alert("দুঃখিত, এই কালারের প্রোডাক্টটি বর্তমানে স্টকে নেই।");
+        alert("দুঃখিত, এই প্রোডাক্টটি বর্তমানে স্টকে নেই।");
         return;
     }
     addToCartItem(selectedProduct, selectedColor, currentQty);
@@ -2014,7 +1975,7 @@ function openOrderFromDetails(){
     }
     if(!selectedProduct) return;
     if(selectedStock <= 0){
-        alert("দুঃখিত, এই কালারের প্রোডাক্টটি বর্তমানে স্টকে নেই।");
+        alert("দুঃখিত, এই প্রোডাক্টটি বর্তমানে স্টকে নেই।");
         return;
     }
     openOrder();
@@ -2128,7 +2089,7 @@ function proceedToCheckoutFromCart(){
     }
     closeModal("cartModal");
     selectedProduct = products.find(p => p.code === cart[0].code) || {
-        code: cart[0].code, name: cart[0].name, price: cart[0].price, colors: cart[0].color
+        code: cart[0].code, name: cart[0].name, price: cart[0].price, colours: cart[0].color, stock: selectedStock
     };
     selectedColor = cart[0].color;
     currentQty = cart[0].qty;
@@ -2397,13 +2358,13 @@ function sendWhatsAppRequest(){
 
 /* ================= COLORS & STOCK PARSER ================= */
 
-function parseColors(text){
+function parseColors(text, defaultStock){
     if(!text) return [];
     return text.split(/[,|;]/).map(x => x.trim()).filter(Boolean).map(item => {
         let parts = item.split(/[:\-]/);
         let name = parts[0].trim();
-        let stock = parts.length > 1 ? parseInt(parts[1].replace(/[^\d]/g, "")) : 999;
-        return { name: name, stock: isNaN(stock) ? 999 : stock };
+        let stock = parts.length > 1 ? parseInt(parts[1].replace(/[^\d]/g, "")) : (defaultStock || 999);
+        return { name: name, stock: isNaN(stock) ? (defaultStock || 999) : stock };
     }).filter(x => x.name);
 }
 
@@ -2424,7 +2385,7 @@ function openOrder(){
 
     document.getElementById("quantity").textContent = currentQty;
 
-    const colors = parseColors(selectedProduct.colors);
+    const colors = parseColors(selectedProduct.colours, selectedProduct.stock);
     const list = document.getElementById("colorList");
 
     if(colors.length){
@@ -2440,7 +2401,7 @@ function openOrder(){
     } else {
         list.innerHTML = '<span style="color:#777">Default</span>';
         selectedColor = "Default";
-        selectedStock = 999;
+        selectedStock = selectedProduct.stock || 999;
     }
 
     if(currentUser){
@@ -2522,7 +2483,7 @@ async function submitOrder(){
         return;
     }
 
-    if(parseColors(selectedProduct.colors).length && !selectedColor){
+    if(parseColors(selectedProduct.colours, selectedProduct.stock).length && !selectedColor){
         alert("অনুগ্রহ করে Colour নির্বাচন করুন।");
         return;
     }
