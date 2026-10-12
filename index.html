@@ -385,6 +385,11 @@ header{
     margin-bottom: 15px;
 }
 
+.stock-badge.out-of-stock {
+    background: #fde8e8;
+    color: #e53e3e;
+}
+
 .warranty-box {
     background: #fff9d6;
     padding: 10px 14px;
@@ -1404,7 +1409,7 @@ My Account
 <div id="colorList" class="color-list"></div>
 </div>
 <div class="form-group">
-<label>Quantity</label>
+<label>Quantity <span id="maxStockLabel" style="font-size:12px; color:#666;"></span></label>
 <div class="qty">
 <button type="button" onclick="changeQty(-1)">−</button>
 <span id="quantity">1</span>
@@ -1496,6 +1501,7 @@ let products = [];
 let filteredProducts = [];
 let selectedProduct = null;
 let selectedColor = "";
+let selectedStock = 999;
 let currentQty = 1;
 let currentCategory = "All";
 let banners = [];
@@ -1593,15 +1599,6 @@ function normalize(s){
     return String(s || "").trim().toLowerCase();
 }
 
-function getValue(obj, keys){
-    for(const key of keys){
-        if(obj[key] !== undefined && String(obj[key]).trim() !== ""){
-            return obj[key];
-        }
-    }
-    return "";
-}
-
 function escapeHtml(text){
     return String(text || "").replace(/[&<>"']/g, function(match){
         return {"&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"}[match];
@@ -1621,7 +1618,6 @@ async function loadProducts(){
         if (!rows || rows.length === 0) throw new Error("No product data found in Supabase");
 
         products = rows.map(item => {
-            // Map Supabase columns (supporting lowercase/uppercase variations)
             const code = item.product_id || item.productId || item.code || item.PRODUCT_ID || "";
             const name = item.product_name || item.productName || item.name || item.PRODUCT_NAME || "";
             const category = item.category || item.categories || "Other";
@@ -1798,6 +1794,7 @@ function loadProductDetailsBySlug(slug){
 
     selectedProduct = targetProduct;
     selectedColor = "";
+    selectedStock = 999;
     currentQty = 1;
 
     document.getElementById("homeMainView").style.display = "none";
@@ -1822,6 +1819,7 @@ function renderProductDetailsContainer(){
         </div>
     ` : '';
 
+    // Technical Specifications Table (Product Code and Warranty Removed from table)
     let specsRows = '';
     if(selectedProduct.brand) specsRows += `<tr><th>Brand</th><td>${escapeHtml(selectedProduct.brand)}</td></tr>`;
     if(selectedProduct.model) specsRows += `<tr><th>Model</th><td>${escapeHtml(selectedProduct.model)}</td></tr>`;
@@ -1829,8 +1827,6 @@ function renderProductDetailsContainer(){
     if(selectedProduct.input) specsRows += `<tr><th>Input</th><td>${escapeHtml(selectedProduct.input)}</td></tr>`;
     if(selectedProduct.output) specsRows += `<tr><th>Output</th><td>${escapeHtml(selectedProduct.output)}</td></tr>`;
     if(selectedProduct.dimensions) specsRows += `<tr><th>Dimensions</th><td>${escapeHtml(selectedProduct.dimensions)}</td></tr>`;
-    if(selectedProduct.code) specsRows += `<tr><th>Product Code</th><td>${escapeHtml(selectedProduct.code)}</td></tr>`;
-    if(selectedProduct.warranty) specsRows += `<tr><th>Warranty</th><td>${escapeHtml(selectedProduct.warranty)}</td></tr>`;
 
     let specsSectionHtml = specsRows ? `
         <div class="specs-section">
@@ -1890,7 +1886,7 @@ function renderProductDetailsContainer(){
                 <h1>${escapeHtml(selectedProduct.name)}</h1>
                 <div class="prod-details-price">৳${formatMoney(selectedProduct.price)}</div>
                 
-                <div class="stock-badge">✓ In Stock</div>
+                <div id="stockBadge" class="stock-badge">✓ In Stock</div>
                 
                 ${warrantyHtml}
 
@@ -1900,7 +1896,7 @@ function renderProductDetailsContainer(){
                 </div>
 
                 <div class="form-group" style="margin-top: 15px;">
-                    <label><b>Quantity</b></label>
+                    <label><b>Quantity</b> <span id="detailsMaxStockText" style="font-size:12px; color:#666;"></span></label>
                     <div class="qty">
                         <button type="button" onclick="changeDetailsQty(-1)">−</button>
                         <span id="detailsQtyVal">1</span>
@@ -1930,6 +1926,10 @@ function changeMainImage(url, el){
 }
 
 function changeDetailsQty(delta){
+    if(delta > 0 && currentQty >= selectedStock){
+        alert("দুঃখিত, স্টক সীমাবদ্ধতার কারণে এর চেয়ে বেশি অর্ডার নেওয়া সম্ভব নয়। (Available Stock: " + selectedStock + ")");
+        return;
+    }
     currentQty = Math.max(1, currentQty + delta);
     document.getElementById("detailsQtyVal").textContent = currentQty;
 }
@@ -1942,21 +1942,52 @@ function renderDetailsColors(){
 
     if(colors.length){
         selectedColor = colors[0].name;
-        list.innerHTML = colors.map(c => `
-            <div class="color-option ${c.name === selectedColor ? 'selected' : ''}" onclick='selectDetailsColor(this, ${JSON.stringify(c.name)})'>
-                ${escapeHtml(c.name)}
+        selectedStock = colors[0].stock;
+        list.innerHTML = colors.map((c, i) => `
+            <div class="color-option ${i === 0 ? 'selected' : ''}" onclick='selectDetailsColor(this, ${JSON.stringify(c.name)}, ${c.stock})'>
+                ${escapeHtml(c.name)} (${c.stock})
             </div>
         `).join("");
     } else {
         list.innerHTML = '<span style="color:#777">Default</span>';
         selectedColor = "Default";
+        selectedStock = 999;
     }
+
+    updateStockDisplay();
 }
 
-function selectDetailsColor(el, color){
+function selectDetailsColor(el, color, stock){
     document.querySelectorAll("#detailsColorList .color-option").forEach(x => x.classList.remove("selected"));
     el.classList.add("selected");
     selectedColor = color;
+    selectedStock = stock;
+
+    if(currentQty > selectedStock){
+        currentQty = Math.max(1, selectedStock);
+        document.getElementById("detailsQtyVal").textContent = currentQty;
+    }
+
+    updateStockDisplay();
+}
+
+function updateStockDisplay(){
+    const badge = document.getElementById("stockBadge");
+    const stockText = document.getElementById("detailsMaxStockText");
+
+    if(selectedStock <= 0){
+        if(badge){
+            badge.textContent = "✕ Out of Stock";
+            badge.className = "stock-badge out-of-stock";
+        }
+        if(stockText) stockText.textContent = "(Stock Out)";
+    } else {
+        if(badge){
+            badge.textContent = "✓ In Stock (" + selectedStock + ")";
+            badge.className = "stock-badge";
+        }
+        if(stockText) stockText.textContent = "(Available: " + selectedStock + ")";
+    }
 }
 
 function addDetailsToCart(){
@@ -1967,6 +1998,10 @@ function addDetailsToCart(){
         return;
     }
     if(!selectedProduct) return;
+    if(selectedStock <= 0){
+        alert("দুঃখিত, এই কালারের প্রোডাক্টটি বর্তমানে স্টকে নেই।");
+        return;
+    }
     addToCartItem(selectedProduct, selectedColor, currentQty);
 }
 
@@ -1978,6 +2013,10 @@ function openOrderFromDetails(){
         return;
     }
     if(!selectedProduct) return;
+    if(selectedStock <= 0){
+        alert("দুঃখিত, এই কালারের প্রোডাক্টটি বর্তমানে স্টকে নেই।");
+        return;
+    }
     openOrder();
 }
 
@@ -2364,8 +2403,8 @@ function parseColors(text){
         let parts = item.split(/[:\-]/);
         let name = parts[0].trim();
         let stock = parts.length > 1 ? parseInt(parts[1].replace(/[^\d]/g, "")) : 999;
-        return { name: name, stock: stock };
-    }).filter(x => x.name && x.stock > 0);
+        return { name: name, stock: isNaN(stock) ? 999 : stock };
+    }).filter(x => x.name);
 }
 
 
@@ -2389,14 +2428,19 @@ function openOrder(){
     const list = document.getElementById("colorList");
 
     if(colors.length){
+        if(!selectedColor) {
+            selectedColor = colors[0].name;
+            selectedStock = colors[0].stock;
+        }
         list.innerHTML = colors.map(color => `
-            <div class="color-option ${color.name === selectedColor ? 'selected' : ''}" onclick='selectColor(this, ${JSON.stringify(color.name)})'>
-                ${escapeHtml(color.name)}
+            <div class="color-option ${color.name === selectedColor ? 'selected' : ''}" onclick='selectColor(this, ${JSON.stringify(color.name)}, ${color.stock})'>
+                ${escapeHtml(color.name)} (${color.stock})
             </div>
         `).join("");
     } else {
         list.innerHTML = '<span style="color:#777">Default</span>';
         selectedColor = "Default";
+        selectedStock = 999;
     }
 
     if(currentUser){
@@ -2408,17 +2452,35 @@ function openOrder(){
         if(savedAddress.address) document.getElementById("address").value = savedAddress.address;
     }
 
+    const stockLabel = document.getElementById("maxStockLabel");
+    if(stockLabel) stockLabel.textContent = "(Available Stock: " + selectedStock + ")";
+
     updateOrderSummary();
     openModal("orderModal");
 }
 
-function selectColor(element, color){
-    document.querySelectorAll(".color-option").forEach(x => x.classList.remove("selected"));
+function selectColor(element, color, stock){
+    document.querySelectorAll("#colorList .color-option").forEach(x => x.classList.remove("selected"));
     element.classList.add("selected");
     selectedColor = color;
+    selectedStock = stock;
+
+    if(currentQty > selectedStock){
+        currentQty = Math.max(1, selectedStock);
+        document.getElementById("quantity").textContent = currentQty;
+    }
+
+    const stockLabel = document.getElementById("maxStockLabel");
+    if(stockLabel) stockLabel.textContent = "(Available Stock: " + selectedStock + ")";
+
+    updateOrderSummary();
 }
 
 function changeQty(change){
+    if(change > 0 && currentQty >= selectedStock){
+        alert("দুঃখিত, স্টক সীমাবদ্ধতার কারণে এর চেয়ে বেশি অর্ডার নেওয়া সম্ভব নয়। (Available Stock: " + selectedStock + ")");
+        return;
+    }
     currentQty = Math.max(1, currentQty + change);
     document.getElementById("quantity").textContent = currentQty;
     updateOrderSummary();
@@ -2462,6 +2524,11 @@ async function submitOrder(){
 
     if(parseColors(selectedProduct.colors).length && !selectedColor){
         alert("অনুগ্রহ করে Colour নির্বাচন করুন।");
+        return;
+    }
+
+    if(selectedStock <= 0){
+        alert("দুঃখিত, এই প্রোডাক্টটি বর্তমানে আউট অফ স্টক!");
         return;
     }
 
