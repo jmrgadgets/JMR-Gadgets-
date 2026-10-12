@@ -14,6 +14,9 @@ content="width=device-width, initial-scale=1.0">
 <!-- Font Awesome Vector Icons for Original Social Logos -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+<!-- Supabase CDN Client Library -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 
 *{
@@ -1480,7 +1483,11 @@ My Account
 <!-- ================= SCRIPT & ROUTING SYSTEM ================= -->
 <script>
 
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRc_FdQ5OxU48pfoDdyY0hS6S0urj_u7JP5dQrWgW52qXAS2TawrUG34vbtx5wDwECcNFvImlnnTadQ/pub?output=csv";
+// Supabase Configuration
+const SUPABASE_URL = 'https://zvwxitwyaruezptpukhm.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_s3-dO11qQy_C08Ck8s88xA_PmLbVtHB';
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 const ORDER_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyX6cP9GXLxPIiOr_rvTnltAm44E9W8gWDJpYJrLNgJsAIzjQiRSgOi4ppgMSCe3Nejgw/exec";
 const ACCOUNT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyo4ozwamF8WSTZYQTWcTwcjzJfU-gIlt4GRwtm0RrdvdaZ58Zn2TC6vfvtGPuRaBbBwQ/exec";
 const DELIVERY_CHARGE = 120;
@@ -1570,38 +1577,6 @@ function openPolicyModal(title, htmlContent) {
 }
 
 
-/* ================= CSV PARSER ================= */
-
-function csvParse(text){
-    const rows = [];
-    let row = [];
-    let cell = "";
-    let quoted = false;
-    for(let i = 0; i < text.length; i++){
-        const c = text[i];
-        const n = text[i + 1];
-        if(c === '"'){
-            if(quoted && n === '"'){ cell += '"'; i++; }
-            else { quoted = !quoted; }
-        }
-        else if(c === ',' && !quoted){ row.push(cell); cell = ""; }
-        else if((c === '\n' || c === '\r') && !quoted){
-            if(c === '\r' && n === '\n'){ i++; }
-            row.push(cell);
-            cell = "";
-            if(row.some(x => x.trim() !== "")){ rows.push(row); }
-            row = [];
-        }
-        else { cell += c; }
-    }
-    if(cell !== "" || row.length){
-        row.push(cell);
-        if(row.some(x => x.trim() !== "")){ rows.push(row); }
-    }
-    return rows;
-}
-
-
 /* ================= GOOGLE DRIVE IMAGE ================= */
 
 function driveImage(url){
@@ -1634,45 +1609,45 @@ function escapeHtml(text){
 }
 
 
-/* ================= LOAD PRODUCTS ================= */
+/* ================= LOAD PRODUCTS FROM SUPABASE ================= */
 
 async function loadProducts(){
     try{
-        const response = await fetch(SHEET_URL + "&t=" + Date.now());
-        if(!response.ok) throw new Error("Google Sheet could not be loaded");
-        const text = await response.text();
-        const rows = csvParse(text);
-        if(rows.length < 2) throw new Error("No product data");
+        let { data: rows, error } = await supabaseClient
+            .from('products')
+            .select('*');
 
-        const headers = rows[0].map(x => normalize(x));
+        if (error) throw error;
+        if (!rows || rows.length === 0) throw new Error("No product data found in Supabase");
 
-        products = rows.slice(1).map(row => {
-            const obj = {};
-            headers.forEach((h, i) => { obj[h] = (row[i] || "").trim(); });
-
-            const priceText = getValue(obj, ["regular price", "price", "selling price"]);
+        products = rows.map(item => {
+            // Map Supabase columns (supporting lowercase/uppercase variations)
+            const code = item.product_id || item.productId || item.code || item.PRODUCT_ID || "";
+            const name = item.product_name || item.productName || item.name || item.PRODUCT_NAME || "";
+            const category = item.category || item.categories || "Other";
+            const colors = item.colors_and_stock || item.colors || item.color || "";
+            const priceText = item.regular_price || item.price || item.selling_price || 0;
             
-            // Multiple images support (comma separated or multi columns if any)
-            let rawImg = getValue(obj, ["image", "image url", "photo"]);
-            let imgList = rawImg.split(',').map(img => driveImage(img.trim())).filter(Boolean);
+            let rawImg = item.image || item.image_url || item.photo || "";
+            let imgList = String(rawImg).split(',').map(img => driveImage(img.trim())).filter(Boolean);
 
             return {
-                code: getValue(obj, ["product id", "product code", "code"]),
-                name: getValue(obj, ["product name", "name", "product"]),
-                category: getValue(obj, ["category", "categories"]) || "Other",
-                colors: getValue(obj, ["colors & stock", "color & stock", "colors", "colour & stock"]),
+                code: String(code),
+                name: String(name),
+                category: String(category),
+                colors: String(colors),
                 price: parseFloat(String(priceText).replace(/[^\d.]/g, "")) || 0,
-                warranty: getValue(obj, ["warranty"]),
+                warranty: String(item.warranty || ""),
                 image: imgList[0] || "",
                 images: imgList.length ? imgList : [""],
-                description: getValue(obj, ["description", "details"]),
-                banner: driveImage(getValue(obj, ["banner", "banner image", "banner url"])),
-                brand: getValue(obj, ["brand"]),
-                model: getValue(obj, ["model"]),
-                battery: getValue(obj, ["battery", "battery capacity"]),
-                input: getValue(obj, ["input"]),
-                output: getValue(obj, ["output"]),
-                dimensions: getValue(obj, ["dimensions", "dimension"])
+                description: String(item.description || item.details || ""),
+                banner: driveImage(item.banner || item.banner_url || ""),
+                brand: String(item.brand || ""),
+                model: String(item.model || ""),
+                battery: String(item.battery || ""),
+                input: String(item.input || ""),
+                output: String(item.output || ""),
+                dimensions: String(item.dimensions || "")
             };
         }).filter(p => p.name);
 
@@ -1680,12 +1655,11 @@ async function loadProducts(){
         buildCategories();
         renderProducts();
 
-        // Check if user loaded via direct hash product link
         handleRouting();
     }
     catch(error){
-        console.error("Product Loading Error:", error);
-        document.getElementById("products").innerHTML = '<div class="empty">প্রোডাক্ট লোড করা যাচ্ছে না。<br><br>Google Sheet Published আছে কিনা দেখুন।</div>';
+        console.error("Supabase Product Loading Error:", error);
+        document.getElementById("products").innerHTML = '<div class="empty">প্রোডাক্ট লোড করা যাচ্ছে না।<br><br>দয়া করে Supabase টেবিল কানেকশন চেক করুন।</div>';
     }
 }
 
@@ -1814,7 +1788,6 @@ function formatMoney(number){
 /* ================= LOAD PRODUCT DETAILS PAGE ================= */
 
 function loadProductDetailsBySlug(slug){
-    // Match product by code or slug
     const targetProduct = products.find(p => createSlug(p.name, p.code) === slug || p.code.toLowerCase() === slug.toLowerCase());
 
     if(!targetProduct){
@@ -1838,7 +1811,6 @@ function renderProductDetailsContainer(){
     const container = document.getElementById("productDetailsContent");
     if(!selectedProduct) return;
 
-    // Images Gallery
     const images = selectedProduct.images && selectedProduct.images.length ? selectedProduct.images : [selectedProduct.image];
     const mainImg = images[0] || "";
 
@@ -1850,7 +1822,6 @@ function renderProductDetailsContainer(){
         </div>
     ` : '';
 
-    // Specifications Table Builder
     let specsRows = '';
     if(selectedProduct.brand) specsRows += `<tr><th>Brand</th><td>${escapeHtml(selectedProduct.brand)}</td></tr>`;
     if(selectedProduct.model) specsRows += `<tr><th>Model</th><td>${escapeHtml(selectedProduct.model)}</td></tr>`;
@@ -1872,7 +1843,6 @@ function renderProductDetailsContainer(){
         </div>
     ` : '';
 
-    // Description Section
     let descSectionHtml = selectedProduct.description ? `
         <div class="desc-section">
             <h3>Product Description</h3>
@@ -1882,14 +1852,12 @@ function renderProductDetailsContainer(){
         </div>
     ` : '';
 
-    // Warranty Box
     let warrantyHtml = selectedProduct.warranty ? `
         <div class="warranty-box">
             🛡️ <b>Warranty:</b> ${escapeHtml(selectedProduct.warranty)}
         </div>
     ` : '';
 
-    // Related Products (Exclude current product, same category preferred or general products)
     const relatedList = products.filter(p => p.code !== selectedProduct.code).slice(0, 4);
     let relatedHtml = relatedList.length ? `
         <div class="related-section">
