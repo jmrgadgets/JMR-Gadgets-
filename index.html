@@ -1210,36 +1210,40 @@ My Account
         <span onclick="closeAccount()">✕</span>
     </div>
 
+    <!-- SUPABASE LOGIN SECTION -->
     <div id="loginSection" class="account-section">
         <h3>Login</h3>
-        <input type="tel" id="loginPhone" placeholder="Phone Number">
+        <input type="email" id="loginEmail" placeholder="Email Address">
         <input type="password" id="loginPassword" placeholder="Password">
         <button type="button" id="loginBtn" onclick="handleLogin()">Login</button>
         <p onclick="showCreateAccount()">Don't have an account? <b>Create Account</b></p>
         <p onclick="showForgotPassword()"><b>Forgot Password?</b></p>
     </div>
 
+    <!-- SUPABASE CREATE ACCOUNT SECTION -->
     <div id="createAccountSection" class="account-section" style="display:none;">
         <h3>Create Account</h3>
         <input type="text" id="accountName" placeholder="Full Name">
-        <input type="tel" id="accountPhone" placeholder="Phone Number">
+        <input type="email" id="accountEmail" placeholder="Email Address">
         <input type="password" id="accountPassword" placeholder="Create Password">
         <input type="password" id="accountConfirmPassword" placeholder="Confirm Password">
         <button type="button" id="createAccountBtn" onclick="handleCreateAccount()">Create Account</button>
         <p onclick="showLogin()">Already have an account? <b>Login</b></p>
     </div>
 
+    <!-- SUPABASE FORGOT PASSWORD SECTION (EMAIL VIA BREVO) -->
     <div id="forgotPasswordSection" class="account-section" style="display:none;">
         <h3>Forgot Password?</h3>
-        <p class="account-info">আপনার Account-এর Phone Number দিন।</p>
-        <input type="tel" id="forgotPhone" placeholder="Phone Number">
-        <button type="button" onclick="sendWhatsAppRequest()">WhatsApp এ Request করুন</button>
+        <p class="account-info">আপনার Account-এর Email দিন। আমরা পাসওয়ার্ড রিসেট লিংক পাঠাবো।</p>
+        <input type="email" id="forgotEmail" placeholder="Email Address">
+        <button type="button" id="forgotBtn" onclick="handleForgotPassword()">Reset Link পাঠান</button>
         <p onclick="showLogin()">← Back to Login</p>
     </div>
 
+    <!-- DASHBOARD SECTION -->
     <div id="dashboardSection" class="account-section" style="display:none;">
         <h3 style="margin-bottom: 5px;">Welcome, <span id="userNameDisplay">User</span></h3>
-        <p style="margin: 0 0 20px 0; color: #666; font-size: 14px; cursor: default;">Phone: <span id="userPhoneDisplay"></span></p>
+        <p style="margin: 0 0 20px 0; color: #666; font-size: 14px; cursor: default;">Email: <span id="userEmailDisplay"></span></p>
 
         <div class="dash-card">
             <div class="dash-card-header" onclick="toggleDashTab('ordersTab')">
@@ -1289,10 +1293,8 @@ My Account
                 <span class="dash-arrow">▼</span>
             </div>
             <div id="passChangeTab" class="dash-card-body" style="display:none;">
-                <input type="password" id="currPassword" placeholder="Current password" style="margin-bottom:8px;">
-                <input type="password" id="newPassword" placeholder="New password" style="margin-bottom:8px;">
-                <input type="password" id="confirmNewPassword" placeholder="Confirm new password" style="margin-bottom:8px;">
-                <button type="button" onclick="savePasswordDetails()" style="background:#f5c400; color:#000; margin-top:5px;">Save Password Change</button>
+                <input type="password" id="newPasswordChange" placeholder="New password" style="margin-bottom:8px;">
+                <button type="button" onclick="savePasswordDetails()" style="background:#f5c400; color:#000; margin-top:5px;">Update Password</button>
             </div>
         </div>
 
@@ -1307,7 +1309,7 @@ My Account
     <div class="success-box">
         <div class="success-icon">✓</div>
         <h3>আপনার এ্যাকাউন্ট সফল ভাবে তৈরি হয়েছে</h3>
-        <p>এখন আপনি লগইন অবস্থায় আছেন।</p>
+        <p>আপনার ইমেইলে কনফার্মেশন লিংক পাঠানো হয়েছে (প্রয়োজনে ইনবক্স/স্প্যাম ফোল্ডার চেক করুন)।</p>
         <button onclick="closeAccountCreatedModal()">ঠিক আছে</button>
     </div>
 </div>
@@ -1467,7 +1469,6 @@ const SUPABASE_ANON_KEY = 'sb_publishable_s3-dO11qQy_C08Ck8s88xA_PmLbVtHB';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const ORDER_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyX6cP9GXLxPIiOr_rvTnltAm44E9W8gWDJpYJrLNgJsAIzjQiRSgOi4ppgMSCe3Nejgw/exec";
-const ACCOUNT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyo4ozwamF8WSTZYQTWcTwcjzJfU-gIlt4GRwtm0RrdvdaZ58Zn2TC6vfvtGPuRaBbBwQ/exec";
 const DELIVERY_CHARGE = 120;
 
 let products = [];
@@ -1579,7 +1580,7 @@ function escapeHtml(text){
 }
 
 
-/* ================= LOAD PRODUCTS FROM SUPABASE (SMALL LETTERS MAPPING) ================= */
+/* ================= LOAD PRODUCTS FROM SUPABASE ================= */
 
 async function loadProducts(){
     try{
@@ -1591,7 +1592,6 @@ async function loadProducts(){
         if (!rows || rows.length === 0) throw new Error("No product data found in Supabase");
 
         products = rows.map(item => {
-            // Mapped using all lowercase column names
             const code = item.products_id || item.product_id || item.id || "";
             const name = item.products_name || item.product_name || "";
             const category = item.category || "Other";
@@ -1599,8 +1599,13 @@ async function loadProducts(){
             const stock = parseInt(item.stock) || 0;
             const priceText = item.regular_price || item.price || 0;
             
+            // Multiple images handling (comma separated)
             let rawImg = item.image_url || item.image || "";
             let imgList = String(rawImg).split(',').map(img => driveImage(img.trim())).filter(Boolean);
+
+            // Multiple banners handling (comma separated)
+            let rawBanner = item.banner_url || item.banner || "";
+            let bannerList = String(rawBanner).split(',').map(b => driveImage(b.trim())).filter(Boolean);
 
             return {
                 code: String(code),
@@ -1614,7 +1619,7 @@ async function loadProducts(){
                 images: imgList.length ? imgList : [""],
                 description: String(item.description || ""),
                 technical_specification: String(item.technical_specification || ""),
-                banner: driveImage(item.banner_url || item.banner || "")
+                banners: bannerList
             };
         }).filter(p => p.name);
 
@@ -1631,11 +1636,17 @@ async function loadProducts(){
 }
 
 
-/* ================= LOAD BANNERS ================= */
+/* ================= LOAD DYNAMIC BANNERS ================= */
 
 function loadBanners(){
     const bannerList = [];
     products.forEach(product => {
+        if(product.banners && product.banners.length > 0){
+            product.banners.forEach(b => {
+                if(b && !bannerList.includes(b)) bannerList.push(b);
+            });
+        }
+        // Fallback for single banner field if any
         if(product.banner && !bannerList.includes(product.banner)){
             bannerList.push(product.banner);
         }
@@ -1790,7 +1801,6 @@ function renderProductDetailsContainer(){
         </div>
     ` : '';
 
-    // Technical Specifications Render
     let specsSectionHtml = selectedProduct.technical_specification ? `
         <div class="specs-section">
             <h3>Technical Specifications</h3>
@@ -1952,12 +1962,6 @@ function updateStockDisplay(){
 }
 
 function addDetailsToCart(){
-    const currentUser = JSON.parse(localStorage.getItem("jmrUser") || "null");
-    if(!currentUser){
-        alert("অর্ডার অথবা কার্টে অ্যাড করতে আপনার অ্যাকাউন্ট লগইন করুন।");
-        openAccount();
-        return;
-    }
     if(!selectedProduct) return;
     if(selectedStock <= 0){
         alert("দুঃখিত, এই প্রোডাক্টটি বর্তমানে স্টকে নেই।");
@@ -1967,12 +1971,6 @@ function addDetailsToCart(){
 }
 
 function openOrderFromDetails(){
-    const currentUser = JSON.parse(localStorage.getItem("jmrUser") || "null");
-    if(!currentUser){
-        alert("অর্ডার করতে আপনার অ্যাকাউন্ট লগইন করুন।");
-        openAccount();
-        return;
-    }
     if(!selectedProduct) return;
     if(selectedStock <= 0){
         alert("দুঃখিত, এই প্রোডাক্টটি বর্তমানে স্টকে নেই।");
@@ -2097,13 +2095,15 @@ function proceedToCheckoutFromCart(){
 }
 
 
-/* ================= ACCOUNT FUNCTIONS ================= */
+/* ================= ACCOUNT FUNCTIONS (SUPABASE AUTH) ================= */
 
-function openAccount(){
+async function openAccount(){
     document.getElementById("accountModal").style.display = "flex";
-    const currentUser = JSON.parse(localStorage.getItem("jmrUser") || "null");
-    if(currentUser){
-        showDashboard(currentUser);
+    
+    // Check Supabase session
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if(session && session.user){
+        showDashboard(session.user);
     } else {
         showLogin();
     }
@@ -2149,33 +2149,36 @@ function toggleDashTab(tabId){
     }
 }
 
-function showDashboard(user){
+async function showDashboard(user){
     hideAccountSections();
     document.getElementById("dashboardSection").style.display = "block";
-    document.getElementById("userNameDisplay").textContent = (user.firstName ? user.firstName + " " + (user.lastName || "") : user.name) || "User";
-    document.getElementById("userPhoneDisplay").textContent = user.phone || "";
+    
+    const userEmail = user.email || "";
+    document.getElementById("userNameDisplay").textContent = user.user_metadata?.full_name || userEmail.split('@')[0] || "User";
+    document.getElementById("userEmailDisplay").textContent = userEmail;
 
-    document.getElementById("accFirstName").value = user.firstName || "";
-    document.getElementById("accLastName").value = user.lastName || "";
+    document.getElementById("accFirstName").value = user.user_metadata?.first_name || "";
+    document.getElementById("accLastName").value = user.user_metadata?.last_name || "";
 
-    const savedAddress = JSON.parse(localStorage.getItem("jmrAddress_" + user.phone) || "{}");
+    const savedAddress = JSON.parse(localStorage.getItem("jmrAddress_" + user.id) || "{}");
     document.getElementById("billingName").value = savedAddress.name || "";
     document.getElementById("billingDistrict").value = savedAddress.district || "";
     document.getElementById("billingThana").value = savedAddress.thana || "";
     document.getElementById("billingAddress").value = savedAddress.address || "";
-    document.getElementById("billingPhone").value = savedAddress.phone || user.phone || "";
-    document.getElementById("billingEmail").value = savedAddress.email || "";
+    document.getElementById("billingPhone").value = savedAddress.phone || "";
+    document.getElementById("billingEmail").value = savedAddress.email || userEmail;
 
-    loadUserOrders(user.phone);
+    loadUserOrders(user.id);
 }
 
+/* 1. SUPABASE CREATE ACCOUNT */
 async function handleCreateAccount(){
     const name = document.getElementById("accountName").value.trim();
-    const phone = document.getElementById("accountPhone").value.trim();
+    const email = document.getElementById("accountEmail").value.trim();
     const password = document.getElementById("accountPassword").value.trim();
     const confirmPassword = document.getElementById("accountConfirmPassword").value.trim();
 
-    if(!name || !phone || !password || !confirmPassword){
+    if(!name || !email || !password || !confirmPassword){
         alert("অনুগ্রহ করে সব তথ্য সঠিকভাবে পূরণ করুন।");
         return;
     }
@@ -2190,29 +2193,34 @@ async function handleCreateAccount(){
     btn.textContent = "Account তৈরি হচ্ছে...";
 
     try{
-        await fetch(ACCOUNT_WEB_APP_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "text/plain;charset=utf-8" },
-            body: JSON.stringify({ action: "createAccount", name: name, phone: phone, password: password })
+        const { data, error } = await supabaseClient.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+                data: {
+                    full_name: name,
+                    first_name: name.split(" ")[0],
+                    last_name: name.split(" ").slice(1).join(" ")
+                }
+            }
         });
 
-        const nameParts = name.split(" ");
-        const firstName = nameParts[0] || name;
-        const lastName = nameParts.slice(1).join(" ") || "";
-        const userData = { name: name, firstName: firstName, lastName: lastName, phone: phone, password: password };
+        if(error) throw error;
 
-        localStorage.setItem("jmrUser", JSON.stringify(userData));
         document.getElementById("accountCreatedModal").classList.add("show");
-        showDashboard(userData);
+        if(data.session && data.session.user){
+            showDashboard(data.session.user);
+        } else {
+            showLogin();
+        }
 
         document.getElementById("accountName").value = "";
-        document.getElementById("accountPhone").value = "";
+        document.getElementById("accountEmail").value = "";
         document.getElementById("accountPassword").value = "";
         document.getElementById("accountConfirmPassword").value = "";
     } catch(err){
         console.error(err);
-        alert("অ্যাকাউন্ট তৈরি করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+        alert("অ্যাকাউন্ট তৈরি করতে সমস্যা হয়েছে: " + (err.message || "আবার চেষ্টা করুন।"));
     } finally {
         btn.disabled = false;
         btn.textContent = "Create Account";
@@ -2223,12 +2231,13 @@ function closeAccountCreatedModal(){
     document.getElementById("accountCreatedModal").classList.remove("show");
 }
 
+/* 2. SUPABASE LOGIN */
 async function handleLogin(){
-    const phone = document.getElementById("loginPhone").value.trim();
+    const email = document.getElementById("loginEmail").value.trim();
     const password = document.getElementById("loginPassword").value.trim();
 
-    if(!phone || !password){
-        alert("অনুগ্রহ করে ফোন নাম্বার এবং পাসওয়ার্ড দিন।");
+    if(!email || !password){
+        alert("অনুগ্রহ করে ইমেইল এবং পাসওয়ার্ড দিন।");
         return;
     }
 
@@ -2237,75 +2246,100 @@ async function handleLogin(){
     btn.textContent = "লগইন হচ্ছে...";
 
     try{
-        let currentUser = JSON.parse(localStorage.getItem("jmrUser") || "null");
-        if(currentUser && currentUser.phone === phone && currentUser.password && currentUser.password !== password) {
-            alert("পাসওয়ার্ড ভুল হয়েছে!");
-            return;
-        }
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
 
-        const userData = currentUser && currentUser.phone === phone ? currentUser : { phone: phone, name: "Customer", password: password };
-        localStorage.setItem("jmrUser", JSON.stringify(userData));
+        if(error) throw error;
 
         alert("লগইন সফল হয়েছে!");
-        showDashboard(userData);
+        showDashboard(data.user);
 
-        document.getElementById("loginPhone").value = "";
+        document.getElementById("loginEmail").value = "";
         document.getElementById("loginPassword").value = "";
     } catch(err){
         console.error(err);
-        alert("লগইন করতে সমস্যা হয়েছে।");
+        alert("লগইন করতে সমস্যা হয়েছে: " + (err.message || "ইমেইল বা পাসওয়ার্ড যাচাই করুন।"));
     } finally {
         btn.disabled = false;
         btn.textContent = "Login";
     }
 }
 
-function saveAccountDetails(){
-    let currentUser = JSON.parse(localStorage.getItem("jmrUser") || "null");
-    if(!currentUser) return;
+/* 3. SUPABASE FORGOT PASSWORD (VIA BREVO SMTP) */
+async function handleForgotPassword(){
+    const email = document.getElementById("forgotEmail").value.trim();
+    if(!email){
+        alert("অনুগ্রহ করে আপনার Email দিন।");
+        return;
+    }
+
+    const btn = document.getElementById("forgotBtn");
+    btn.disabled = true;
+    btn.textContent = "পাঠানো হচ্ছে...";
+
+    try{
+        const { data, error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+            redirectTo: window.location.origin + window.location.pathname
+        });
+
+        if(error) throw error;
+
+        alert("আপনার ইমেইলে পাসওয়ার্ড রিসেট লিংক পাঠানো হয়েছে! ইনবক্স বা স্প্যাম ফোল্ডার চেক করুন।");
+        showLogin();
+        document.getElementById("forgotEmail").value = "";
+    } catch(err){
+        console.error(err);
+        alert("রিসেট লিংক পাঠাতে সমস্যা হয়েছে: " + (err.message || ""));
+    } finally {
+        btn.disabled = false;
+        btn.textContent = "Reset Link পাঠান";
+    }
+}
+
+async function saveAccountDetails(){
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if(!session) return;
 
     const firstName = document.getElementById("accFirstName").value.trim();
     const lastName = document.getElementById("accLastName").value.trim();
+    const fullName = (firstName + " " + lastName).trim();
 
-    if(firstName) currentUser.firstName = firstName;
-    if(lastName) currentUser.lastName = lastName;
-    if(firstName || lastName) currentUser.name = (firstName + " " + lastName).trim();
+    const { data, error } = await supabaseClient.auth.updateUser({
+        data: { full_name: fullName, first_name: firstName, last_name: lastName }
+    });
 
-    localStorage.setItem("jmrUser", JSON.stringify(currentUser));
-    alert("অ্যাকাউন্টের তথ্য সফলভাবে আপডেট করা হয়েছে!");
-    showDashboard(currentUser);
+    if(error){
+        alert("আপডেট করতে সমস্যা হয়েছে: " + error.message);
+    } else {
+        alert("অ্যাকাউন্টের তথ্য সফলভাবে আপডেট করা হয়েছে!");
+        showDashboard(data.user);
+    }
 }
 
-function savePasswordDetails(){
-    let currentUser = JSON.parse(localStorage.getItem("jmrUser") || "null");
-    if(!currentUser) return;
-
-    const currPass = document.getElementById("currPassword").value.trim();
-    const newPass = document.getElementById("newPassword").value.trim();
-    const confirmNewPass = document.getElementById("confirmNewPassword").value.trim();
-
-    if(currentUser.password && currentUser.password !== currPass) {
-        alert("বর্তমান পাসওয়ার্ড সঠিক নয়!");
+async function savePasswordDetails(){
+    const newPass = document.getElementById("newPasswordChange").value.trim();
+    if(!newPass){
+        alert("নতুন পাসওয়ার্ড দিন।");
         return;
     }
-    if(!newPass || newPass !== confirmNewPass) {
-        alert("নতুন পাসওয়ার্ড মিলছে না!");
-        return;
-    }
-    
-    currentUser.password = newPass;
-    localStorage.setItem("jmrUser", JSON.stringify(currentUser));
-    alert("পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে!");
 
-    document.getElementById("currPassword").value = "";
-    document.getElementById("newPassword").value = "";
-    document.getElementById("confirmNewPassword").value = "";
-    showDashboard(currentUser);
+    const { data, error } = await supabaseClient.auth.updateUser({
+        password: newPass
+    });
+
+    if(error){
+        alert("পাসওয়ার্ড পরিবর্তন করতে সমস্যা হয়েছে: " + error.message);
+    } else {
+        alert("পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে!");
+        document.getElementById("newPasswordChange").value = "";
+    }
 }
 
-function saveAddressDetails(){
-    let currentUser = JSON.parse(localStorage.getItem("jmrUser") || "null");
-    if(!currentUser) return;
+async function saveAddressDetails(){
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if(!session) return;
 
     const addressData = {
         name: document.getElementById("billingName").value.trim(),
@@ -2316,18 +2350,18 @@ function saveAddressDetails(){
         email: document.getElementById("billingEmail").value.trim()
     };
 
-    localStorage.setItem("jmrAddress_" + currentUser.phone, JSON.stringify(addressData));
+    localStorage.setItem("jmrAddress_" + session.user.id, JSON.stringify(addressData));
     alert("বিলিং এড্রেস সফলভাবে সেভ করা হয়েছে!");
 }
 
-function handleLogout(){
-    localStorage.removeItem("jmrUser");
+async function handleLogout(){
+    await supabaseClient.auth.signOut();
     showLogin();
 }
 
-function loadUserOrders(phone){
+async function loadUserOrders(userId){
     const ordersBox = document.getElementById("userOrdersList");
-    let savedOrders = JSON.parse(localStorage.getItem("jmrOrders_" + phone) || "[]");
+    let savedOrders = JSON.parse(localStorage.getItem("jmrOrders_" + userId) || "[]");
 
     if(!savedOrders.length){
         ordersBox.innerHTML = '<p style="color:#777; text-align:center;">আপনার কোনো অর্ডারের হিস্ট্রি নেই।</p>';
@@ -2345,16 +2379,6 @@ function loadUserOrders(phone){
     `).join("");
 }
 
-function sendWhatsAppRequest(){
-    const phone = document.getElementById("forgotPhone").value.trim();
-    if(!phone){
-        alert("অনুগ্রহ করে আপনার Phone Number দিন।");
-        return;
-    }
-    const message = "আসসালামু আলাইকুম, আমি JMR GADGETS-এর একজন Account User।%0A%0Aআমার Password মনে নেই।%0Aআমার Phone Number: " + encodeURIComponent(phone) + "%0A%0Aঅনুগ্রহ করে আমার Password জানিয়ে দিন।";
-    window.open("https://wa.me/8801789283142?text=" + message, "_blank");
-}
-
 
 /* ================= COLORS & STOCK PARSER ================= */
 
@@ -2369,15 +2393,9 @@ function parseColors(text, defaultStock){
 }
 
 
-/* ================= ORDER MODAL FUNCTIONS ================= */
+/* ================= ORDER MODAL FUNCTIONS (GUEST CHECKOUT ENABLED) ================= */
 
 function openOrder(){
-    const currentUser = JSON.parse(localStorage.getItem("jmrUser") || "null");
-    if(!currentUser){
-        alert("অর্ডার করতে আপনার অ্যাকাউন্ট লগইন করুন।");
-        openAccount();
-        return;
-    }
     if(!selectedProduct) return;
 
     currentQty = currentQty || 1;
@@ -2404,14 +2422,17 @@ function openOrder(){
         selectedStock = selectedProduct.stock || 999;
     }
 
-    if(currentUser){
-        document.getElementById("customerName").value = currentUser.name || "";
-        document.getElementById("phone").value = currentUser.phone || "";
-        const savedAddress = JSON.parse(localStorage.getItem("jmrAddress_" + currentUser.phone) || "{}");
-        if(savedAddress.district) document.getElementById("district").value = savedAddress.district;
-        if(savedAddress.thana) document.getElementById("thana").value = savedAddress.thana;
-        if(savedAddress.address) document.getElementById("address").value = savedAddress.address;
-    }
+    // Auto-fill if user logged in
+    supabaseClient.auth.getSession().then(({ data: { session } }) => {
+        if(session && session.user){
+            const savedAddress = JSON.parse(localStorage.getItem("jmrAddress_" + session.user.id) || "{}");
+            if(savedAddress.name) document.getElementById("customerName").value = savedAddress.name;
+            if(savedAddress.phone) document.getElementById("phone").value = savedAddress.phone;
+            if(savedAddress.district) document.getElementById("district").value = savedAddress.district;
+            if(savedAddress.thana) document.getElementById("thana").value = savedAddress.thana;
+            if(savedAddress.address) document.getElementById("address").value = savedAddress.address;
+        }
+    });
 
     const stockLabel = document.getElementById("maxStockLabel");
     if(stockLabel) stockLabel.textContent = "(Available Stock: " + selectedStock + ")";
@@ -2520,6 +2541,7 @@ async function submitOrder(){
     button.textContent = "অর্ডার পাঠানো হচ্ছে...";
 
     try{
+        // 1. Send to Google Sheets (Untouched & Guaranteed)
         await fetch(ORDER_WEB_APP_URL, {
             method: "POST",
             mode: "no-cors",
@@ -2527,9 +2549,13 @@ async function submitOrder(){
             body: JSON.stringify(orderData)
         });
 
-        let savedOrders = JSON.parse(localStorage.getItem("jmrOrders_" + phone) || "[]");
-        savedOrders.push(orderData);
-        localStorage.setItem("jmrOrders_" + phone, JSON.stringify(savedOrders));
+        // 2. If user is logged in, save to their order history in localStorage
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if(session && session.user){
+            let savedOrders = JSON.parse(localStorage.getItem("jmrOrders_" + session.user.id) || "[]");
+            savedOrders.push(orderData);
+            localStorage.setItem("jmrOrders_" + session.user.id, JSON.stringify(savedOrders));
+        }
 
         cart = [];
         saveCartToStorage();
