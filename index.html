@@ -1231,13 +1231,33 @@ My Account
         <p onclick="showLogin()">Already have an account? <b>Login</b></p>
     </div>
 
-    <!-- SUPABASE FORGOT PASSWORD SECTION (EMAIL VIA BREVO) -->
+    <!-- SUPABASE FORGOT PASSWORD SECTION (3-STEP OTP FLOW) -->
     <div id="forgotPasswordSection" class="account-section" style="display:none;">
-        <h3>Forgot Password?</h3>
-        <p class="account-info">আপনার Account-এর Email দিন। আমরা পাসওয়ার্ড রিসেট লিংক পাঠাবো।</p>
-        <input type="email" id="forgotEmail" placeholder="Email Address">
-        <button type="button" id="forgotBtn" onclick="handleForgotPassword()">Reset Link পাঠান</button>
-        <p onclick="showLogin()">← Back to Login</p>
+        <h3>Reset Password</h3>
+        
+        <!-- Step 1: Input Email -->
+        <div id="otpStep1">
+            <p class="account-info">আপনার ইমেইল দিন। আমরা একটি ওটিপি (OTP) কোড পাঠাবো।</p>
+            <input type="email" id="forgotEmail" placeholder="Email Address">
+            <button type="button" id="sendOtpBtn" onclick="handleSendOTP()">Send Code</button>
+        </div>
+
+        <!-- Step 2: Input OTP Code -->
+        <div id="otpStep2" style="display:none;">
+            <p class="account-info">আপনার ইমেইলে পাঠানো ৬ ডিজিটের OTP কোডটি বসান:</p>
+            <input type="text" id="otpCodeInput" placeholder="Enter 6-digit OTP Code" maxlength="10">
+            <button type="button" id="verifyOtpBtn" onclick="handleVerifyOTP()">Verify OTP Code</button>
+        </div>
+
+        <!-- Step 3: Input New Password -->
+        <div id="otpStep3" style="display:none;">
+            <p class="account-info">আপনার নতুন পাসওয়ার্ড সেট করুন:</p>
+            <input type="password" id="resetNewPassword" placeholder="New Password">
+            <input type="password" id="resetConfirmPassword" placeholder="Confirm New Password">
+            <button type="button" id="saveNewPassBtn" onclick="handleSaveNewPassword()">Save New Password</button>
+        </div>
+
+        <p onclick="showLogin()" style="margin-top:15px;">← Back to Login</p>
     </div>
 
     <!-- DASHBOARD SECTION -->
@@ -1481,6 +1501,7 @@ let currentCategory = "All";
 let banners = [];
 let currentBanner = 0;
 let bannerTimer = null;
+let currentResetEmail = "";
 
 /* SLUG GENERATOR HELPER */
 function createSlug(name, code){
@@ -1599,11 +1620,11 @@ async function loadProducts(){
             const stock = parseInt(item.stock) || 0;
             const priceText = item.regular_price || item.price || 0;
             
-            // Multiple images handling (comma separated)
+            // Multiple images handling
             let rawImg = item.image_url || item.image || "";
             let imgList = String(rawImg).split(',').map(img => driveImage(img.trim())).filter(Boolean);
 
-            // Multiple banners handling (comma separated)
+            // Multiple banners handling
             let rawBanner = item.banner_url || item.banner || "";
             let bannerList = String(rawBanner).split(',').map(b => driveImage(b.trim())).filter(Boolean);
 
@@ -1646,7 +1667,6 @@ function loadBanners(){
                 if(b && !bannerList.includes(b)) bannerList.push(b);
             });
         }
-        // Fallback for single banner field if any
         if(product.banner && !bannerList.includes(product.banner)){
             bannerList.push(product.banner);
         }
@@ -2133,6 +2153,9 @@ function showCreateAccount(){
 function showForgotPassword(){
     hideAccountSections();
     document.getElementById("forgotPasswordSection").style.display = "block";
+    document.getElementById("otpStep1").style.display = "block";
+    document.getElementById("otpStep2").style.display = "none";
+    document.getElementById("otpStep3").style.display = "none";
 }
 
 function toggleDashTab(tabId){
@@ -2267,34 +2290,109 @@ async function handleLogin(){
     }
 }
 
-/* 3. SUPABASE FORGOT PASSWORD (VIA BREVO SMTP) */
-async function handleForgotPassword(){
+/* 3. SUPABASE FORGOT PASSWORD (OTP FLOW) */
+
+// STEP 1: Send OTP to Email
+async function handleSendOTP(){
     const email = document.getElementById("forgotEmail").value.trim();
     if(!email){
         alert("অনুগ্রহ করে আপনার Email দিন।");
         return;
     }
 
-    const btn = document.getElementById("forgotBtn");
+    const btn = document.getElementById("sendOtpBtn");
     btn.disabled = true;
-    btn.textContent = "পাঠানো হচ্ছে...";
+    btn.textContent = "কোড পাঠানো হচ্ছে...";
 
     try{
-        const { data, error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-            redirectTo: window.location.origin + window.location.pathname
+        const { data, error } = await supabaseClient.auth.resetPasswordForEmail(email);
+        if(error) throw error;
+
+        currentResetEmail = email;
+        alert("আপনার ইমেইলে ৬ ডিজিটের ওটিপি (OTP) কোড পাঠানো হয়েছে! মেইল চেক করুন।");
+        
+        document.getElementById("otpStep1").style.display = "none";
+        document.getElementById("otpStep2").style.display = "block";
+    } catch(err){
+        console.error(err);
+        alert("ওটিপি পাঠাতে সমস্যা হয়েছে: " + (err.message || ""));
+    } finally {
+        btn.disabled = false;
+        btn.textContent = "Send Code";
+    }
+}
+
+// STEP 2: Verify OTP Code
+async function handleVerifyOTP(){
+    const token = document.getElementById("otpCodeInput").value.trim();
+    if(!token){
+        alert("অনুগ্রহ করে আপনার ৬ ডিজিটের OTP কোডটি লিখুন।");
+        return;
+    }
+
+    const btn = document.getElementById("verifyOtpBtn");
+    btn.disabled = true;
+    btn.textContent = "ভেরিফাই করা হচ্ছে...";
+
+    try{
+        const { data, error } = await supabaseClient.auth.verifyOtp({
+            email: currentResetEmail,
+            token: token,
+            type: 'recovery'
         });
 
         if(error) throw error;
 
-        alert("আপনার ইমেইলে পাসওয়ার্ড রিসেট লিংক পাঠানো হয়েছে! ইনবক্স বা স্প্যাম ফোল্ডার চেক করুন।");
-        showLogin();
-        document.getElementById("forgotEmail").value = "";
+        alert("ওটিপি কোড ভেরিফাই সফল হয়েছে! এখন নতুন পাসওয়ার্ড দিন।");
+        
+        document.getElementById("otpStep2").style.display = "none";
+        document.getElementById("otpStep3").style.display = "block";
     } catch(err){
         console.error(err);
-        alert("রিসেট লিংক পাঠাতে সমস্যা হয়েছে: " + (err.message || ""));
+        alert("ভুল OTP কোড বা কোডের সময় পার হয়ে গেছে। আবার চেষ্টা করুন।");
     } finally {
         btn.disabled = false;
-        btn.textContent = "Reset Link পাঠান";
+        btn.textContent = "Verify OTP Code";
+    }
+}
+
+// STEP 3: Save New Password
+async function handleSaveNewPassword(){
+    const newPass = document.getElementById("resetNewPassword").value.trim();
+    const confirmPass = document.getElementById("resetConfirmPassword").value.trim();
+
+    if(!newPass || !confirmPass){
+        alert("অনুগ্রহ করে পাসওয়ার্ডের ঘর দুটি পূরণ করুন।");
+        return;
+    }
+
+    if(newPass !== confirmPass){
+        alert("পাসওয়ার্ড এবং কনফার্ম পাসওয়ার্ড মিলছে না!");
+        return;
+    }
+
+    const btn = document.getElementById("saveNewPassBtn");
+    btn.disabled = true;
+    btn.textContent = "পাসওয়ার্ড সেভ হচ্ছে...";
+
+    try{
+        const { data, error } = await supabaseClient.auth.updateUser({
+            password: newPass
+        });
+
+        if(error) throw error;
+
+        alert("পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে! এখন নতুন পাসওয়ার্ড দিয়ে লগইন করুন।");
+        showLogin();
+        
+        document.getElementById("resetNewPassword").value = "";
+        document.getElementById("resetConfirmPassword").value = "";
+    } catch(err){
+        console.error(err);
+        alert("পাসওয়ার্ড সেভ করতে সমস্যা হয়েছে: " + (err.message || ""));
+    } finally {
+        btn.disabled = false;
+        btn.textContent = "Save New Password";
     }
 }
 
