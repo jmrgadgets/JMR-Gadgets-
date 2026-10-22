@@ -9,7 +9,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>JMR GADGETS</title>
+<title>JMR GADGETS - 11.11 Mega Sale</title>
 
 <!-- Font Awesome Vector Icons for Original Social Logos -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -216,6 +216,57 @@ header{
     background:#111;
 }
 
+/* ================= 11.11 FLOATING BUTTON ================= */
+.floating-1111-btn {
+    position: fixed;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1500;
+    background: #111;
+    color: #f5c400;
+    border: 2px solid #f5c400;
+    width: 65px;
+    height: 65px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    animation: pulse-square 2s infinite;
+    text-decoration: none;
+    line-height: 1.1;
+}
+
+.floating-1111-btn span {
+    font-size: 14px;
+}
+
+.floating-1111-btn small {
+    font-size: 10px;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+@keyframes pulse-square {
+    0% {
+        transform: translateY(-50%) scale(1);
+        box-shadow: 0 0 0 0 rgba(245, 196, 0, 0.7);
+    }
+    70% {
+        transform: translateY(-50%) scale(1.05);
+        box-shadow: 0 0 0 12px rgba(245, 196, 0, 0);
+    }
+    100% {
+        transform: translateY(-50%) scale(1);
+        box-shadow: 0 0 0 0 rgba(245, 196, 0, 0);
+    }
+}
+
 /* ================= CATEGORY ================= */
 
 .section-title{
@@ -260,6 +311,21 @@ header{
     overflow:hidden;
     background:#fff;
     cursor:pointer;
+    position: relative;
+}
+
+.sale-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: #111;
+    color: #f5c400;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 4px 8px;
+    border-radius: 6px;
+    z-index: 2;
+    border: 1px solid #f5c400;
 }
 
 .product-image{
@@ -282,10 +348,22 @@ header{
     overflow:hidden;
 }
 
+.price-box {
+    margin-top: 7px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .price{
     font-size:17px;
     font-weight:700;
-    margin-top:7px;
+}
+
+.old-price {
+    font-size: 13px;
+    color: #888;
+    text-decoration: line-through;
 }
 
 .product-card button{
@@ -897,6 +975,12 @@ JMR <span>GADGETS</span>
 
 </header>
 
+<!-- ================= 11.11 FLOATING BUTTON ================= -->
+<div class="floating-1111-btn" onclick="filterCategory('11.11 Sale')">
+    <span>11.11</span>
+    <small>Sale</small>
+</div>
+
 
 <!-- ================= HOME VIEW CONTAINER ================= -->
 <div id="homeMainView">
@@ -960,9 +1044,19 @@ JMR <span>GADGETS</span>
     </div>
 
 
+    <!-- ================= 11.11 MEGA SALE SECTION ================= -->
+    <div id="elevenSection" style="display:none;">
+        <div class="section-title" style="display:flex; justify-content:space-between; align-items:center;">
+            <span>🔥 11.11 Mega Sale</span>
+            <span style="font-size:14px; font-weight:normal; color:#e53e3e; cursor:pointer;" onclick="showAll()">সকল প্রোডাক্ট দেখুন</span>
+        </div>
+        <div class="products" id="elevenProducts"></div>
+    </div>
+
+
     <!-- ================= PRODUCTS ================= -->
 
-    <div class="section-title">
+    <div class="section-title" id="mainSectionTitle">
     All Products
     </div>
 
@@ -995,6 +1089,10 @@ JMR <span>GADGETS</span>
 
     <div onclick="showAll()">
         🏠 Home
+    </div>
+
+    <div onclick="filterCategory('11.11 Sale'); closeMenu();">
+        🔥 11.11 Mega Sale
     </div>
 
     <div onclick="openCartModal();closeMenu()">
@@ -1620,6 +1718,11 @@ async function loadProducts(){
             const stock = parseInt(item.stock) || 0;
             const priceText = item.regular_price || item.price || 0;
             
+            // 11.11 Fields mapping
+            const is1111 = item.is_11_11 === true || item.is_11_11 === 'true' || item.is_11_11 === 1;
+            const offerPriceText = item.offer_price || 0;
+            const parsedOfferPrice = parseFloat(String(offerPriceText).replace(/[^\d.]/g, "")) || 0;
+            
             // Multiple images handling
             let rawImg = item.image_url || item.image || "";
             let imgList = String(rawImg).split(',').map(img => driveImage(img.trim())).filter(Boolean);
@@ -1628,13 +1731,18 @@ async function loadProducts(){
             let rawBanner = item.banner_url || item.banner || "";
             let bannerList = String(rawBanner).split(',').map(b => driveImage(b.trim())).filter(Boolean);
 
+            const regularPrice = parseFloat(String(priceText).replace(/[^\d.]/g, "")) || 0;
+
             return {
                 code: String(code),
                 name: String(name),
                 category: String(category),
                 colours: String(colours),
                 stock: stock,
-                price: parseFloat(String(priceText).replace(/[^\d.]/g, "")) || 0,
+                price: is1111 && parsedOfferPrice > 0 ? parsedOfferPrice : regularPrice,
+                regularPrice: regularPrice,
+                offerPrice: parsedOfferPrice,
+                is_11_11: is1111,
                 warranty: String(item.warranty || ""),
                 image: imgList[0] || "",
                 images: imgList.length ? imgList : [""],
@@ -1725,10 +1833,15 @@ function goToBanner(index){
 /* ================= CATEGORIES ================= */
 
 function buildCategories(){
-    const cats = ["All", ...new Set(products.map(p => p.category).filter(Boolean))];
+    const has1111Products = products.some(p => p.is_11_11);
+    let cats = ["All"];
+    if(has1111Products) cats.push("11.11 Sale");
+    
+    cats = [...cats, ...new Set(products.map(p => p.category).filter(Boolean))];
+    
     document.getElementById("categories").innerHTML = cats.map(category => `
         <div class="category ${category === currentCategory ? "active" : ""}" onclick='filterCategory(${JSON.stringify(category)})'>
-            ${escapeHtml(category)}
+            ${escapeHtml(category === '11.11 Sale' ? '🔥 11.11 Mega Sale' : category)}
         </div>
     `).join("");
 }
@@ -1737,6 +1850,7 @@ function filterCategory(category){
     currentCategory = category;
     buildCategories();
     renderProducts();
+    window.scrollTo({ top: 300, behavior: "smooth" });
 }
 
 function showAll(){
@@ -1752,30 +1866,71 @@ function showAll(){
 
 function renderProducts(){
     const search = normalize(document.getElementById("searchInput")?.value);
+    
     filteredProducts = products.filter(product => {
-        const categoryOK = currentCategory === "All" || product.category === currentCategory;
+        const categoryOK = currentCategory === "All" || 
+                           (currentCategory === "11.11 Sale" ? product.is_11_11 : product.category === currentCategory);
         const searchOK = !search || normalize(product.name).includes(search) || normalize(product.category).includes(search) || normalize(product.code).includes(search);
         return categoryOK && searchOK;
     });
 
-    const box = document.getElementById("products");
+    const elevenSection = document.getElementById("elevenSection");
+    const elevenBox = document.getElementById("elevenProducts");
+    const mainSectionTitle = document.getElementById("mainSectionTitle");
+    const productsBox = document.getElementById("products");
+
+    // If viewing "All" and there are 11.11 products, render the dedicated top section
+    if(currentCategory === "All" && !search){
+        const elevenList = products.filter(p => p.is_11_11);
+        if(elevenList.length > 0){
+            elevenSection.style.display = "block";
+            elevenBox.innerHTML = elevenList.map(product => renderSingleProductCard(product)).join("");
+        } else {
+            elevenSection.style.display = "none";
+        }
+        mainSectionTitle.textContent = "All Products";
+    } else {
+        elevenSection.style.display = "none";
+        mainSectionTitle.textContent = currentCategory === "11.11 Sale" ? "🔥 11.11 Mega Sale Products" : "Products (" + currentCategory + ")";
+    }
+
     if(!filteredProducts.length){
-        box.innerHTML = '<div class="empty">কোনো প্রোডাক্ট পাওয়া যায়নি।</div>';
+        productsBox.innerHTML = '<div class="empty">কোনো প্রোডাক্ট পাওয়া যায়নি।</div>';
         return;
     }
 
-    box.innerHTML = filteredProducts.map((product) => `
+    productsBox.innerHTML = filteredProducts.map(product => renderSingleProductCard(product)).join("");
+}
+
+function renderSingleProductCard(product){
+    let priceHtml = `<div class="price">৳${formatMoney(product.price)}</div>`;
+    let saleBadge = '';
+
+    if(product.is_11_11 && product.offerPrice > 0 && product.offerPrice < product.regularPrice){
+        saleBadge = `<div class="sale-badge">11.11 SALE</div>`;
+        priceHtml = `
+            <div class="price-box">
+                <div class="price">৳${formatMoney(product.price)}</div>
+                <div class="old-price">৳${formatMoney(product.regularPrice)}</div>
+            </div>
+        `;
+    } else if(product.is_11_11){
+        saleBadge = `<div class="sale-badge">11.11 SALE</div>`;
+    }
+
+    return `
         <div class="product-card" onclick="navigateToProduct('${escapeHtml(product.code)}', '${escapeHtml(product.name)}')">
+            ${saleBadge}
             <img class="product-image" src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}" onerror="this.style.visibility='hidden'">
             <div class="product-info">
                 <div class="product-name">${escapeHtml(product.name)}</div>
-                <div class="price">৳${formatMoney(product.price)}</div>
+                ${priceHtml}
             </div>
             <button onclick="event.stopPropagation(); navigateToProduct('${escapeHtml(product.code)}', '${escapeHtml(product.name)}')">
                 অর্ডার করুন
             </button>
         </div>
-    `).join("");
+    `;
 }
 
 function formatMoney(number){
@@ -1845,23 +2000,23 @@ function renderProductDetailsContainer(){
         </div>
     ` : '';
 
+    let priceDetailsHtml = `<div class="prod-details-price">৳${formatMoney(selectedProduct.price)}</div>`;
+    if(selectedProduct.is_11_11 && selectedProduct.offerPrice > 0 && selectedProduct.offerPrice < selectedProduct.regularPrice){
+        priceDetailsHtml = `
+            <div class="prod-details-price" style="display:flex; align-items:center; gap:12px;">
+                <span>৳${formatMoney(selectedProduct.price)}</span>
+                <span style="font-size:18px; color:#888; text-decoration:line-through;">৳${formatMoney(selectedProduct.regularPrice)}</span>
+                <span style="background:#111; color:#f5c400; font-size:12px; padding:3px 8px; border-radius:4px;">11.11 Offer</span>
+            </div>
+        `;
+    }
+
     const relatedList = products.filter(p => p.code !== selectedProduct.code).slice(0, 4);
     let relatedHtml = relatedList.length ? `
         <div class="related-section">
             <h3>Related Products</h3>
             <div class="products" style="padding: 0;">
-                ${relatedList.map(p => `
-                    <div class="product-card" onclick="navigateToProduct('${escapeHtml(p.code)}', '${escapeHtml(p.name)}')">
-                        <img class="product-image" src="${escapeHtml(p.image)}" alt="${escapeHtml(p.name)}" onerror="this.style.visibility='hidden'">
-                        <div class="product-info">
-                            <div class="product-name">${escapeHtml(p.name)}</div>
-                            <div class="price">৳${formatMoney(p.price)}</div>
-                        </div>
-                        <button onclick="event.stopPropagation(); navigateToProduct('${escapeHtml(p.code)}', '${escapeHtml(p.name)}')">
-                            অর্ডার করুন
-                        </button>
-                    </div>
-                `).join("")}
+                ${relatedList.map(p => renderSingleProductCard(p)).join("")}
             </div>
         </div>
     ` : '';
@@ -1875,7 +2030,7 @@ function renderProductDetailsContainer(){
 
             <div class="prod-details-info">
                 <h1>${escapeHtml(selectedProduct.name)}</h1>
-                <div class="prod-details-price">৳${formatMoney(selectedProduct.price)}</div>
+                ${priceDetailsHtml}
                 
                 <div id="stockBadge" class="stock-badge">✓ In Stock</div>
                 
