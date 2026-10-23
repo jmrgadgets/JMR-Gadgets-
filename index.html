@@ -6,8 +6,7 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>JMR GADGETS - 11.11 Mega Sale</title>
 
@@ -155,7 +154,7 @@ header{
     border-bottom: 1px solid #eee;
     cursor: pointer;
     font-size: 15px;
-    font-weight: 500;
+    font-weight: 600;
     color: #111;
     transition: background 0.2s;
 }
@@ -165,24 +164,25 @@ header{
 }
 
 .menu-icon-box {
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: 17px;
     flex-shrink: 0;
+    border: 1.5px solid #111;
 }
 
-/* Custom Menu Icon Colors matching user reference */
-.menu-icon-home { background: #fff9d6; border: 1.5px solid #111; color: #111; }
-.menu-icon-sale { background: #f5c400; border: 1.5px solid #111; color: #111; }
-.menu-icon-cart { background: #f5c400; border: 1.5px solid #111; color: #111; }
-.menu-icon-track { background: #f5c400; border: 1.5px solid #111; color: #111; }
-.menu-icon-contact { background: #f5c400; border: 1.5px solid #111; color: #111; }
-.menu-icon-about { background: #fff; border: 1.5px solid #111; color: #111; }
-.menu-icon-warranty { background: #f5c400; border: 1.5px solid #111; color: #111; }
+/* Custom Menu Icons - Bright Yellow (#f5c400) & Black */
+.menu-icon-home { background: #fff; color: #111; }
+.menu-icon-sale { background: #f5c400; color: #111; }
+.menu-icon-cart { background: #f5c400; color: #111; }
+.menu-icon-track { background: #f5c400; color: #111; }
+.menu-icon-contact { background: #f5c400; color: #111; }
+.menu-icon-about { background: #fff; color: #111; }
+.menu-icon-warranty { background: #f5c400; color: #111; }
 
 .overlay{
     display:none;
@@ -258,7 +258,7 @@ header{
     background:#111;
 }
 
-/* ================= 11.11 FLOATING BUTTON (Updated to match reference image) ================= */
+/* ================= 11.11 FLOATING BUTTON ================= */
 .floating-1111-btn {
     position: fixed;
     right: 15px;
@@ -1178,7 +1178,7 @@ JMR <span>GADGETS</span>
 </div>
 
 
-<!-- ================= MENU (Updated with exact reference icons & styling) ================= -->
+<!-- ================= MENU ================= -->
 
 <div class="side-menu" id="sideMenu">
 
@@ -1232,68 +1232,6 @@ onclick="closeMenu()">
 </div>
 
 
-<!-- ================= MENU FUNCTIONS & SUPABASE POLICY LOADER ================= -->
-
-<script>
-
-function openOrderTracking() {
-    const orderId = prompt("অর্ডার আইডি লিখে সার্চ করুন");
-    if (orderId !== null && orderId.trim() !== "") {
-        alert("অর্ডার ট্র্যাকিং সিস্টেম শীঘ্রই চালু হবে।");
-    }
-}
-
-function openWhatsApp() {
-    window.open("https://wa.me/8801789283142", "_blank");
-}
-
-/* ================= FETCH POLICY FROM SUPABASE PRODUCTS TABLE ================= -->
-async function loadPolicyPage(type) {
-    document.getElementById("homeMainView").style.display = "none";
-    document.getElementById("productDetailsView").style.display = "none";
-    document.getElementById("policyPageView").style.display = "block";
-    window.scrollTo({ top: 0, behavior: "smooth" });
-
-    let title = "";
-    let contentKey = "";
-
-    if(type === 'warranty') {
-        title = "Warranty Policy";
-        contentKey = "warranty_policy";
-    } else if(type === 'privacy') {
-        title = "Privacy Policy";
-        contentKey = "privacy_policy";
-    } else if(type === 'about') {
-        title = "About Us";
-        contentKey = "about_us";
-    }
-
-    document.getElementById("policyBannerTitle").textContent = title;
-    document.getElementById("policyBodyContent").innerHTML = '<p style="text-align:center; color:#777;">লোড হচ্ছে...</p>';
-
-    try {
-        let { data, error } = await supabaseClient
-            .from('products')
-            .select('*')
-            .limit(1);
-
-        if(error) throw error;
-
-        if(data && data.length > 0 && data[0][contentKey]) {
-            let rawText = data[0][contentKey];
-            document.getElementById("policyBodyContent").innerHTML = rawText;
-        } else {
-            document.getElementById("policyBodyContent").innerHTML = '<p style="text-align:center; color:#777;">কোনো তথ্য পাওয়া যায়নি।</p>';
-        }
-    } catch(err) {
-        console.error("Policy fetch error:", err);
-        document.getElementById("policyBodyContent").innerHTML = '<p style="text-align:center; color:#e53e3e;">পলিসি লোড করতে সমস্যা হয়েছে।</p>';
-    }
-}
-
-</script>
-
-
 <!-- ================= WEB FOOTER ================= -->
 <footer class="site-footer">
     <div class="footer-container">
@@ -1329,7 +1267,7 @@ async function loadPolicyPage(type) {
 </footer>
 
 
-<!-- ================= BOTTOM NAV (Untouched bottom navigation) ================= -->
+<!-- ================= BOTTOM NAV ================= -->
 <div class="bottom-nav">
 
 <div onclick="window.location.href='tel:01941900221'">
@@ -1390,25 +1328,22 @@ My Account
         <p onclick="showLogin()">Already have an account? <b>Login</b></p>
     </div>
 
-    <!-- SUPABASE FORGOT PASSWORD SECTION (3-STEP OTP FLOW) -->
+    <!-- SUPABASE FORGOT PASSWORD SECTION -->
     <div id="forgotPasswordSection" class="account-section" style="display:none;">
         <h3>Reset Password</h3>
         
-        <!-- Step 1: Input Email -->
         <div id="otpStep1">
             <p class="account-info">আপনার ইমেইল দিন। আমরা একটি ওটিপি (OTP) কোড পাঠাবো।</p>
             <input type="email" id="forgotEmail" placeholder="Email Address">
             <button type="button" id="sendOtpBtn" onclick="handleSendOTP()">Send Code</button>
         </div>
 
-        <!-- Step 2: Input OTP Code -->
         <div id="otpStep2" style="display:none;">
             <p class="account-info">আপনার ইমেইলে পাঠানো ৬ ডিজিটের OTP কোডটি বসান:</p>
             <input type="text" id="otpCodeInput" placeholder="Enter 6-digit OTP Code" maxlength="10">
             <button type="button" id="verifyOtpBtn" onclick="handleVerifyOTP()">Verify OTP Code</button>
         </div>
 
-        <!-- Step 3: Input New Password -->
         <div id="otpStep3" style="display:none;">
             <p class="account-info">আপনার নতুন পাসওয়ার্ড সেট করুন:</p>
             <input type="password" id="resetNewPassword" placeholder="New Password">
@@ -1490,6 +1425,21 @@ My Account
         <h3>আপনার এ্যাকাউন্ট সফল ভাবে তৈরি হয়েছে</h3>
         <p>আপনার ইমেইলে কনফার্মেশন লিংক পাঠানো হয়েছে (প্রয়োজনে ইনবক্স/স্প্যাম ফোল্ডার চেক করুন)।</p>
         <button onclick="closeAccountCreatedModal()">ঠিক আছে</button>
+    </div>
+</div>
+
+
+<!-- ================= ORDER TRACKING MODAL ================= -->
+<div class="modal" id="trackingModal">
+    <div class="modal-box">
+        <div class="close" onclick="closeModal('trackingModal')">×</div>
+        <h2 style="margin-top:0; border-bottom: 1px solid #eee; padding-bottom: 10px;">📦 Order Tracking</h2>
+        <div class="form-group" style="margin-top: 15px;">
+            <label>আপনার অর্ডার আইডি দিন (যেমন: JMR2610238492):</label>
+            <input type="text" id="trackInputId" placeholder="JMRXXXXXX">
+        </div>
+        <button class="order-btn" onclick="trackOrderSubmit()">সার্চ করুন</button>
+        <div id="trackingResultBox" style="margin-top: 15px;"></div>
     </div>
 </div>
 
@@ -1719,6 +1669,112 @@ function openModal(id){
 
 function closeModal(id){
     document.getElementById(id).classList.remove("active");
+}
+
+
+/* ================= ORDER TRACKING FUNCTIONS ================= */
+
+function openOrderTracking() {
+    document.getElementById("trackInputId").value = "";
+    document.getElementById("trackingResultBox").innerHTML = "";
+    openModal("trackingModal");
+}
+
+function trackOrderSubmit() {
+    const inputVal = document.getElementById("trackInputId").value.trim().toUpperCase();
+    const resultBox = document.getElementById("trackingResultBox");
+
+    if(!inputVal) {
+        alert("অনুগ্রহ করে আপনার অর্ডার আইডি লিখুন।");
+        return;
+    }
+
+    resultBox.innerHTML = '<p style="text-align:center; color:#777;">অর্ডার তথ্য খোজা হচ্ছে...</p>';
+
+    // Check Local History
+    let matchedOrder = null;
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith("jmrOrders_")) {
+            try {
+                const list = JSON.parse(localStorage.getItem(key) || "[]");
+                const found = list.find(o => String(o.orderId).toUpperCase() === inputVal);
+                if (found) { matchedOrder = found; break; }
+            } catch(e){}
+        }
+    }
+
+    setTimeout(() => {
+        if(matchedOrder) {
+            resultBox.innerHTML = `
+                <div style="background:#fff9d6; border:1px solid #f5c400; padding:15px; border-radius:10px; line-height:1.6;">
+                    <div style="font-size:16px; font-weight:bold; color:#111; margin-bottom:5px;">অর্ডার আইডি: ${escapeHtml(matchedOrder.orderId)}</div>
+                    <div><b>কাস্টমার নাম:</b> ${escapeHtml(matchedOrder.customerName)}</div>
+                    <div><b>প্রোডাক্ট:</b> ${escapeHtml(matchedOrder.productName)} (x${matchedOrder.quantity})</div>
+                    <div><b>মোট মূল্য:</b> ৳${formatMoney(matchedOrder.totalAmount)}</div>
+                    <div><b>তারিখ:</b> ${matchedOrder.date || 'N/A'}</div>
+                    <div style="margin-top:10px; padding-top:8px; border-top:1px solid #ddd;">
+                        <b>বর্তমান স্ট্যাটাস:</b> <span style="background:#111; color:#f5c400; padding:3px 8px; border-radius:4px; font-weight:bold;">${escapeHtml(matchedOrder.status || 'Processing / Pending')}</span>
+                    </div>
+                </div>
+            `;
+        } else {
+            resultBox.innerHTML = `
+                <div style="background:#fde8e8; color:#e53e3e; padding:12px; border-radius:8px; text-align:center;">
+                    অর্ডার আইডি <b>"${escapeHtml(inputVal)}"</b> খুজে পাওয়া যায়নি। সঠিক আইডি দিয়ে পুনরায় চেষ্টা করুন।
+                </div>
+            `;
+        }
+    }, 600);
+}
+
+function openWhatsApp() {
+    window.open("https://wa.me/8801789283142", "_blank");
+}
+
+
+/* ================= FETCH DYNAMIC POLICY FROM SUPABASE PRODUCTS TABLE ================= */
+async function loadPolicyPage(type) {
+    document.getElementById("homeMainView").style.display = "none";
+    document.getElementById("productDetailsView").style.display = "none";
+    document.getElementById("policyPageView").style.display = "block";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    let title = "";
+    let contentKey = "";
+
+    if(type === 'warranty') {
+        title = "Warranty Policy";
+        contentKey = "warranty_policy";
+    } else if(type === 'privacy') {
+        title = "Privacy Policy";
+        contentKey = "privacy_policy";
+    } else if(type === 'about') {
+        title = "About Us";
+        contentKey = "about_us";
+    }
+
+    document.getElementById("policyBannerTitle").textContent = title;
+    document.getElementById("policyBodyContent").innerHTML = '<p style="text-align:center; color:#777;">লোড হচ্ছে...</p>';
+
+    try {
+        let { data, error } = await supabaseClient
+            .from('products')
+            .select('*')
+            .limit(1);
+
+        if(error) throw error;
+
+        if(data && data.length > 0 && data[0][contentKey]) {
+            let rawText = data[0][contentKey];
+            document.getElementById("policyBodyContent").innerHTML = rawText;
+        } else {
+            document.getElementById("policyBodyContent").innerHTML = '<p style="text-align:center; color:#777;">কোনো তথ্য পাওয়া যায়নি।</p>';
+        }
+    } catch(err) {
+        console.error("Policy fetch error:", err);
+        document.getElementById("policyBodyContent").innerHTML = '<p style="text-align:center; color:#e53e3e;">পলিসি লোড করতে সমস্যা হয়েছে।</p>';
+    }
 }
 
 
@@ -2689,7 +2745,7 @@ function parseColors(text, defaultStock){
 }
 
 
-/* ================= ORDER MODAL FUNCTIONS (Updated Order ID Format JMR + YYMMDD + 4 digits) ================= */
+/* ================= ORDER MODAL FUNCTIONS (Unique Order ID: JMR + YYMMDD + 4 digits) ================= */
 
 function openOrder(){
     if(!selectedProduct) return;
@@ -2777,7 +2833,7 @@ function updateOrderSummary(){
     document.getElementById("orderTotal").textContent = "মোট: ৳" + formatMoney(total);
 }
 
-// Updated Order ID Generator: JMR + YYMMDD + 4 digit random string
+// Order ID Logic: JMR + YYMMDD + 4 Digit Random Number
 function generateOrderId(){
     const now = new Date();
     const yy = String(now.getFullYear()).slice(-2);
