@@ -992,8 +992,8 @@ header{
     }
 }
 
-/* ================= POLICY PAGE VIEW STYLES ================= */
-#policyPageView {
+/* ================= POLICY & ACCOUNT PAGE VIEW STYLES ================= */
+#policyPageView, #accountPageView {
     display: none;
     background: #fff;
     min-height: calc(100vh - 64px);
@@ -1008,6 +1008,7 @@ header{
     justify-content: center;
     text-align: center;
     padding: 20px;
+    position: relative;
 }
 
 .policy-banner h1 {
@@ -1024,11 +1025,6 @@ header{
     line-height: 1.8;
     color: #222;
     font-size: 16px;
-}
-
-.policy-body-content h3, .policy-body-content h4 {
-    color: #111;
-    margin-top: 25px;
 }
 </style>
 
@@ -1178,6 +1174,126 @@ JMR <span>GADGETS</span>
 </div>
 
 
+<!-- ================= MY ACCOUNT MULTI-PAGE VIEW ================= -->
+<div id="accountPageView">
+    <div class="policy-banner">
+        <h1 id="accountBannerTitle">My Account</h1>
+        <button onclick="showHomeView()" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); background: #111; color: #f5c400; border: none; padding: 8px 14px; border-radius: 6px; font-weight: bold; cursor: pointer;">← Home</button>
+    </div>
+    <div class="policy-body-content" style="max-width: 680px;">
+        
+        <!-- SUPABASE LOGIN SECTION -->
+        <div id="loginSection" class="account-section">
+            <h3>Login</h3>
+            <input type="email" id="loginEmail" placeholder="Email Address">
+            <input type="password" id="loginPassword" placeholder="Password">
+            <button type="button" id="loginBtn" onclick="handleLogin()">Login</button>
+            <p onclick="showCreateAccount()" style="text-align:center; margin-top:15px; cursor:pointer;">Don't have an account? <b>Create Account</b></p>
+            <p onclick="showForgotPassword()" style="text-align:center; margin-top:10px; cursor:pointer;"><b>Forgot Password?</b></p>
+        </div>
+
+        <!-- SUPABASE CREATE ACCOUNT SECTION -->
+        <div id="createAccountSection" class="account-section" style="display:none;">
+            <h3>Create Account</h3>
+            <input type="text" id="accountName" placeholder="Full Name">
+            <input type="email" id="accountEmail" placeholder="Email Address">
+            <input type="password" id="accountPassword" placeholder="Create Password">
+            <input type="password" id="accountConfirmPassword" placeholder="Confirm Password">
+            <button type="button" id="createAccountBtn" onclick="handleCreateAccount()">Create Account</button>
+            <p onclick="showLogin()" style="text-align:center; margin-top:15px; cursor:pointer;">Already have an account? <b>Login</b></p>
+        </div>
+
+        <!-- SUPABASE FORGOT PASSWORD SECTION -->
+        <div id="forgotPasswordSection" class="account-section" style="display:none;">
+            <h3>Reset Password</h3>
+            
+            <div id="otpStep1">
+                <p class="account-info">আপনার ইমেইল দিন। আমরা একটি ওটিপি (OTP) কোড পাঠাবো।</p>
+                <input type="email" id="forgotEmail" placeholder="Email Address">
+                <button type="button" id="sendOtpBtn" onclick="handleSendOTP()">Send Code</button>
+            </div>
+
+            <div id="otpStep2" style="display:none;">
+                <p class="account-info">আপনার ইমেইলে পাঠানো ৬ ডিজিটের OTP কোডটি বসান:</p>
+                <input type="text" id="otpCodeInput" placeholder="Enter 6-digit OTP Code" maxlength="10">
+                <button type="button" id="verifyOtpBtn" onclick="handleVerifyOTP()">Verify OTP Code</button>
+            </div>
+
+            <div id="otpStep3" style="display:none;">
+                <p class="account-info">আপনার নতুন পাসওয়ার্ড সেট করুন:</p>
+                <input type="password" id="resetNewPassword" placeholder="New Password">
+                <input type="password" id="resetConfirmPassword" placeholder="Confirm New Password">
+                <button type="button" id="saveNewPassBtn" onclick="handleSaveNewPassword()">Save New Password</button>
+            </div>
+
+            <p onclick="showLogin()" style="text-align:center; margin-top:15px; cursor:pointer;">← Back to Login</p>
+        </div>
+
+        <!-- DASHBOARD SECTION -->
+        <div id="dashboardSection" class="account-section" style="display:none;">
+            <h3 style="margin-bottom: 5px; text-align: left;">Welcome, <span id="userNameDisplay">User</span></h3>
+            <p style="margin: 0 0 20px 0; color: #666; font-size: 14px; cursor: default;">Email: <span id="userEmailDisplay"></span></p>
+
+            <div class="dash-card">
+                <div class="dash-card-header" onclick="toggleDashTab('ordersTab')">
+                    <span>📦 My Orders</span>
+                    <span class="dash-arrow">▼</span>
+                </div>
+                <div id="ordersTab" class="dash-card-body" style="display:none;">
+                    <div id="userOrdersList" style="max-height:220px; overflow-y:auto; font-size:13px;">
+                        <p style="color:#777; text-align:center;">অর্ডার তথ্য লোড হচ্ছে...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dash-card">
+                <div class="dash-card-header" onclick="toggleDashTab('accDetailsTab')">
+                    <span>👤 Account Details</span>
+                    <span class="dash-arrow">▼</span>
+                </div>
+                <div id="accDetailsTab" class="dash-card-body" style="display:none;">
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="accFirstName" placeholder="First Name">
+                        <input type="text" id="accLastName" placeholder="Last Name">
+                    </div>
+                    <button type="button" onclick="saveAccountDetails()" style="background:#f5c400; color:#000; margin-top:5px;">Save Changes</button>
+                </div>
+            </div>
+
+            <div class="dash-card">
+                <div class="dash-card-header" onclick="toggleDashTab('addressTab')">
+                    <span>🏠 Address (Billing Address)</span>
+                    <span class="dash-arrow">▼</span>
+                </div>
+                <div id="addressTab" class="dash-card-body" style="display:none;">
+                    <input type="text" id="billingName" placeholder="আপনার নাম" style="margin-bottom:8px;">
+                    <input type="text" id="billingDistrict" placeholder="জেলা" style="margin-bottom:8px;">
+                    <input type="text" id="billingThana" placeholder="থানা" style="margin-bottom:8px;">
+                    <textarea id="billingAddress" placeholder="সম্পূর্ণ ঠিকানা" style="width: 100%; padding: 11px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; margin-bottom: 8px; min-height: 60px;"></textarea>
+                    <input type="tel" id="billingPhone" placeholder="ফোন নাম্বার" style="margin-bottom:8px;">
+                    <input type="email" id="billingEmail" placeholder="ইমেইল" style="margin-bottom:8px;">
+                    <button type="button" onclick="saveAddressDetails()" style="background:#f5c400; color:#000; margin-top:5px;">Save Address</button>
+                </div>
+            </div>
+
+            <div class="dash-card">
+                <div class="dash-card-header" onclick="toggleDashTab('passChangeTab')">
+                    <span>🔒 Password Change</span>
+                    <span class="dash-arrow">▼</span>
+                </div>
+                <div id="passChangeTab" class="dash-card-body" style="display:none;">
+                    <input type="password" id="newPasswordChange" placeholder="New password" style="margin-bottom:8px;">
+                    <button type="button" onclick="savePasswordDetails()" style="background:#f5c400; color:#000; margin-top:5px;">Update Password</button>
+                </div>
+            </div>
+
+            <button type="button" onclick="handleLogout()" style="background:#ff4d4d; color:#fff; margin-top:20px; width: 100%; border-radius: 10px; font-size:16px;">Logout</button>
+        </div>
+
+    </div>
+</div>
+
+
 <!-- ================= MENU ================= -->
 
 <div class="side-menu" id="sideMenu">
@@ -1290,131 +1406,11 @@ Home
 Cart <span class="cart-count-badge cart-count-val">0</span>
 </div>
 
-<div onclick="openAccount()">
+<div onclick="openAccountPage()">
 <i class="fa-regular fa-user"></i>
 My Account
 </div>
 
-</div>
-
-
-<!-- ================= ACCOUNT MODAL ================= -->
-
-<div id="accountModal" class="account-modal">
-<div class="account-box">
-    <div class="account-header">
-        <b>My Account</b>
-        <span onclick="closeAccount()">✕</span>
-    </div>
-
-    <!-- SUPABASE LOGIN SECTION -->
-    <div id="loginSection" class="account-section">
-        <h3>Login</h3>
-        <input type="email" id="loginEmail" placeholder="Email Address">
-        <input type="password" id="loginPassword" placeholder="Password">
-        <button type="button" id="loginBtn" onclick="handleLogin()">Login</button>
-        <p onclick="showCreateAccount()">Don't have an account? <b>Create Account</b></p>
-        <p onclick="showForgotPassword()"><b>Forgot Password?</b></p>
-    </div>
-
-    <!-- SUPABASE CREATE ACCOUNT SECTION -->
-    <div id="createAccountSection" class="account-section" style="display:none;">
-        <h3>Create Account</h3>
-        <input type="text" id="accountName" placeholder="Full Name">
-        <input type="email" id="accountEmail" placeholder="Email Address">
-        <input type="password" id="accountPassword" placeholder="Create Password">
-        <input type="password" id="accountConfirmPassword" placeholder="Confirm Password">
-        <button type="button" id="createAccountBtn" onclick="handleCreateAccount()">Create Account</button>
-        <p onclick="showLogin()">Already have an account? <b>Login</b></p>
-    </div>
-
-    <!-- SUPABASE FORGOT PASSWORD SECTION -->
-    <div id="forgotPasswordSection" class="account-section" style="display:none;">
-        <h3>Reset Password</h3>
-        
-        <div id="otpStep1">
-            <p class="account-info">আপনার ইমেইল দিন। আমরা একটি ওটিপি (OTP) কোড পাঠাবো।</p>
-            <input type="email" id="forgotEmail" placeholder="Email Address">
-            <button type="button" id="sendOtpBtn" onclick="handleSendOTP()">Send Code</button>
-        </div>
-
-        <div id="otpStep2" style="display:none;">
-            <p class="account-info">আপনার ইমেইলে পাঠানো ৬ ডিজিটের OTP কোডটি বসান:</p>
-            <input type="text" id="otpCodeInput" placeholder="Enter 6-digit OTP Code" maxlength="10">
-            <button type="button" id="verifyOtpBtn" onclick="handleVerifyOTP()">Verify OTP Code</button>
-        </div>
-
-        <div id="otpStep3" style="display:none;">
-            <p class="account-info">আপনার নতুন পাসওয়ার্ড সেট করুন:</p>
-            <input type="password" id="resetNewPassword" placeholder="New Password">
-            <input type="password" id="resetConfirmPassword" placeholder="Confirm New Password">
-            <button type="button" id="saveNewPassBtn" onclick="handleSaveNewPassword()">Save New Password</button>
-        </div>
-
-        <p onclick="showLogin()" style="margin-top:15px;">← Back to Login</p>
-    </div>
-
-    <!-- DASHBOARD SECTION -->
-    <div id="dashboardSection" class="account-section" style="display:none;">
-        <h3 style="margin-bottom: 5px;">Welcome, <span id="userNameDisplay">User</span></h3>
-        <p style="margin: 0 0 20px 0; color: #666; font-size: 14px; cursor: default;">Email: <span id="userEmailDisplay"></span></p>
-
-        <div class="dash-card">
-            <div class="dash-card-header" onclick="toggleDashTab('ordersTab')">
-                <span>📦 My Orders</span>
-                <span class="dash-arrow">▼</span>
-            </div>
-            <div id="ordersTab" class="dash-card-body" style="display:none;">
-                <div id="userOrdersList" style="max-height:220px; overflow-y:auto; font-size:13px;">
-                    <p style="color:#777; text-align:center;">অর্ডার তথ্য লোড হচ্ছে...</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="dash-card">
-            <div class="dash-card-header" onclick="toggleDashTab('accDetailsTab')">
-                <span>👤 Account Details</span>
-                <span class="dash-arrow">▼</span>
-            </div>
-            <div id="accDetailsTab" class="dash-card-body" style="display:none;">
-                <div style="display: flex; gap: 10px;">
-                    <input type="text" id="accFirstName" placeholder="First Name">
-                    <input type="text" id="accLastName" placeholder="Last Name">
-                </div>
-                <button type="button" onclick="saveAccountDetails()" style="background:#f5c400; color:#000; margin-top:5px;">Save Changes</button>
-            </div>
-        </div>
-
-        <div class="dash-card">
-            <div class="dash-card-header" onclick="toggleDashTab('addressTab')">
-                <span>🏠 Address (Billing Address)</span>
-                <span class="dash-arrow">▼</span>
-            </div>
-            <div id="addressTab" class="dash-card-body" style="display:none;">
-                <input type="text" id="billingName" placeholder="আপনার নাম" style="margin-bottom:8px;">
-                <input type="text" id="billingDistrict" placeholder="জেলা" style="margin-bottom:8px;">
-                <input type="text" id="billingThana" placeholder="থানা" style="margin-bottom:8px;">
-                <textarea id="billingAddress" placeholder="সম্পূর্ণ ঠিকানা" style="width: 100%; padding: 11px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; margin-bottom: 8px; min-height: 60px;"></textarea>
-                <input type="tel" id="billingPhone" placeholder="ফোন নাম্বার" style="margin-bottom:8px;">
-                <input type="email" id="billingEmail" placeholder="ইমেইল" style="margin-bottom:8px;">
-                <button type="button" onclick="saveAddressDetails()" style="background:#f5c400; color:#000; margin-top:5px;">Save Address</button>
-            </div>
-        </div>
-
-        <div class="dash-card">
-            <div class="dash-card-header" onclick="toggleDashTab('passChangeTab')">
-                <span>🔒 Password Change</span>
-                <span class="dash-arrow">▼</span>
-            </div>
-            <div id="passChangeTab" class="dash-card-body" style="display:none;">
-                <input type="password" id="newPasswordChange" placeholder="New password" style="margin-bottom:8px;">
-                <button type="button" onclick="savePasswordDetails()" style="background:#f5c400; color:#000; margin-top:5px;">Update Password</button>
-            </div>
-        </div>
-
-        <button type="button" onclick="handleLogout()" style="background:#ff4d4d; color:#fff; margin-top:20px; width: 100%; border-radius: 10px; font-size:16px;">Logout</button>
-    </div>
-</div>
 </div>
 
 
@@ -1528,47 +1524,12 @@ My Account
 </div>
 
 
-<!-- ================= STYLES FOR ACCOUNT MODAL & DASHBOARD ================= -->
+<!-- ================= STYLES FOR ACCOUNT INPUTS & DASHBOARD ================= -->
 <style>
-.account-modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.6);
-    z-index:9999;
-    align-items:center;
-    justify-content:center;
-    padding:10px;
-}
-.account-box{
-    width:100%;
-    max-width:680px; 
-    max-height: 92vh;
-    background:#fff;
-    border-radius:16px;
-    overflow-y:auto;
-    box-shadow:0 10px 35px rgba(0,0,0,0.3);
-}
-.account-header{
-    background:#ffd400;
-    color:#000;
-    padding:17px 20px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    font-size:20px;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-.account-header span{ cursor:pointer; font-size:20px; }
-.account-section{ padding:22px; }
-.account-section h3{ margin:0 0 18px; text-align:center; font-size:22px; }
 .account-section input{ width:100%; padding:12px; margin-bottom:10px; border:1px solid #ddd; border-radius:8px; font-size:15px; outline:none; }
 .account-section button{ width:100%; padding:13px; border:none; border-radius:8px; background:#ffd400; color:#000; font-size:16px; font-weight:bold; cursor:pointer; }
-.account-section p{ text-align:center; font-size:14px; margin:15px 0 0; cursor:pointer; }
-.account-section p b{ cursor:pointer; }
-.account-info{ color:#666; cursor:default !important; }
+.account-section h3{ margin:0 0 18px; font-size:22px; }
+.account-info{ color:#666; }
 .dash-card { border: 1px solid #e2e2e2; border-radius: 10px; margin-bottom: 12px; background: #fff; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
 .dash-card-header { background: #fdfdfd; padding: 15px 18px; font-weight: bold; font-size: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
 .dash-card-header:hover { background: #fff9d6; }
@@ -1587,7 +1548,7 @@ const SUPABASE_URL = 'https://zvwxitwyaruezptpukhm.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_s3-dO11qQy_C08Ck8s88xA_PmLbVtHB';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const ORDER_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyX6cP9GXLxPIiOr_rvTnltAm44E9W8gWDJpYJrLNgJsAIzjQiRSgOi4ppgMSCe3Nejgw/exec";
+const ORDER_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwIFstzVWIrEtIowQS04jJ0yC4Qi28FRxXOgzKNXDN1MxbhnCRmN2MIk_TXPUlbhhNr2A/exec";
 const DELIVERY_CHARGE = 120;
 
 let products = [];
@@ -1617,6 +1578,8 @@ function handleRouting(){
     if(hash.startsWith("#product/")){
         const productSlug = hash.replace("#product/", "");
         loadProductDetailsBySlug(productSlug);
+    } else if(hash === "#account"){
+        renderAccountPageView();
     } else {
         showHomeView();
     }
@@ -1626,6 +1589,7 @@ function showHomeView(){
     document.getElementById("homeMainView").style.display = "block";
     document.getElementById("productDetailsView").style.display = "none";
     document.getElementById("policyPageView").style.display = "none";
+    document.getElementById("accountPageView").style.display = "none";
     window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -1672,7 +1636,7 @@ function closeModal(id){
 }
 
 
-/* ================= ORDER TRACKING FUNCTIONS ================= */
+/* ================= LIVE GOOGLE SHEETS ORDER TRACKING (MINIMALIST) ================= */
 
 function openOrderTracking() {
     document.getElementById("trackInputId").value = "";
@@ -1680,7 +1644,7 @@ function openOrderTracking() {
     openModal("trackingModal");
 }
 
-function trackOrderSubmit() {
+async function trackOrderSubmit() {
     const inputVal = document.getElementById("trackInputId").value.trim().toUpperCase();
     const resultBox = document.getElementById("trackingResultBox");
 
@@ -1689,43 +1653,38 @@ function trackOrderSubmit() {
         return;
     }
 
-    resultBox.innerHTML = '<p style="text-align:center; color:#777;">অর্ডার তথ্য খোজা হচ্ছে...</p>';
+    resultBox.innerHTML = '<p style="text-align:center; color:#777;">গুগল শিট থেকে লাইভ স্ট্যাটাস খোঁজা হচ্ছে...</p>';
 
-    // Check Local History
-    let matchedOrder = null;
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key.startsWith("jmrOrders_")) {
-            try {
-                const list = JSON.parse(localStorage.getItem(key) || "[]");
-                const found = list.find(o => String(o.orderId).toUpperCase() === inputVal);
-                if (found) { matchedOrder = found; break; }
-            } catch(e){}
-        }
-    }
+    try {
+        const response = await fetch(`${ORDER_WEB_APP_URL}?orderId=${encodeURIComponent(inputVal)}`);
+        const resData = await response.json();
 
-    setTimeout(() => {
-        if(matchedOrder) {
+        if (resData.success && resData.order) {
+            const o = resData.order;
+            // Minimalist output: Only Order ID and Status
             resultBox.innerHTML = `
-                <div style="background:#fff9d6; border:1px solid #f5c400; padding:15px; border-radius:10px; line-height:1.6;">
-                    <div style="font-size:16px; font-weight:bold; color:#111; margin-bottom:5px;">অর্ডার আইডি: ${escapeHtml(matchedOrder.orderId)}</div>
-                    <div><b>কাস্টমার নাম:</b> ${escapeHtml(matchedOrder.customerName)}</div>
-                    <div><b>প্রোডাক্ট:</b> ${escapeHtml(matchedOrder.productName)} (x${matchedOrder.quantity})</div>
-                    <div><b>মোট মূল্য:</b> ৳${formatMoney(matchedOrder.totalAmount)}</div>
-                    <div><b>তারিখ:</b> ${matchedOrder.date || 'N/A'}</div>
-                    <div style="margin-top:10px; padding-top:8px; border-top:1px solid #ddd;">
-                        <b>বর্তমান স্ট্যাটাস:</b> <span style="background:#111; color:#f5c400; padding:3px 8px; border-radius:4px; font-weight:bold;">${escapeHtml(matchedOrder.status || 'Processing / Pending')}</span>
+                <div style="background:#fff9d6; border:1.5px solid #f5c400; padding:15px; border-radius:10px; line-height:1.6; text-align:center;">
+                    <div style="font-size:16px; font-weight:bold; color:#111; margin-bottom:8px;">অর্ডার আইডি: ${escapeHtml(o.orderId)}</div>
+                    <div style="font-size:15px;">
+                        <b>বর্তমান স্ট্যাটাস:</b> <span style="background:#111; color:#f5c400; padding:5px 12px; border-radius:6px; font-weight:bold; display:inline-block; margin-top:5px;">${escapeHtml(o.status)}</span>
                     </div>
                 </div>
             `;
         } else {
             resultBox.innerHTML = `
                 <div style="background:#fde8e8; color:#e53e3e; padding:12px; border-radius:8px; text-align:center;">
-                    অর্ডার আইডি <b>"${escapeHtml(inputVal)}"</b> খুজে পাওয়া যায়নি। সঠিক আইডি দিয়ে পুনরায় চেষ্টা করুন।
+                    অর্ডার আইডি <b>"${escapeHtml(inputVal)}"</b> খুঁজে পাওয়া যায়নি। সঠিক আইডি দিয়ে চেষ্টা করুন।
                 </div>
             `;
         }
-    }, 600);
+    } catch (err) {
+        console.error("Tracking Error:", err);
+        resultBox.innerHTML = `
+            <div style="background:#fde8e8; color:#e53e3e; padding:12px; border-radius:8px; text-align:center;">
+                স্ট্যাটাস লোড করতে সমস্যা হয়েছে। দয়া করে কিছুক্ষণ পর চেষ্টা করুন।
+            </div>
+        `;
+    }
 }
 
 function openWhatsApp() {
@@ -1737,6 +1696,7 @@ function openWhatsApp() {
 async function loadPolicyPage(type) {
     document.getElementById("homeMainView").style.display = "none";
     document.getElementById("productDetailsView").style.display = "none";
+    document.getElementById("accountPageView").style.display = "none";
     document.getElementById("policyPageView").style.display = "block";
     window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -2048,6 +2008,7 @@ function loadProductDetailsBySlug(slug){
         document.getElementById("homeMainView").style.display = "block";
         document.getElementById("productDetailsView").style.display = "none";
         document.getElementById("policyPageView").style.display = "none";
+        document.getElementById("accountPageView").style.display = "none";
         return;
     }
 
@@ -2058,6 +2019,7 @@ function loadProductDetailsBySlug(slug){
 
     document.getElementById("homeMainView").style.display = "none";
     document.getElementById("policyPageView").style.display = "none";
+    document.getElementById("accountPageView").style.display = "none";
     document.getElementById("productDetailsView").style.display = "block";
     window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -2373,21 +2335,25 @@ function proceedToCheckoutFromCart(){
 }
 
 
-/* ================= ACCOUNT FUNCTIONS (SUPABASE AUTH) ================= */
+/* ================= ACCOUNT FUNCTIONS (MULTI-PAGE VIEW & SUPABASE AUTH) ================= */
 
-async function openAccount(){
-    document.getElementById("accountModal").style.display = "flex";
-    
+async function openAccountPage(){
+    window.location.hash = "#account";
+}
+
+async function renderAccountPageView(){
+    document.getElementById("homeMainView").style.display = "none";
+    document.getElementById("productDetailsView").style.display = "none";
+    document.getElementById("policyPageView").style.display = "none";
+    document.getElementById("accountPageView").style.display = "block";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
     const { data: { session } } = await supabaseClient.auth.getSession();
     if(session && session.user){
         showDashboard(session.user);
     } else {
         showLogin();
     }
-}
-
-function closeAccount(){
-    document.getElementById("accountModal").style.display = "none";
 }
 
 function hideAccountSections(){
@@ -2711,6 +2677,8 @@ async function handleLogout(){
     showLogin();
 }
 
+/* ================= MY ORDERS WITH CORRECT TOTAL (Product Price + 120 BDT Delivery) ================= */
+
 async function loadUserOrders(userId){
     const ordersBox = document.getElementById("userOrdersList");
     let savedOrders = JSON.parse(localStorage.getItem("jmrOrders_" + userId) || "[]");
@@ -2720,15 +2688,22 @@ async function loadUserOrders(userId){
         return;
     }
 
-    ordersBox.innerHTML = savedOrders.map(order => `
-        <div class="order-item-card">
-            <b>অর্ডার আইডি: ${escapeHtml(order.orderId)}</b><br>
-            <b>তারিখ:</b> ${order.date || new Date().toLocaleDateString('bn-BD')}<br>
-            <b>প্রোডাক্ট:</b> ${escapeHtml(order.productName)} (x${order.quantity})<br>
-            <b>মোট:</b> ৳${formatMoney(order.totalAmount)}<br>
-            <b>ডেলিভারি স্ট্যাটাস:</b> <span style="color:#28a745; font-weight:bold;">${escapeHtml(order.status || 'Pending / Processing')}</span>
-        </div>
-    `).join("");
+    ordersBox.innerHTML = savedOrders.map(order => {
+        const pPrice = parseFloat(order.productPrice || 0);
+        const dCharge = parseFloat(order.deliveryCharge || DELIVERY_CHARGE);
+        const calculatedTotal = pPrice + dCharge;
+
+        return `
+            <div class="order-item-card">
+                <b>অর্ডার আইডি: ${escapeHtml(order.orderId)}</b><br>
+                <b>তারিখ:</b> ${order.date || new Date().toLocaleDateString('bn-BD')}<br>
+                <b>প্রোডাক্ট:</b> ${escapeHtml(order.productName)} (x${order.quantity})<br>
+                <b>প্রোডাক্ট মূল্য:</b> ৳${formatMoney(pPrice)}<br>
+                <b>ডেলিভারি চার্জ:</b> ৳${formatMoney(dCharge)}<br>
+                <b style="color:#111; font-size:14px;">সর্বমোট (Total): ৳${formatMoney(calculatedTotal)}</b>
+            </div>
+        `;
+    }).join("");
 }
 
 
@@ -2887,7 +2862,7 @@ async function submitOrder(){
         deliveryCharge: DELIVERY_CHARGE,
         totalAmount: total,
         date: new Date().toLocaleDateString('bn-BD'),
-        status: 'Pending'
+        status: 'Ordered'
     };
 
     const button = document.getElementById("submitOrderBtn");
