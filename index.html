@@ -1548,7 +1548,7 @@ const SUPABASE_URL = 'https://zvwxitwyaruezptpukhm.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_s3-dO11qQy_C08Ck8s88xA_PmLbVtHB';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const ORDER_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwIFstzVWIrEtIowQS04jJ0yC4Qi28FRxXOgzKNXDN1MxbhnCRmN2MIk_TXPUlbhhNr2A/exec";
+const ORDER_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzUrWI7ky_ntqIg0VVR2BSihZSmYNcJel0soM69hN-3OHFcwr-x5kg1O5Cr-4VjIiSf/exec";
 const DELIVERY_CHARGE = 120;
 
 let products = [];
@@ -2862,7 +2862,7 @@ async function submitOrder(){
         deliveryCharge: DELIVERY_CHARGE,
         totalAmount: total,
         date: new Date().toLocaleDateString('bn-BD'),
-        status: 'Ordered'
+        status: 'অর্ডার প্লেস হয়েছে'
     };
 
     const button = document.getElementById("submitOrderBtn");
