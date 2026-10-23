@@ -947,7 +947,7 @@ header{
 .footer-links-grid {
     width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-style: space-around;
     max-width: 600px;
     border-top: 1px solid #333;
     padding-top: 25px;
@@ -1548,7 +1548,7 @@ const SUPABASE_URL = 'https://zvwxitwyaruezptpukhm.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_s3-dO11qQy_C08Ck8s88xA_PmLbVtHB';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const ORDER_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbykJxL0KZS4TyacvJqFdfA8MkZ4Q5eUO9pRO2cJrALUEq6KaDDY8uD8RpLJza5Vi6fJHQ/exec";
+const ORDER_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxVuOJA2kXV2jnoe8udEkrVDKYBjRYehZldoMEgioKWuBQggL81EM9R-malMwBkM6mDIg/exec";
 const DELIVERY_CHARGE = 120;
 
 let products = [];
@@ -1822,7 +1822,7 @@ async function loadProducts(){
     }
     catch(error){
         console.error("Supabase Product Loading Error:", error);
-        document.getElementById("products").innerHTML = '<div class="empty">প্রোডাক্ট লোড করা যাচ্ছে না。<br><br>দয়া করে Supabase টেবিল কানেকশন চেক করুন।</div>';
+        document.getElementById("products").innerHTML = '<div class="empty">প্রোডাক্ট লোড করা যাচ্ছে না।<br><br>দয়া করে Supabase টেবিল কানেকশন চেক করুন।</div>';
     }
 }
 
