@@ -125,6 +125,7 @@ header{
     box-shadow:3px 0 15px #0003;
     transition:.3s;
     padding:20px;
+    overflow-y: auto;
 }
 
 .side-menu.active{
@@ -133,14 +134,55 @@ header{
 
 .side-menu h2{
     text-align:center;
-    margin:10px 0 25px;
+    margin:10px 0 5px;
+    font-size: 22px;
+    font-weight: 800;
 }
 
-.side-menu div{
-    padding:14px 10px;
-    border-bottom:1px solid #eee;
-    cursor:pointer;
+.side-menu-divider {
+    width: 60px;
+    height: 3px;
+    background: #f5c400;
+    margin: 0 auto 20px auto;
+    border-radius: 2px;
 }
+
+.menu-item-row{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    color: #111;
+    transition: background 0.2s;
+}
+
+.menu-item-row:hover {
+    background: #fff9d6;
+}
+
+.menu-icon-box {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+/* Custom Menu Icon Colors matching user reference */
+.menu-icon-home { background: #fff9d6; border: 1.5px solid #111; color: #111; }
+.menu-icon-sale { background: #f5c400; border: 1.5px solid #111; color: #111; }
+.menu-icon-cart { background: #f5c400; border: 1.5px solid #111; color: #111; }
+.menu-icon-track { background: #f5c400; border: 1.5px solid #111; color: #111; }
+.menu-icon-contact { background: #f5c400; border: 1.5px solid #111; color: #111; }
+.menu-icon-about { background: #fff; border: 1.5px solid #111; color: #111; }
+.menu-icon-warranty { background: #f5c400; border: 1.5px solid #111; color: #111; }
 
 .overlay{
     display:none;
@@ -216,19 +258,19 @@ header{
     background:#111;
 }
 
-/* ================= 11.11 FLOATING BUTTON ================= */
+/* ================= 11.11 FLOATING BUTTON (Updated to match reference image) ================= */
 .floating-1111-btn {
     position: fixed;
     right: 15px;
     top: 50%;
     transform: translateY(-50%);
     z-index: 1500;
-    background: #111;
-    color: #f5c400;
-    border: 2px solid #f5c400;
-    width: 65px;
-    height: 65px;
-    border-radius: 12px;
+    background: #f5c400;
+    color: #111;
+    border: none;
+    width: 68px;
+    height: 68px;
+    border-radius: 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -236,19 +278,23 @@ header{
     text-align: center;
     font-weight: 800;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
     animation: pulse-square 2s infinite;
     text-decoration: none;
-    line-height: 1.1;
+    line-height: 1.15;
 }
 
 .floating-1111-btn span {
-    font-size: 14px;
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
 }
 
 .floating-1111-btn small {
-    font-size: 10px;
-    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    color: #111;
+    letter-spacing: 1px;
     text-transform: uppercase;
 }
 
@@ -258,7 +304,7 @@ header{
         box-shadow: 0 0 0 0 rgba(245, 196, 0, 0.7);
     }
     70% {
-        transform: translateY(-50%) scale(1.05);
+        transform: translateY(-50%) scale(1.06);
         box-shadow: 0 0 0 12px rgba(245, 196, 0, 0);
     }
     100% {
@@ -945,6 +991,45 @@ header{
         padding: 25px 10px 0 10px;
     }
 }
+
+/* ================= POLICY PAGE VIEW STYLES ================= */
+#policyPageView {
+    display: none;
+    background: #fff;
+    min-height: calc(100vh - 64px);
+}
+
+.policy-banner {
+    width: 100%;
+    height: 180px;
+    background: #f5c400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.policy-banner h1 {
+    font-size: 32px;
+    font-weight: 800;
+    color: #111;
+    margin: 0;
+}
+
+.policy-body-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+    line-height: 1.8;
+    color: #222;
+    font-size: 16px;
+}
+
+.policy-body-content h3, .policy-body-content h4 {
+    color: #111;
+    margin-top: 25px;
+}
 </style>
 
 </head>
@@ -969,7 +1054,8 @@ JMR <span>GADGETS</span>
     </div>
 
     <div class="cart-header-btn" onclick="openCartModal()">
-    🛒<span class="cart-count-badge cart-count-val">0</span>
+    <i class="fa-solid fa-cart-shopping" style="font-size: 22px; color: #111;"></i>
+    <span class="cart-count-badge cart-count-val">0</span>
     </div>
 </div>
 
@@ -978,7 +1064,7 @@ JMR <span>GADGETS</span>
 <!-- ================= 11.11 FLOATING BUTTON ================= -->
 <div class="floating-1111-btn" onclick="filterCategory('11.11 Sale')">
     <span>11.11</span>
-    <small>Sale</small>
+    <small>SALE</small>
 </div>
 
 
@@ -1081,38 +1167,57 @@ JMR <span>GADGETS</span>
 </div>
 
 
-<!-- ================= MENU ================= -->
+<!-- ================= POLICY / ABOUT PAGE VIEW ================= -->
+<div id="policyPageView">
+    <div class="policy-banner">
+        <h1 id="policyBannerTitle">Title</h1>
+    </div>
+    <div class="policy-body-content" id="policyBodyContent">
+        <!-- Dynamic policy content from Supabase renders here -->
+    </div>
+</div>
+
+
+<!-- ================= MENU (Updated with exact reference icons & styling) ================= -->
 
 <div class="side-menu" id="sideMenu">
 
     <h2>JMR GADGETS</h2>
+    <div class="side-menu-divider"></div>
 
-    <div onclick="showAll()">
-        🏠 Home
+    <div class="menu-item-row" onclick="showAll()">
+        <div class="menu-icon-box menu-icon-home"><i class="fa-solid fa-house"></i></div>
+        <span>Home</span>
     </div>
 
-    <div onclick="filterCategory('11.11 Sale'); closeMenu();">
-        🔥 11.11 Mega Sale
+    <div class="menu-item-row" onclick="filterCategory('11.11 Sale'); closeMenu();">
+        <div class="menu-icon-box menu-icon-sale"><i class="fa-solid fa-tag"></i></div>
+        <span>11.11 Mega Sale</span>
     </div>
 
-    <div onclick="openCartModal();closeMenu()">
-        🛒 View Cart
+    <div class="menu-item-row" onclick="openCartModal(); closeMenu();">
+        <div class="menu-icon-box menu-icon-cart"><i class="fa-solid fa-cart-shopping"></i></div>
+        <span>View Cart</span>
     </div>
 
-    <div onclick="openOrderTracking();closeMenu()">
-        📦 Order Tracking
+    <div class="menu-item-row" onclick="openOrderTracking(); closeMenu();">
+        <div class="menu-icon-box menu-icon-track"><i class="fa-solid fa-box"></i></div>
+        <span>Order Tracking</span>
     </div>
 
-    <div onclick="openWhatsApp();closeMenu()">
-        📞 Contact
+    <div class="menu-item-row" onclick="openWhatsApp(); closeMenu();">
+        <div class="menu-icon-box menu-icon-contact"><i class="fa-solid fa-phone"></i></div>
+        <span>Contact</span>
     </div>
 
-    <div onclick="showAboutUs();closeMenu()">
-        ℹ️ About Us
+    <div class="menu-item-row" onclick="loadPolicyPage('about'); closeMenu();">
+        <div class="menu-icon-box menu-icon-about"><i class="fa-solid fa-circle-info"></i></div>
+        <span>About Us</span>
     </div>
 
-    <div onclick="showWarrantyPolicy();closeMenu()">
-        🛡️ Warranty Policy
+    <div class="menu-item-row" onclick="loadPolicyPage('warranty'); closeMenu();">
+        <div class="menu-icon-box menu-icon-warranty"><i class="fa-solid fa-shield-halved"></i></div>
+        <span>Warranty Policy</span>
     </div>
 
 </div>
@@ -1127,7 +1232,7 @@ onclick="closeMenu()">
 </div>
 
 
-<!-- ================= MENU FUNCTIONS ================= -->
+<!-- ================= MENU FUNCTIONS & SUPABASE POLICY LOADER ================= -->
 
 <script>
 
@@ -1142,92 +1247,48 @@ function openWhatsApp() {
     window.open("https://wa.me/8801789283142", "_blank");
 }
 
-function showAboutUs() {
-    alert(`আমরা চাই অনলাইনে কেনাকাটা হোক আপনার জন্য সহজ, নিরাপদ আর আনন্দদায়ক।
+/* ================= FETCH POLICY FROM SUPABASE PRODUCTS TABLE ================= -->
+async function loadPolicyPage(type) {
+    document.getElementById("homeMainView").style.display = "none";
+    document.getElementById("productDetailsView").style.display = "none";
+    document.getElementById("policyPageView").style.display = "block";
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
-প্রতিটি অর্ডার আমরা সতর্কতার সাথে প্যাকেজিং করে পাঠাই, যাতে প্রোডাক্ট ভাঙা বা ক্ষতিগ্রস্ত হওয়ার কোনো সুযোগ না থাকে।
+    let title = "";
+    let contentKey = "";
 
-আমাদের টিম সর্বদা চেষ্টা করে আপনাদের কাছে অর্ডারকৃত প্রোডাক্ট দ্রুত পৌঁছে দিতে — সাধারণত ৩ থেকে ৪ দিনের মধ্যেই ডেলিভারি সম্পন্ন হয়। ✅
+    if(type === 'warranty') {
+        title = "Warranty Policy";
+        contentKey = "warranty_policy";
+    } else if(type === 'privacy') {
+        title = "Privacy Policy";
+        contentKey = "privacy_policy";
+    } else if(type === 'about') {
+        title = "About Us";
+        contentKey = "about_us";
+    }
 
-আমাদের লক্ষ্য শুধু প্রোডাক্ট বিক্রি নয়, বরং আপনাদের আস্থা অর্জন করা এবং দীর্ঘমেয়াদী সম্পর্ক তৈরি করা।`);
-}
+    document.getElementById("policyBannerTitle").textContent = title;
+    document.getElementById("policyBodyContent").innerHTML = '<p style="text-align:center; color:#777;">লোড হচ্ছে...</p>';
 
-function showWarrantyPolicy() {
-    openPolicyModal("Warranty Policy", `
-        <h3># রিপ্লেসমেন্ট ও ওয়ারেন্টি নীতিমালা</h3>
-        <p>প্রোডাক্টে কোনো সমস্যা পাওয়া গেলে নিচের শর্তাবলী অনুযায়ী রিপ্লেসমেন্ট অথবা ওয়ারেন্টি সার্ভিস প্রযোজ্য হবে।</p>
-        
-        <h4>🔄 প্রোডাক্ট রিপ্লেসমেন্ট নীতিমালা</h4>
-        <p>যেসব প্রোডাক্টে ৭ দিন, ১৪ দিন অথবা ১ মাসের রিপ্লেসমেন্ট ওয়ারেন্টি দেওয়া হয়, সেসব প্রোডাক্টের ক্ষেত্রে নিম্নোক্ত শর্তসমূহ প্রযোজ্যঃ</p>
-        <ul>
-            <li>প্রোডাক্ট গ্রহণের পর আনবক্সিংয়ের সম্পূর্ণ A to Z ভিডিও (কোনো কাট বা এডিট ছাড়া) সংরক্ষণ করতে হবে।</li>
-            <li>রিপ্লেসমেন্টের নির্ধারিত সময়সীমার মধ্যেই আমাদের সাথে যোগাযোগ করতে হবে।</li>
-            <li>প্রোডাক্টের সমস্যার ভিডিও ধারণ করে আমাদের কাছে পাঠাতে হবে।</li>
-            <li>সমস্যা যাচাইয়ের পর আমাদের টিম একটি ফর্ম প্রদান করবে, যা সঠিকভাবে পূরণ করতে হবে।</li>
-            <li>এক্সচেঞ্জের জন্য প্রোডাক্টটি ও এর সকল অ্যাক্সেসরিজ সুন্দরভাবে প্যাকেজিং করে প্রস্তুত রাখতে হবে।</li>
-            <li>রিপ্লেসমেন্টের ক্ষেত্রে কাস্টমারকে প্রথমে সমস্যাযুক্ত প্রোডাক্টটি আমাদের নির্ধারিত ঠিকানায় পাঠাতে হবে। প্রোডাক্টটি আমাদের কাছে পৌঁছানোর আগে কোনো নতুন প্রোডাক্ট পাঠানো হবে না।</li>
-            <li>প্রোডাক্টটি আমাদের কাছে পৌঁছানোর পর যাচাই-বাছাই করে একই মডেলের নতুন প্রোডাক্ট পাঠানো হবে।</li>
-        </ul>
-        <p><b>বিশেষ দ্রষ্টব্য:</b> যদি JMR Gadgets-এর পক্ষ থেকে ভুল প্রোডাক্ট বা ত্রুটিযুক্ত (ডিফেক্টিভ) প্রোডাক্ট পাঠানো হয়ে থাকে, তাহলে এক্সচেঞ্জ সংক্রান্ত সম্পূর্ণ দায়িত্ব JMR Gadgets বহন করবে। এ ক্ষেত্রে কাস্টমারকে কোনো অতিরিক্ত অর্থ প্রদান করতে হবে না।</p>
-        <hr style="border:0; border-top:1px solid #ddd; margin:15px 0;">
-        
-        <h4>🛠️ ওয়ারেন্টি সার্ভিস নীতিমালা</h4>
-        <p>যেসব প্রোডাক্টের সাথে ৩ মাস, ৬ মাস অথবা ১ বছরের ওয়ারেন্টি উল্লেখ থাকে, সেগুলোর ক্ষেত্রে নিচের শর্তসমূহ প্রযোজ্যঃ</p>
-        <ul>
-            <li>প্রোডাক্টে ম্যানুফ্যাকচারিংজনিত কোনো সমস্যা পাওয়া গেলে রিপ্লেসমেন্টের জন্য অবশ্যই ৭ দিনের মধ্যে যোগাযোগ করতে হবে।</li>
-            <li>৭ দিনের পর কোনো সমস্যা দেখা দিলে ওয়ারেন্টি সার্ভিস ক্লেইম করে প্রোডাক্ট আমাদের কাছে পাঠাতে হবে।</li>
-            <li>কাস্টমারের পাঠানো প্রোডাক্ট আমাদের কাছে পৌঁছানোর আগে কোনো রিপ্লেসমেন্ট প্রোডাক্ট পাঠানো হবে না।</li>
-            <li>আমাদের টেকনিশিয়ান টিম প্রোডাক্ট পরীক্ষা ও সার্ভিস সম্পন্ন করে পুনরায় কাস্টমারের কাছে পাঠাবে।</li>
-        </ul>
-        
-        <h4>ওয়ারেন্টি সার্ভিস গ্রহণের নিয়ম</h4>
-        <ol>
-            <li>কাস্টমারের ইনভয়েসের ছবি আমাদের কাছে জমা দিতে হবে।</li>
-            <li>প্রোডাক্ট আনবক্সিংয়ের সম্পূর্ণ A to Z ভিডিও (কোনো কাট ছাড়া) প্রদান করতে হবে।</li>
-            <li>প্রোডাক্টের সমস্যাটি ভিডিওর মাধ্যমে স্পষ্টভাবে দেখাতে হবে।</li>
-            <li>ইনভয়েস, আনবক্সিং ভিডিও এবং সমস্যার ভিডিও জমা দেওয়ার পর আমাদের কাছ থেকে একটি ফর্ম সংগ্রহ করে সঠিকভাবে পূরণ করতে হবে।</li>
-            <li>আমাদের টিম সমস্যা নিশ্চিত করার পর প্রোডাক্টের সাথে থাকা সকল অ্যাক্সেসরিজ ও উপকরণ মূল বক্সে রেখে সুন্দরভাবে প্যাকেজিং করতে হবে। <br><b style="color:red;">🚫 প্রোডাক্টের মূল বক্সে সরাসরি টেপ লাগানো যাবে না। 🚫</b></li>
-            <li>নিরাপদ প্যাকেজিংয়ের জন্য ফোম, কার্টন বা বুদবুদযুক্ত (Bubble Wrap) প্লাস্টিক ব্যবহার করতে হবে। এরপর বাইরের অংশ মোটা কাগজ বা কার্টন দিয়ে মুড়িয়ে টেপ দিয়ে সুরক্ষিত করতে হবে।</li>
-            <li>কাস্টমারকে অবশ্যই Steadfast Courier-এর মাধ্যমে আমাদের নির্ধারিত ঠিকানায় প্রোডাক্ট পাঠাতে হবে।</li>
-            <li>রিপ্লেসমেন্ট অথবা ওয়ারেন্টি সার্ভিসের ক্ষেত্রে কাস্টমারকে একবারই ডেলিভারি চার্জ প্রদান করতে হবে। প্রোডাক্ট আমাদের কাছে পাঠানোর জন্য কাস্টমার একবার ডেলিভারি চার্জ দেবেন। পরবর্তীতে সার্ভিস সম্পন্ন বা রিপ্লেসমেন্টের পর প্রোডাক্ট কাস্টমারের কাছে ফেরত পাঠানোর জন্য কোনো অতিরিক্ত ডেলিভারি চার্জ দিতে হবে না।</li>
-        </ol>
-        <hr style="border:0; border-top:1px solid #ddd; margin:15px 0;">
-        
-        <h4>❌ যেসব ক্ষেত্রে রিপ্লেসমেন্ট বা ওয়ারেন্টি প্রযোজ্য হবে না</h4>
-        <p>নিম্নোক্ত ক্ষেত্রে রিপ্লেসমেন্ট বা ওয়ারেন্টি সার্ভিস গ্রহণযোগ্য হবে নাঃ</p>
-        <ul>
-            <li>ভুল ব্যবহার, অসাবধানতা বা দুর্ঘটনার কারণে প্রোডাক্ট ক্ষতিগ্রস্ত হলে।</li>
-            <li>প্রোডাক্টে আঘাত, দাগ, ভাঙন, রঙের পরিবর্তন বা বাহ্যিক ক্ষতি থাকলে।</li>
-            <li>থার্ড-পার্টি অ্যাপ, সফটওয়্যার বা অন্য কোনো অননুমোদিত ব্যবহারের কারণে সমস্যা হলে।</li>
-            <li>চার্জার, ক্যাবল বা অন্যান্য অ্যাক্সেসরিজের ক্ষেত্রে রিপ্লেসমেন্ট বা ওয়ারেন্টি প্রযোজ্য হবে না (যদি আলাদাভাবে উল্লেখ না থাকে)।</li>
-            <li>সার্ভিসের জন্য পাঠানোর সময় প্রোডাক্ট যথাযথভাবে প্যাকেজিং না করা হলে।</li>
-            <li>একবার রিপ্লেসমেন্ট দেওয়া প্রোডাক্ট দ্বিতীয়বার রিপ্লেসমেন্টের আওতায় আসবে না।</li>
-        </ul>
-        <p><b>চূড়ান্ত সিদ্ধান্ত:</b> রিপ্লেসমেন্ট বা ওয়ারেন্টি সংক্রান্ত সকল সিদ্ধান্ত গ্রহণের অধিকার JMR Gadgets সংরক্ষণ করে।</p>
-    `);
-}
+    try {
+        let { data, error } = await supabaseClient
+            .from('products')
+            .select('*')
+            .limit(1);
 
-function showPrivacyPolicyModal() {
-    openPolicyModal("Privacy Policy", `
-        <h3>Privacy Policy</h3>
-        <p><b>1. Third-Party Links</b><br>ওয়েবসাইট বা পেজে তৃতীয় পক্ষের লিঙ্ক থাকলে, আমরা তাদের প্রাইভেসি নীতির জন্য দায়ী নই।</p>
-        <p><b>2. Policy Updates</b><br>আমরা সময়ের সঙ্গে সঙ্গে প্রাইভেসি পলিসি আপডেট করতে পারি। কোনো পরিবর্তন হলে তা ওয়েবসাইট বা পেজে প্রকাশ করা হবে।</p>
-        <p><b>3. User Rights</b><br>আপনি চাইলে আপনার তথ্য সম্পর্কে জানতে বা পরিবর্তনের জন্য আমাদের সাথে যোগাযোগ করতে পারেন।</p>
-        <p><b>4. Confidentiality</b><br>আপনার ব্যক্তিগত তথ্য তৃতীয় পক্ষের সঙ্গে ভাগ করা হবে না, যদি না আইন অনুযায়ী বাধ্যতামূলক হয়।</p>
-        <p><b>5. Communication</b><br>আপনার কাছে অফার, আপডেট বা গুরুত্বপূর্ণ তথ্য পাঠানো হতে পারে, শুধুমাত্র ব্যবসার উদ্দেশ্যে।</p>
-        <p><b>6. Consent</b><br>ওয়েবসাইট বা পেজ ব্যবহার করে আপনি আমাদের প্রাইভেসি পলিসি মেনে চলছেন।</p>
-        <p><b>7. Contact</b><br>যদি কোনো প্রশ্ন বা অনুরোধ থাকে, আমাদের সাথে যোগাযোগ করুন। 01941900221</p>
-    `);
-}
+        if(error) throw error;
 
-function showAboutUsModal() {
-    openPolicyModal("About Us", `
-        <h3>About Us</h3>
-        <p>আমরা চাই অনলাইনে কেনাকাটা হোক আপনার জন্য সহজ, নিরাপদ আর আনন্দদায়ক।</p>
-        <p>প্রতিটি অর্ডার আমরা সতর্কতার সাথে প্যাকেজিং করে পাঠাই, যাতে প্রোডাক্ট ভাঙা বা ক্ষতিগ্রস্ত হওয়ার কোনো সুযোগ না থাকে।</p>
-        <p>আমাদের টিম সর্বদা চেষ্টা করে আপনাদের কাছে অর্ডারকৃত প্রোডাক্ট দ্রুত পৌঁছে দিতে — সাধারণত ৩ থেকে ৪ দিনের মধ্যেই ডেলিভারি সম্পন্ন হয়। ✅</p>
-        <p>আমাদের লক্ষ্য শুধু প্রোডাক্ট বিক্রি নয়, বরং আপনাদের আস্থা অর্জন করা এবং দীর্ঘমেয়াদী সম্পর্ক তৈরি করা।</p>
-    `);
+        if(data && data.length > 0 && data[0][contentKey]) {
+            let rawText = data[0][contentKey];
+            document.getElementById("policyBodyContent").innerHTML = rawText;
+        } else {
+            document.getElementById("policyBodyContent").innerHTML = '<p style="text-align:center; color:#777;">কোনো তথ্য পাওয়া যায়নি।</p>';
+        }
+    } catch(err) {
+        console.error("Policy fetch error:", err);
+        document.getElementById("policyBodyContent").innerHTML = '<p style="text-align:center; color:#e53e3e;">পলিসি লোড করতে সমস্যা হয়েছে।</p>';
+    }
 }
 
 </script>
@@ -1250,7 +1311,7 @@ function showAboutUsModal() {
             <div class="footer-col">
                 <h4>About Us</h4>
                 <ul>
-                    <li><span onclick="showAboutUsModal()">About Us</span></li>
+                    <li><span onclick="loadPolicyPage('about')">About Us</span></li>
                     <li><a href="tel:01941900221">Contact</a></li>
                     <li><span onclick="alert('ব্লগ সেকশন ফাঁকা রয়েছে')">Blog</span></li>
                     <li><span onclick="openOrderTracking()">Track Order</span></li>
@@ -1259,8 +1320,8 @@ function showAboutUsModal() {
             <div class="footer-col">
                 <h4>Policy</h4>
                 <ul>
-                    <li><span onclick="showPrivacyPolicyModal()">Privacy Policy</span></li>
-                    <li><span onclick="showWarrantyPolicy()">Warranty Policy</span></li>
+                    <li><span onclick="loadPolicyPage('privacy')">Privacy Policy</span></li>
+                    <li><span onclick="loadPolicyPage('warranty')">Warranty Policy</span></li>
                 </ul>
             </div>
         </div>
@@ -1268,7 +1329,7 @@ function showAboutUsModal() {
 </footer>
 
 
-<!-- ================= BOTTOM NAV ================= -->
+<!-- ================= BOTTOM NAV (Untouched bottom navigation) ================= -->
 <div class="bottom-nav">
 
 <div onclick="window.location.href='tel:01941900221'">
@@ -1462,16 +1523,6 @@ My Account
 </div>
 
 
-<!-- ================= POLICY MODAL ================= -->
-<div class="modal" id="policyModal">
-    <div class="modal-box">
-        <div class="close" onclick="closeModal('policyModal')">×</div>
-        <h2 id="policyModalTitle" style="margin-top:0; border-bottom: 1px solid #eee; padding-bottom: 10px;"></h2>
-        <div id="policyModalContent" style="margin-top: 15px; line-height: 1.6; color: #333;"></div>
-    </div>
-</div>
-
-
 <!-- ================= ORDER MODAL ================= -->
 <div class="modal" id="orderModal">
 <div class="modal-box">
@@ -1624,6 +1675,7 @@ function handleRouting(){
 function showHomeView(){
     document.getElementById("homeMainView").style.display = "block";
     document.getElementById("productDetailsView").style.display = "none";
+    document.getElementById("policyPageView").style.display = "none";
     window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -1667,12 +1719,6 @@ function openModal(id){
 
 function closeModal(id){
     document.getElementById(id).classList.remove("active");
-}
-
-function openPolicyModal(title, htmlContent) {
-    document.getElementById("policyModalTitle").textContent = title;
-    document.getElementById("policyModalContent").innerHTML = htmlContent;
-    openModal("policyModal");
 }
 
 
@@ -1879,7 +1925,6 @@ function renderProducts(){
     const mainSectionTitle = document.getElementById("mainSectionTitle");
     const productsBox = document.getElementById("products");
 
-    // If viewing "All" and there are 11.11 products, render the dedicated top section
     if(currentCategory === "All" && !search){
         const elevenList = products.filter(p => p.is_11_11);
         if(elevenList.length > 0){
@@ -1946,6 +1991,7 @@ function loadProductDetailsBySlug(slug){
     if(!targetProduct){
         document.getElementById("homeMainView").style.display = "block";
         document.getElementById("productDetailsView").style.display = "none";
+        document.getElementById("policyPageView").style.display = "none";
         return;
     }
 
@@ -1955,6 +2001,7 @@ function loadProductDetailsBySlug(slug){
     currentQty = 1;
 
     document.getElementById("homeMainView").style.display = "none";
+    document.getElementById("policyPageView").style.display = "none";
     document.getElementById("productDetailsView").style.display = "block";
     window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -2275,7 +2322,6 @@ function proceedToCheckoutFromCart(){
 async function openAccount(){
     document.getElementById("accountModal").style.display = "flex";
     
-    // Check Supabase session
     const { data: { session } } = await supabaseClient.auth.getSession();
     if(session && session.user){
         showDashboard(session.user);
@@ -2447,7 +2493,6 @@ async function handleLogin(){
 
 /* 3. SUPABASE FORGOT PASSWORD (OTP FLOW) */
 
-// STEP 1: Send OTP to Email
 async function handleSendOTP(){
     const email = document.getElementById("forgotEmail").value.trim();
     if(!email){
@@ -2477,7 +2522,6 @@ async function handleSendOTP(){
     }
 }
 
-// STEP 2: Verify OTP Code
 async function handleVerifyOTP(){
     const token = document.getElementById("otpCodeInput").value.trim();
     if(!token){
@@ -2511,7 +2555,6 @@ async function handleVerifyOTP(){
     }
 }
 
-// STEP 3: Save New Password
 async function handleSaveNewPassword(){
     const newPass = document.getElementById("resetNewPassword").value.trim();
     const confirmPass = document.getElementById("resetConfirmPassword").value.trim();
@@ -2646,7 +2689,7 @@ function parseColors(text, defaultStock){
 }
 
 
-/* ================= ORDER MODAL FUNCTIONS (GUEST CHECKOUT ENABLED) ================= */
+/* ================= ORDER MODAL FUNCTIONS (Updated Order ID Format JMR + YYMMDD + 4 digits) ================= */
 
 function openOrder(){
     if(!selectedProduct) return;
@@ -2675,7 +2718,6 @@ function openOrder(){
         selectedStock = selectedProduct.stock || 999;
     }
 
-    // Auto-fill if user logged in
     supabaseClient.auth.getSession().then(({ data: { session } }) => {
         if(session && session.user){
             const savedAddress = JSON.parse(localStorage.getItem("jmrAddress_" + session.user.id) || "{}");
@@ -2735,12 +2777,15 @@ function updateOrderSummary(){
     document.getElementById("orderTotal").textContent = "মোট: ৳" + formatMoney(total);
 }
 
+// Updated Order ID Generator: JMR + YYMMDD + 4 digit random string
 function generateOrderId(){
-    let lastOrder = localStorage.getItem("jmrLastOrderNumber");
-    if(!lastOrder){ lastOrder = 1000; }
-    const next = parseInt(lastOrder) + 1;
-    localStorage.setItem("jmrLastOrderNumber", next);
-    return "JMR-" + next;
+    const now = new Date();
+    const yy = String(now.getFullYear()).slice(-2);
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    const dateStr = yy + mm + dd;
+    const random4 = Math.floor(1000 + Math.random() * 9000);
+    return "JMR" + dateStr + random4;
 }
 
 async function submitOrder(){
@@ -2794,7 +2839,6 @@ async function submitOrder(){
     button.textContent = "অর্ডার পাঠানো হচ্ছে...";
 
     try{
-        // 1. Send to Google Sheets (Untouched & Guaranteed)
         await fetch(ORDER_WEB_APP_URL, {
             method: "POST",
             mode: "no-cors",
@@ -2802,7 +2846,6 @@ async function submitOrder(){
             body: JSON.stringify(orderData)
         });
 
-        // 2. If user is logged in, save to their order history in localStorage
         const { data: { session } } = await supabaseClient.auth.getSession();
         if(session && session.user){
             let savedOrders = JSON.parse(localStorage.getItem("jmrOrders_" + session.user.id) || "[]");
