@@ -1220,7 +1220,7 @@ JMR <span>GADGETS</span>
             </div>
 
             <div id="otpStep3" style="display:none;">
-                <p class="account-info">আপনার নতুন পাসওয়ার্ড সেট করুন:</p>
+                <p class="account-info">আপনার নতুন পাসওয়ার্ড সেট করুন:</p>
                 <input type="password" id="resetNewPassword" placeholder="New Password">
                 <input type="password" id="resetConfirmPassword" placeholder="Confirm New Password">
                 <button type="button" id="saveNewPassBtn" onclick="handleSaveNewPassword()">Save New Password</button>
@@ -1367,7 +1367,7 @@ onclick="closeMenu()">
                 <ul>
                     <li><span onclick="loadPolicyPage('about')">About Us</span></li>
                     <li><a href="tel:01941900221">Contact</a></li>
-                    <li><span onclick="alert('ব্লগ সেকশন ফাঁকা রয়েছে')">Blog</span></li>
+                    <li><span onclick="alert('ব্লগ সেকশন ফাঁকা রয়েছে')">Blog</span></li>
                     <li><span onclick="openOrderTracking()">Track Order</span></li>
                 </ul>
             </div>
@@ -1418,8 +1418,8 @@ My Account
 <div class="success-modal" id="accountCreatedModal">
     <div class="success-box">
         <div class="success-icon">✓</div>
-        <h3>আপনার এ্যাকাউন্ট সফল ভাবে তৈরি হয়েছে</h3>
-        <p>আপনার ইমেইলে কনফার্মেশন লিংক পাঠানো হয়েছে (প্রয়োজনে ইনবক্স/স্প্যাম ফোল্ডার চেক করুন)।</p>
+        <h3>আপনার এ্যাকাউন্ট সফল ভাবে তৈরি হয়েছে</h3>
+        <p>আপনার ইমেইলে কনফার্মেশন লিংক পাঠানো হয়েছে (প্রয়োজনে ইনবক্স/স্প্যাম ফোল্ডার চেক করুন)।</p>
         <button onclick="closeAccountCreatedModal()">ঠিক আছে</button>
     </div>
 </div>
@@ -1492,7 +1492,7 @@ My Account
 </div>
 <div class="form-group">
 <label>লোকাল ঠিকানা *</label>
-<textarea id="address" placeholder="বাড়ি/রোড/এলাকা"></textarea>
+<textarea id="address" placeholder="বাড়ি/রোড/এলাকা"></textarea>
 </div>
 <div class="form-group">
 <label>Colour</label>
@@ -1517,8 +1517,8 @@ My Account
 <div class="success-modal" id="successModal">
 <div class="success-box">
 <div class="success-icon">✓</div>
-<h3>অর্ডার সফল হয়েছে!</h3>
-<p>আপনার অর্ডারটি প্লেস করা হয়েছে, আমাদের একজন প্রতিনিধি আপনাকে ফোন দিবে।</p>
+<h3>অর্ডার সফল হয়েছে!</h3>
+<p>আপনার অর্ডারটি প্লেস করা হয়েছে, আমাদের একজন প্রতিনিধি আপনাকে ফোন দিবে।</p>
 <button onclick="closeSuccess()">ঠিক আছে</button>
 </div>
 </div>
@@ -1548,7 +1548,7 @@ const SUPABASE_URL = 'https://zvwxitwyaruezptpukhm.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_s3-dO11qQy_C08Ck8s88xA_PmLbVtHB';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const ORDER_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx3xg8D8QNKvyP7WGVkOuS_cRtU4Hew2cQGjgGt7j9EAcxb1FLaPJaQJfABL0iBqz1CzA/exec";
+const ORDER_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx0tbVGTKZt1YCcrbj7H3b4S9W3VNVDj-Sz3zj2xENqlFUko2myXS_jFmf5YzeQyT8-jQ/exec";
 const DELIVERY_CHARGE = 120;
 
 let products = [];
@@ -1673,7 +1673,7 @@ async function trackOrderSubmit() {
         } else {
             resultBox.innerHTML = `
                 <div style="background:#fde8e8; color:#e53e3e; padding:12px; border-radius:8px; text-align:center;">
-                    অর্ডার আইডি <b>"${escapeHtml(inputVal)}"</b> খুঁজে পাওয়া যায়নি। সঠিক আইডি দিয়ে চেষ্টা করুন।
+                    অর্ডার আইডি <b>"${escapeHtml(inputVal)}"</b> খুঁজে পাওয়া যায়নি। সঠিক আইডি দিয়ে চেষ্টা করুন।
                 </div>
             `;
         }
@@ -1681,7 +1681,7 @@ async function trackOrderSubmit() {
         console.error("Tracking Error:", err);
         resultBox.innerHTML = `
             <div style="background:#fde8e8; color:#e53e3e; padding:12px; border-radius:8px; text-align:center;">
-                স্ট্যাটাস লোড করতে সমস্যা হয়েছে। দয়া করে কিছুক্ষণ পর চেষ্টা করুন।
+                স্ট্যাটাস লোড করতে সমস্যা হয়েছে। দয়া করে কিছুক্ষণ পর চেষ্টা করুন।
             </div>
         `;
     }
@@ -1729,11 +1729,11 @@ async function loadPolicyPage(type) {
             let rawText = data[0][contentKey];
             document.getElementById("policyBodyContent").innerHTML = rawText;
         } else {
-            document.getElementById("policyBodyContent").innerHTML = '<p style="text-align:center; color:#777;">কোনো তথ্য পাওয়া যায়নি।</p>';
+            document.getElementById("policyBodyContent").innerHTML = '<p style="text-align:center; color:#777;">কোনো তথ্য পাওয়া যায়নি।</p>';
         }
     } catch(err) {
         console.error("Policy fetch error:", err);
-        document.getElementById("policyBodyContent").innerHTML = '<p style="text-align:center; color:#e53e3e;">পলিসি লোড করতে সমস্যা হয়েছে।</p>';
+        document.getElementById("policyBodyContent").innerHTML = '<p style="text-align:center; color:#e53e3e;">পলিসি লোড করতে সমস্যা হয়েছে।</p>';
     }
 }
 
@@ -1822,7 +1822,7 @@ async function loadProducts(){
     }
     catch(error){
         console.error("Supabase Product Loading Error:", error);
-        document.getElementById("products").innerHTML = '<div class="empty">প্রোডাক্ট লোড করা যাচ্ছে না।<br><br>দয়া করে Supabase টেবিল কানেকশন চেক করুন।</div>';
+        document.getElementById("products").innerHTML = '<div class="empty">প্রোডাক্ট লোড করা যাচ্ছে না।<br><br>দয়া করে Supabase টেবিল কানেকশন চেক করুন।</div>';
     }
 }
 
@@ -1956,7 +1956,7 @@ function renderProducts(){
     }
 
     if(!filteredProducts.length){
-        productsBox.innerHTML = '<div class="empty">কোনো প্রোডাক্ট পাওয়া যায়নি।</div>';
+        productsBox.innerHTML = '<div class="empty">কোনো প্রোডাক্ট পাওয়া যায়নি।</div>';
         return;
     }
 
@@ -2138,7 +2138,7 @@ function changeMainImage(url, el){
 
 function changeDetailsQty(delta){
     if(delta > 0 && currentQty >= selectedStock){
-        alert("দুঃখিত, স্টক সীমাবদ্ধতার কারণে এর চেয়ে বেশি অর্ডার নেওয়া সম্ভব নয়। (Available Stock: " + selectedStock + ")");
+        alert("দুঃখিত, স্টক সীমাবদ্ধতার কারণে এর চেয়ে বেশি অর্ডার নেওয়া সম্ভব নয়। (Available Stock: " + selectedStock + ")");
         return;
     }
     currentQty = Math.max(1, currentQty + delta);
@@ -2257,7 +2257,7 @@ function addToCartItem(product, color, qty){
     }
 
     saveCartToStorage();
-    alert("প্রোডাক্ট কার্টে যোগ করা হয়েছে!");
+    alert("প্রোডাক্ট কার্টে যোগ করা হয়েছে!");
 }
 
 function openCartModal(){
@@ -2268,7 +2268,7 @@ function openCartModal(){
 function renderCartItems(){
     const container = document.getElementById("cartItemsContainer");
     if(!cart.length){
-        container.innerHTML = '<div style="text-align:center; padding:30px; color:#777;">আপনার কার্ট খালি রয়েছে।</div>';
+        container.innerHTML = '<div style="text-align:center; padding:30px; color:#777;">আপনার কার্ট খালি রয়েছে।</div>';
         document.getElementById("cartSubtotal").textContent = "৳0";
         document.getElementById("cartTotal").textContent = "৳0";
         return;
@@ -2430,7 +2430,7 @@ async function handleCreateAccount(){
     }
 
     if(password !== confirmPassword){
-        alert("পাসওয়ার্ড এবং কনফার্ম পাসওয়ার্ড মিলছে না!");
+        alert("পাসওয়ার্ড এবং কনফার্ম পাসওয়ার্ড মিলছে না!");
         return;
     }
 
@@ -2466,7 +2466,7 @@ async function handleCreateAccount(){
         document.getElementById("accountConfirmPassword").value = "";
     } catch(err){
         console.error(err);
-        alert("অ্যাকাউন্ট তৈরি করতে সমস্যা হয়েছে: " + (err.message || "আবার চেষ্টা করুন।"));
+        alert("অ্যাকাউন্ট তৈরি করতে সমস্যা হয়েছে: " + (err.message || "আবার চেষ্টা করুন।"));
     } finally {
         btn.disabled = false;
         btn.textContent = "Create Account";
@@ -2483,7 +2483,7 @@ async function handleLogin(){
     const password = document.getElementById("loginPassword").value.trim();
 
     if(!email || !password){
-        alert("অনুগ্রহ করে ইমেইল এবং পাসওয়ার্ড দিন।");
+        alert("অনুগ্রহ করে ইমেইল এবং পাসওয়ার্ড দিন।");
         return;
     }
 
@@ -2499,14 +2499,14 @@ async function handleLogin(){
 
         if(error) throw error;
 
-        alert("লগইন সফল হয়েছে!");
+        alert("লগইন সফল হয়েছে!");
         showDashboard(data.user);
 
         document.getElementById("loginEmail").value = "";
         document.getElementById("loginPassword").value = "";
     } catch(err){
         console.error(err);
-        alert("লগইন করতে সমস্যা হয়েছে: " + (err.message || "ইমেইল বা পাসওয়ার্ড যাচাই করুন।"));
+        alert("লগইন করতে সমস্যা হয়েছে: " + (err.message || "ইমেইল বা পাসওয়ার্ড যাচাই করুন।"));
     } finally {
         btn.disabled = false;
         btn.textContent = "Login";
@@ -2531,13 +2531,13 @@ async function handleSendOTP(){
         if(error) throw error;
 
         currentResetEmail = email;
-        alert("আপনার ইমেইলে ৬ ডিজিটের ওটিপি (OTP) কোড পাঠানো হয়েছে! মেইল চেক করুন।");
+        alert("আপনার ইমেইলে ৬ ডিজিটের ওটিপি (OTP) কোড পাঠানো হয়েছে! মেইল চেক করুন।");
         
         document.getElementById("otpStep1").style.display = "none";
         document.getElementById("otpStep2").style.display = "block";
     } catch(err){
         console.error(err);
-        alert("ওটিপি পাঠাতে সমস্যা হয়েছে: " + (err.message || ""));
+        alert("ওটিপি পাঠাতে সমস্যা হয়েছে: " + (err.message || ""));
     } finally {
         btn.disabled = false;
         btn.textContent = "Send Code";
@@ -2564,13 +2564,13 @@ async function handleVerifyOTP(){
 
         if(error) throw error;
 
-        alert("ওটিপি কোড ভেরিফাই সফল হয়েছে! এখন নতুন পাসওয়ার্ড দিন।");
+        alert("ওটিপি কোড ভেরিফাই সফল হয়েছে! এখন নতুন পাসওয়ার্ড দিন।");
         
         document.getElementById("otpStep2").style.display = "none";
         document.getElementById("otpStep3").style.display = "block";
     } catch(err){
         console.error(err);
-        alert("ভুল OTP কোড বা কোডের সময় পার হয়ে গেছে। আবার চেষ্টা করুন।");
+        alert("ভুল OTP কোড বা কোডের সময় পার হয়ে গেছে। আবার চেষ্টা করুন।");
     } finally {
         btn.disabled = false;
         btn.textContent = "Verify OTP Code";
@@ -2582,18 +2582,18 @@ async function handleSaveNewPassword(){
     const confirmPass = document.getElementById("resetConfirmPassword").value.trim();
 
     if(!newPass || !confirmPass){
-        alert("অনুগ্রহ করে পাসওয়ার্ডের ঘর দুটি পূরণ করুন।");
+        alert("অনুগ্রহ করে পাসওয়ার্ডের ঘর দুটি পূরণ করুন।");
         return;
     }
 
     if(newPass !== confirmPass){
-        alert("পাসওয়ার্ড এবং কনফার্ম পাসওয়ার্ড মিলছে না!");
+        alert("পাসওয়ার্ড এবং কনফার্ম পাসওয়ার্ড মিলছে না!");
         return;
     }
 
     const btn = document.getElementById("saveNewPassBtn");
     btn.disabled = true;
-    btn.textContent = "পাসওয়ার্ড সেভ হচ্ছে...";
+    btn.textContent = "পাসওয়ার্ড সেভ হচ্ছে...";
 
     try{
         const { data, error } = await supabaseClient.auth.updateUser({
@@ -2602,14 +2602,14 @@ async function handleSaveNewPassword(){
 
         if(error) throw error;
 
-        alert("পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে! এখন নতুন পাসওয়ার্ড দিয়ে লগইন করুন।");
+        alert("পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে! এখন নতুন পাসওয়ার্ড দিয়ে লগইন করুন।");
         showLogin();
         
         document.getElementById("resetNewPassword").value = "";
         document.getElementById("resetConfirmPassword").value = "";
     } catch(err){
         console.error(err);
-        alert("পাসওয়ার্ড সেভ করতে সমস্যা হয়েছে: " + (err.message || ""));
+        alert("পাসওয়ার্ড সেভ করতে সমস্যা হয়েছে: " + (err.message || ""));
     } finally {
         btn.disabled = false;
         btn.textContent = "Save New Password";
@@ -2629,9 +2629,9 @@ async function saveAccountDetails(){
     });
 
     if(error){
-        alert("আপডেট করতে সমস্যা হয়েছে: " + error.message);
+        alert("আপডেট করতে সমস্যা হয়েছে: " + error.message);
     } else {
-        alert("অ্যাকাউন্টের তথ্য সফলভাবে আপডেট করা হয়েছে!");
+        alert("অ্যাকাউন্টের তথ্য সফলভাবে আপডেট করা হয়েছে!");
         showDashboard(data.user);
     }
 }
@@ -2639,7 +2639,7 @@ async function saveAccountDetails(){
 async function savePasswordDetails(){
     const newPass = document.getElementById("newPasswordChange").value.trim();
     if(!newPass){
-        alert("নতুন পাসওয়ার্ড দিন।");
+        alert("নতুন পাসওয়ার্ড দিন।");
         return;
     }
 
@@ -2648,9 +2648,9 @@ async function savePasswordDetails(){
     });
 
     if(error){
-        alert("পাসওয়ার্ড পরিবর্তন করতে সমস্যা হয়েছে: " + error.message);
+        alert("পাসওয়ার্ড পরিবর্তন করতে সমস্যা হয়েছে: " + error.message);
     } else {
-        alert("পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে!");
+        alert("পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে!");
         document.getElementById("newPasswordChange").value = "";
     }
 }
@@ -2669,7 +2669,7 @@ async function saveAddressDetails(){
     };
 
     localStorage.setItem("jmrAddress_" + session.user.id, JSON.stringify(addressData));
-    alert("বিলিং এড্রেস সফলভাবে সেভ করা হয়েছে!");
+    alert("বিলিং এড্রেস সফলভাবে সেভ করা হয়েছে!");
 }
 
 async function handleLogout(){
@@ -2786,7 +2786,7 @@ function selectColor(element, color, stock){
 
 function changeQty(change){
     if(change > 0 && currentQty >= selectedStock){
-        alert("দুঃখিত, স্টক সীমাবদ্ধতার কারণে এর চেয়ে বেশি অর্ডার নেওয়া সম্ভব নয়। (Available Stock: " + selectedStock + ")");
+        alert("দুঃখিত, স্টক সীমাবদ্ধতার কারণে এর চেয়ে বেশি অর্ডার নেওয়া সম্ভব নয়। (Available Stock: " + selectedStock + ")");
         return;
     }
     currentQty = Math.max(1, currentQty + change);
@@ -2898,7 +2898,7 @@ async function submitOrder(){
     }
     catch(error){
         console.error(error);
-        alert("অর্ডার পাঠানো যায়নি। আবার চেষ্টা করুন।");
+        alert("অর্ডার পাঠানো যায়নি। আবার চেষ্টা করুন।");
     }
     finally{
         button.disabled = false;
