@@ -175,14 +175,14 @@ header{
     border: 1.5px solid #111;
 }
 
-/* Updated Menu Icon Backgrounds: All White Except Warranty Shield (Solid Black) */
+/* Updated Menu Icons: All White Background with Black Icon, Warranty Shield white box with black shield icon */
 .menu-icon-home { background: #fff; color: #111; }
 .menu-icon-sale { background: #fff; color: #111; }
 .menu-icon-cart { background: #fff; color: #111; }
 .menu-icon-track { background: #fff; color: #111; }
 .menu-icon-contact { background: #fff; color: #111; }
 .menu-icon-about { background: #fff; color: #111; }
-.menu-icon-warranty { background: #111; color: #f5c400; }
+.menu-icon-warranty { background: #fff; color: #111; }
 
 .overlay{
     display:none;
@@ -1289,7 +1289,7 @@ JMR <span>GADGETS</span>
             <div class="dash-card">
                 <div class="dash-card-header" onclick="toggleDashTab('passChangeTab')">
                     <div style="display: flex; align-items: center; gap: 12px;">
-                        <div class="menu-icon-box" style="background:#fff; color:#111;"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div class="menu-icon-box" style="background:#fff; color:#111;"><i class="fa-solid fa-shield-halved" style="color:#111;"></i></div>
                         <span>Password Change</span>
                     </div>
                     <span class="dash-arrow">▼</span>
@@ -1345,7 +1345,7 @@ JMR <span>GADGETS</span>
     </div>
 
     <div class="menu-item-row" onclick="loadPolicyPage('warranty'); closeMenu();">
-        <div class="menu-icon-box menu-icon-warranty"><i class="fa-solid fa-shield-halved"></i></div>
+        <div class="menu-icon-box menu-icon-warranty"><i class="fa-solid fa-shield-halved" style="color:#111;"></i></div>
         <span>Warranty Policy</span>
     </div>
 
@@ -2427,7 +2427,7 @@ async function showDashboard(user){
     document.getElementById("billingPhone").value = savedAddress.phone || "";
     document.getElementById("billingEmail").value = savedAddress.email || userEmail;
 
-    loadUserOrders(user.id);
+    loadUserOrders(user.email || user.id);
 }
 
 /* 1. SUPABASE CREATE ACCOUNT */
@@ -2690,11 +2690,19 @@ async function handleLogout(){
     showLogin();
 }
 
-/* ================= MY ORDERS WITH CORRECT TOTAL (Product Price + 120 BDT Delivery) ================= */
+/* ================= MY ORDERS WITH PERMANENT STORAGE ================= */
 
-async function loadUserOrders(userId){
+async function loadUserOrders(identifier){
     const ordersBox = document.getElementById("userOrdersList");
-    let savedOrders = JSON.parse(localStorage.getItem("jmrOrders_" + userId) || "[]");
+    
+    // Fallback across both user id and email to prevent order history loss
+    let savedOrders = JSON.parse(localStorage.getItem("jmrOrders_" + identifier) || "[]");
+    if(!savedOrders.length) {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if(session && session.user) {
+            savedOrders = JSON.parse(localStorage.getItem("jmrOrders_" + session.user.id) || localStorage.getItem("jmrOrders_" + session.user.email) || "[]");
+        }
+    }
 
     if(!savedOrders.length){
         ordersBox.innerHTML = '<p style="color:#777; text-align:center;">আপনার কোনো অর্ডারের হিস্ট্রি নেই।</p>';
@@ -2892,9 +2900,11 @@ async function submitOrder(){
 
         const { data: { session } } = await supabaseClient.auth.getSession();
         if(session && session.user){
-            let savedOrders = JSON.parse(localStorage.getItem("jmrOrders_" + session.user.id) || "[]");
+            let userKey = "jmrOrders_" + session.user.id;
+            let savedOrders = JSON.parse(localStorage.getItem(userKey) || "[]");
             savedOrders.push(orderData);
-            localStorage.setItem("jmrOrders_" + session.user.id, JSON.stringify(savedOrders));
+            localStorage.setItem(userKey, JSON.stringify(savedOrders));
+            localStorage.setItem("jmrOrders_" + session.user.email, JSON.stringify(savedOrders));
         }
 
         cart = [];
