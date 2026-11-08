@@ -3423,8 +3423,38 @@ async function submitOrder(){
     button.disabled = true;
     button.textContent = "অর্ডার পাঠানো হচ্ছে...";
 
+    let stockToken = null;
     try{
+        // Step 1: reduce stock in Supabase first (atomic: never goes below zero)
+        try{
+            const reserveItems = items.map(i => ({ code: i.code, qty: i.qty }));
+            const { data: reserveToken, error: reserveErr } = await supabaseClient.rpc('reserve_stock', { p_items: reserveItems });
+            if(reserveErr){
+                if(String(reserveErr.message || "").includes("OUT_OF_STOCK")){
+                    alert("দুঃখিত, এই প্রোডাক্টের স্টক এইমাত্র শেষ হয়ে গেছে বা কম আছে। পেজ রিফ্রেশ হবে, আবার দেখুন।");
+                    window.location.reload();
+                    return;
+                }
+                // Any other stock-system problem: do not block the customer's order
+                console.warn("Stock reserve failed (order continues):", reserveErr.message);
+            } else {
+                stockToken = reserveToken;
+            }
+        } catch(stockEx){
+            console.warn("Stock reserve error (order continues):", stockEx);
+        }
+
+        // Step 2: send the order to Google Sheets
         await sendOrderToSheet(orderData);
+        stockToken = null; // order is saved, keep the stock reduced
+
+        // Update the stock shown on this device
+        items.forEach(it => {
+            const prod = products.find(x => x.code === it.code);
+            if(prod && prod.stock < UNLIMITED_STOCK){
+                prod.stock = Math.max(0, prod.stock - it.qty);
+            }
+        });
 
         await saveOrderRecord(orderData, items);
 
@@ -3447,6 +3477,10 @@ async function submitOrder(){
     }
     catch(error){
         console.error(error);
+        // Order was not saved: give the reserved stock back
+        if(stockToken){
+            try{ await supabaseClient.rpc('release_stock', { p_token: stockToken }); }catch(e){ console.warn("Stock release failed:", e); }
+        }
         alert("অর্ডার পাঠানো যায়নি। আবার চেষ্টা করুন।");
     }
     finally{
