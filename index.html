@@ -1083,7 +1083,7 @@ header{
 ☰
 </div>
 
-<div class="logo" onclick="showHomeView()">
+<div class="logo" onclick="showAll()">
 JMR <span>GADGETS</span>
 </div>
 
@@ -1118,14 +1118,19 @@ JMR <span>GADGETS</span>
     type="text"
     id="searchInput"
     placeholder="প্রোডাক্ট সার্চ করুন..."
-    oninput="renderProducts()"
+    oninput="onSearchInput()"
+    onkeydown="if(event.key==='Enter'){ submitSearch(); }"
+    autocomplete="off"
+    enterkeyhint="search"
     >
+
+    <div class="search-suggest" id="searchSuggest"></div>
 
     </div>
 
     <!-- ================= BANNER ================= -->
 
-    <section class="banner">
+    <section class="banner" id="bannerSection">
 
     <div
     class="banner-track"
@@ -1159,7 +1164,7 @@ JMR <span>GADGETS</span>
 
     <!-- ================= CATEGORY ================= -->
 
-    <div class="section-title">
+    <div class="section-title" id="categoriesTitle">
     Categories
     </div>
 
@@ -1259,6 +1264,16 @@ JMR <span>GADGETS</span>
             <input type="password" id="accountConfirmPassword" placeholder="Confirm Password">
             <button type="button" id="createAccountBtn" onclick="handleCreateAccount()">Create Account</button>
             <p onclick="showLogin()" style="text-align:center; margin-top:15px; cursor:pointer;">Already have an account? <b>Login</b></p>
+        </div>
+
+        <!-- SIGNUP EMAIL CODE VERIFICATION SECTION -->
+        <div id="verifySignupSection" class="account-section" style="display:none;">
+            <h3>ইমেইল ভেরিফাই করুন</h3>
+            <p class="account-info" id="verifySignupInfo">আপনার ইমেইলে পাঠানো ৬ ডিজিটের কোডটি বসান:</p>
+            <input type="text" id="signupCodeInput" placeholder="Enter 6-digit code" maxlength="10" inputmode="numeric" autocomplete="one-time-code" onkeydown="if(event.key==='Enter'){ handleVerifySignup(); }">
+            <button type="button" id="verifySignupBtn" onclick="handleVerifySignup()">Verify Code</button>
+            <p onclick="handleResendSignupCode()" style="text-align:center; margin-top:15px; cursor:pointer;"><b>কোড পাননি? আবার পাঠান</b></p>
+            <p onclick="showLogin()" style="text-align:center; margin-top:10px; cursor:pointer;">← Back to Login</p>
         </div>
 
         <!-- SUPABASE FORGOT PASSWORD SECTION -->
@@ -1469,7 +1484,7 @@ Call
 WhatsApp
 </div>
 
-<div onclick="showHomeView()">
+<div onclick="showAll()">
 <i class="fa-solid fa-house"></i>
 Home
 </div>
@@ -1492,7 +1507,7 @@ My Account
     <div class="success-box">
         <div class="success-icon">✓</div>
         <h3>আপনার এ্যাকাউন্ট সফল ভাবে তৈরি হয়েছে</h3>
-        <p>আপনার ইমেইলে কনফার্মেশন লিংক পাঠানো হয়েছে (প্রয়োজনে ইনবক্স/স্প্যাম ফোল্ডার চেক করুন)।</p>
+        <p id="accountCreatedMsg">আপনার ইমেইলে ৬ ডিজিটের কনফার্মেশন কোড পাঠানো হয়েছে। কোডটি পরের ঘরে বসান (প্রয়োজনে ইনবক্স/স্প্যাম ফোল্ডার চেক করুন)।</p>
         <button onclick="closeAccountCreatedModal()">ঠিক আছে</button>
     </div>
 </div>
@@ -1596,6 +1611,17 @@ My Account
 .dash-arrow { font-size: 12px; transition: transform 0.3s ease; color: #555; }
 .dash-card-header.active .dash-arrow { transform: rotate(180deg); }
 .order-item-card { border: 1px solid #e0e0e0; padding: 12px; border-radius: 8px; margin-bottom: 10px; background: #fff; line-height: 1.6; }
+
+/* ===== SEARCH SUGGESTIONS ===== */
+.search-box{ position:relative; }
+.search-suggest{ display:none; position:absolute; left:15px; right:15px; top:calc(100% - 6px); background:#fff; border:1px solid #e5e5e5; border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,.18); max-height:62vh; overflow-y:auto; z-index:1600; }
+.suggest-item{ display:flex; align-items:center; gap:10px; padding:8px 10px; cursor:pointer; border-bottom:1px solid #f1f1f1; }
+.suggest-item:hover{ background:#fff9d6; }
+.suggest-item img{ width:46px; height:46px; object-fit:contain; border-radius:6px; background:#fff; flex-shrink:0; }
+.suggest-name{ flex:1; font-size:14px; font-weight:600; line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.suggest-price{ font-weight:700; font-size:14px; white-space:nowrap; }
+.suggest-empty{ padding:14px; text-align:center; color:#777; font-size:14px; }
+.suggest-all{ padding:11px; text-align:center; font-weight:700; background:#fff9d6; cursor:pointer; border-radius:0 0 10px 10px; }
 </style>
 
 
@@ -1626,6 +1652,8 @@ let bannerTimer = null;
 let currentResetEmail = "";
 let orderSource = "direct";
 let pendingTrackId = "";
+let pendingSignupEmail = "";
+let resendBusy = false;
 
 /* SLUG GENERATOR HELPER */
 function createSlug(name, code){
@@ -1691,6 +1719,8 @@ function navigateTo(hash){
 }
 
 function showHomeView(){
+    clearSearch();
+    if(productsLoaded) renderProducts();
     navigateTo("");
 }
 
@@ -1725,11 +1755,112 @@ function closeMenu(){
 
 function toggleSearch(){
     const box = document.getElementById("searchBox");
-    box.style.display = box.style.display === "block" ? "none" : "block";
+    const input = document.getElementById("searchInput");
+    const homeView = document.getElementById("homeMainView");
+    const onHome = homeView && homeView.style.display !== "none";
+
+    // Search icon pressed on another page: go to home and open the search box
+    if(!onHome){
+        navigateTo("");
+        box.style.display = "block";
+        input.focus();
+        return;
+    }
+
     if(box.style.display === "block"){
-        document.getElementById("searchInput").focus();
+        clearSearch();
+        if(productsLoaded) renderProducts();
+    } else {
+        box.style.display = "block";
+        input.focus();
     }
 }
+
+// Empties the search text, closes the search box and the suggestions
+function clearSearch(){
+    const input = document.getElementById("searchInput");
+    if(input){
+        input.value = "";
+        input.blur();
+    }
+    hideSuggestions();
+    const box = document.getElementById("searchBox");
+    if(box) box.style.display = "none";
+}
+
+function hideSuggestions(){
+    const box = document.getElementById("searchSuggest");
+    if(box){
+        box.style.display = "none";
+        box.innerHTML = "";
+    }
+}
+
+// Every word typed must appear in the product name, category or code
+function matchesSearch(product, search){
+    const hay = normalize(product.name + " " + product.category + " " + product.code);
+    return search.split(/\s+/).filter(Boolean).every(word => hay.includes(word));
+}
+
+function onSearchInput(){
+    renderProducts();
+    renderSuggestions();
+}
+
+function renderSuggestions(){
+    const box = document.getElementById("searchSuggest");
+    if(!box) return;
+
+    const search = normalize(document.getElementById("searchInput")?.value);
+    if(!search || !productsLoaded){
+        hideSuggestions();
+        return;
+    }
+
+    const matches = products.filter(p => matchesSearch(p, search));
+    matches.sort((a, b) => {
+        const aStart = normalize(a.name).startsWith(search) ? 0 : 1;
+        const bStart = normalize(b.name).startsWith(search) ? 0 : 1;
+        return aStart - bStart;
+    });
+
+    if(!matches.length){
+        box.innerHTML = '<div class="suggest-empty">কোনো প্রোডাক্ট পাওয়া যায়নি</div>';
+        box.style.display = "block";
+        return;
+    }
+
+    const shown = matches.slice(0, 6);
+    box.innerHTML = shown.map(p => `
+        <div class="suggest-item" data-code="${escapeHtml(p.code)}" onclick="openSuggestion(this)">
+            <img src="${escapeHtml(p.image)}" alt="" onerror="this.style.visibility='hidden'">
+            <div class="suggest-name">${escapeHtml(p.name)}</div>
+            <div class="suggest-price">৳${formatMoney(p.price)}</div>
+        </div>
+    `).join("") + `<div class="suggest-all" onclick="submitSearch()">সব ফলাফল দেখুন (${trkBn(matches.length)}) →</div>`;
+    box.style.display = "block";
+}
+
+function openSuggestion(el){
+    const p = products.find(x => x.code === el.dataset.code);
+    hideSuggestions();
+    if(p) navigateToProduct(p.code, p.name);
+}
+
+// Enter / search key / "see all results": close keyboard and show the results at the top
+function submitSearch(){
+    hideSuggestions();
+    const input = document.getElementById("searchInput");
+    if(input) input.blur();
+    renderProducts();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+document.addEventListener("click", function(e){
+    if(!e.target.closest("#searchBox") && !e.target.closest(".search-btn")){
+        hideSuggestions();
+    }
+});
 
 
 /* ================= MODAL ================= */
@@ -2133,6 +2264,7 @@ function buildCategories(){
 }
 
 function filterCategory(category){
+    clearSearch();
     currentCategory = category;
     buildCategories();
     renderProducts();
@@ -2141,6 +2273,7 @@ function filterCategory(category){
 }
 
 function showAll(){
+    clearSearch();
     currentCategory = "All";
     buildCategories();
     renderProducts();
@@ -2151,12 +2284,14 @@ function showAll(){
 /* ================= RENDER PRODUCTS ================= */
 
 function renderProducts(){
-    const search = normalize(document.getElementById("searchInput")?.value);
+    if(!productsLoaded) return;
+    const rawSearch = String(document.getElementById("searchInput")?.value || "").trim();
+    const search = normalize(rawSearch);
     
     filteredProducts = products.filter(product => {
-        const categoryOK = currentCategory === "All" || 
+        const categoryOK = !!search || currentCategory === "All" || 
                            (currentCategory === "11.11 Sale" ? product.is_11_11 : product.category === currentCategory);
-        const searchOK = !search || normalize(product.name).includes(search) || normalize(product.category).includes(search) || normalize(product.code).includes(search);
+        const searchOK = !search || matchesSearch(product, search);
         return categoryOK && searchOK;
     });
 
@@ -2164,6 +2299,12 @@ function renderProducts(){
     const elevenBox = document.getElementById("elevenProducts");
     const mainSectionTitle = document.getElementById("mainSectionTitle");
     const productsBox = document.getElementById("products");
+
+    // While searching, the banner and categories are hidden so the results come right under the search box
+    ["bannerSection", "categoriesTitle", "categories"].forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.style.display = search ? "none" : "";
+    });
 
     if(currentCategory === "All" && !search){
         const elevenList = products.filter(p => p.is_11_11);
@@ -2176,7 +2317,11 @@ function renderProducts(){
         mainSectionTitle.textContent = "All Products";
     } else {
         elevenSection.style.display = "none";
-        mainSectionTitle.textContent = currentCategory === "11.11 Sale" ? "🔥 11.11 Mega Sale Products" : "Products (" + currentCategory + ")";
+        if(search){
+            mainSectionTitle.textContent = "\"" + rawSearch + "\" এর ফলাফল: " + trkBn(filteredProducts.length) + "টি প্রোডাক্ট";
+        } else {
+            mainSectionTitle.textContent = currentCategory === "11.11 Sale" ? "🔥 11.11 Mega Sale Products" : "Products (" + currentCategory + ")";
+        }
     }
 
     if(!filteredProducts.length){
@@ -2607,6 +2752,8 @@ function hideAccountSections(){
     document.getElementById("createAccountSection").style.display = "none";
     document.getElementById("forgotPasswordSection").style.display = "none";
     document.getElementById("dashboardSection").style.display = "none";
+    const verifySection = document.getElementById("verifySignupSection");
+    if(verifySection) verifySection.style.display = "none";
 }
 
 function showLogin(){
@@ -2708,11 +2855,23 @@ async function handleCreateAccount(){
 
         if(error) throw error;
 
+        // This email already has an account (Supabase returns no error in that case)
+        if(data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0){
+            alert("এই ইমেইল দিয়ে আগেই অ্যাকাউন্ট খোলা আছে। অনুগ্রহ করে লগইন করুন।");
+            showLogin();
+            return;
+        }
+
+        const hasSession = !!(data.session && data.session.user);
+        document.getElementById("accountCreatedMsg").textContent = hasSession
+            ? "আপনার এ্যাকাউন্ট তৈরি হয়েছে।"
+            : "আপনার ইমেইলে ৬ ডিজিটের কনফার্মেশন কোড পাঠানো হয়েছে। কোডটি পরের ঘরে বসান (প্রয়োজনে ইনবক্স/স্প্যাম ফোল্ডার চেক করুন)।";
         document.getElementById("accountCreatedModal").classList.add("show");
-        if(data.session && data.session.user){
+
+        if(hasSession){
             showDashboard(data.session.user);
         } else {
-            showLogin();
+            showVerifySignup(email);
         }
 
         document.getElementById("accountName").value = "";
@@ -2725,6 +2884,73 @@ async function handleCreateAccount(){
     } finally {
         btn.disabled = false;
         btn.textContent = "Create Account";
+    }
+}
+
+function showVerifySignup(email){
+    hideAccountSections();
+    pendingSignupEmail = email;
+    document.getElementById("verifySignupInfo").textContent = email + " ঠিকানায় পাঠানো ৬ ডিজিটের কোডটি বসান:";
+    document.getElementById("signupCodeInput").value = "";
+    document.getElementById("verifySignupSection").style.display = "block";
+}
+
+async function handleVerifySignup(){
+    const token = document.getElementById("signupCodeInput").value.trim();
+    if(!token){
+        alert("অনুগ্রহ করে ইমেইলে পাঠানো কোডটি লিখুন।");
+        return;
+    }
+    if(!pendingSignupEmail){
+        alert("অনুগ্রহ করে আবার লগইন করুন।");
+        showLogin();
+        return;
+    }
+
+    const btn = document.getElementById("verifySignupBtn");
+    btn.disabled = true;
+    btn.textContent = "ভেরিফাই হচ্ছে...";
+
+    try{
+        const { data, error } = await supabaseClient.auth.verifyOtp({
+            email: pendingSignupEmail,
+            token: token,
+            type: 'signup'
+        });
+        if(error) throw error;
+
+        alert("আপনার অ্যাকাউন্ট সফলভাবে কনফার্ম হয়েছে!");
+        pendingSignupEmail = "";
+        if(data && data.session && data.user){
+            showDashboard(data.user);
+        } else {
+            showLogin();
+        }
+    } catch(err){
+        console.error(err);
+        alert("ভুল কোড বা কোডের সময় পার হয়ে গেছে। আবার চেষ্টা করুন অথবা নতুন কোড নিন।");
+    } finally {
+        btn.disabled = false;
+        btn.textContent = "Verify Code";
+    }
+}
+
+async function handleResendSignupCode(){
+    if(!pendingSignupEmail) return;
+    if(resendBusy){
+        alert("অনুগ্রহ করে কিছুক্ষণ অপেক্ষা করে আবার চেষ্টা করুন।");
+        return;
+    }
+    resendBusy = true;
+    try{
+        const { error } = await supabaseClient.auth.resend({ type: 'signup', email: pendingSignupEmail });
+        if(error) throw error;
+        alert("নতুন কোড আপনার ইমেইলে পাঠানো হয়েছে।");
+    } catch(err){
+        console.error(err);
+        alert("কোড পাঠাতে সমস্যা হয়েছে: " + (err.message || "আবার চেষ্টা করুন।"));
+    } finally {
+        setTimeout(() => { resendBusy = false; }, 30000);
     }
 }
 
@@ -2761,6 +2987,13 @@ async function handleLogin(){
         document.getElementById("loginPassword").value = "";
     } catch(err){
         console.error(err);
+        // Account exists but the email code was never entered: send a new code
+        if(/not confirmed/i.test(String(err.message || ""))){
+            try{ await supabaseClient.auth.resend({ type: 'signup', email: email }); }catch(e){}
+            alert("আপনার ইমেইল এখনও কনফার্ম করা হয়নি। ইমেইলে একটি নতুন কোড পাঠানো হয়েছে।");
+            showVerifySignup(email);
+            return;
+        }
         alert("লগইন করতে সমস্যা হয়েছে: " + (err.message || "ইমেইল বা পাসওয়ার্ড যাচাই করুন।"));
     } finally {
         btn.disabled = false;
