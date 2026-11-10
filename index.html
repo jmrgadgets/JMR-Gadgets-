@@ -911,11 +911,34 @@ header{
     color: #fff;
     text-decoration: none;
     margin-bottom: 20px;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .footer-support-number:hover {
     color: #f5c400;
+}
+
+.footer-support-icon {
+    width: 44px;
+    height: 44px;
+    background: #222;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 20px;
+    border: 1px solid #444;
+    flex-shrink: 0;
+    transition: 0.3s ease;
+}
+
+.footer-support-number:hover .footer-support-icon {
+    background: #f5c400;
+    color: #111;
+    border-color: #f5c400;
 }
 
 .footer-social-icons {
@@ -1440,7 +1463,7 @@ onclick="closeMenu()">
 <footer class="site-footer">
     <div class="footer-container">
         <div class="footer-support-title">Support</div>
-        <a href="tel:01941900221" class="footer-support-number">01941900221</a>
+        <a href="tel:01941900221" class="footer-support-number"><span class="footer-support-icon"><i class="fa-solid fa-headset"></i></span>01941900221</a>
 
         <div class="footer-social-icons">
             <a href="https://www.facebook.com/share/19rroNTfLL/" target="_blank" class="social-icon-btn" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
