@@ -374,6 +374,28 @@ header{
     border: 1px solid #f5c400;
 }
 
+/* 11 taka offer countdown: only on the 11:11 product card, small strip */
+.eleven-countdown{
+    background:#111;
+    color:#f5c400;
+    text-align:center;
+    padding:6px 8px 7px;
+    line-height:1.4;
+}
+.eleven-countdown .eleven-countdown-label{
+    font-size:12px;
+    font-weight:700;
+}
+.eleven-countdown .eleven-countdown-time{
+    font-size:16px;
+    font-weight:800;
+    letter-spacing:1px;
+}
+.eleven-countdown.live{
+    background:#f5c400;
+    color:#111;
+}
+
 .product-image{
     height:190px;
     width:100%;
@@ -2304,6 +2326,48 @@ function showAll(){
 }
 
 
+/* ================= 11 TAKA OFFER COUNTDOWN ================= */
+/* Live at 2026-11-11 23:11 Asia/Dhaka. The timer counts down from the
+   moment the page is opened, so it reaches 00:00:00 exactly at 23:11. */
+const ELEVEN_LIVE_AT = new Date("2026-11-11T23:11:00+06:00").getTime();
+let elevenTimerStarted = false;
+
+function elevenPad(n){
+    return String(n).padStart(2, "0");
+}
+
+function updateElevenCountdowns(){
+    const now = Date.now();
+    let diff = ELEVEN_LIVE_AT - now;
+    const isLive = diff <= 0;
+    if(isLive) diff = 0;
+    const totalSeconds = Math.floor(diff / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    const timeText = elevenPad(hours) + ":" + elevenPad(minutes) + ":" + elevenPad(seconds);
+
+    document.querySelectorAll("[data-eleven-countdown]").forEach(el => {
+        const label = el.querySelector(".eleven-countdown-label");
+        const timeEl = el.querySelector(".eleven-countdown-time");
+        if(timeEl) timeEl.textContent = timeText;
+        if(isLive){
+            el.classList.add("live");
+            if(label) label.textContent = "এখন লাইভ";
+        } else {
+            el.classList.remove("live");
+            if(label) label.textContent = "১১ টাকার অফার লাইভ হতে বাকি";
+        }
+    });
+}
+
+function startElevenCountdown(){
+    if(elevenTimerStarted) return;
+    elevenTimerStarted = true;
+    updateElevenCountdowns();
+    setInterval(updateElevenCountdowns, 1000);
+}
+
 /* ================= RENDER PRODUCTS ================= */
 
 function renderProducts(){
@@ -2353,6 +2417,7 @@ function renderProducts(){
     }
 
     productsBox.innerHTML = filteredProducts.map(product => renderSingleProductCard(product)).join("");
+    startElevenCountdown();
 }
 
 function renderSingleProductCard(product){
@@ -2371,9 +2436,21 @@ function renderSingleProductCard(product){
         saleBadge = `<div class="sale-badge">11.11 SALE</div>`;
     }
 
+    // Countdown: only on the 11 taka offer card (code 11:11), live at 2026-11-11 23:11 Asia/Dhaka
+    let elevenCountdownHtml = '';
+    if(product.code === '11:11'){
+        elevenCountdownHtml = `
+            <div class="eleven-countdown" data-eleven-countdown>
+                <div class="eleven-countdown-label">১১ টাকার অফার লাইভ হতে বাকি</div>
+                <div class="eleven-countdown-time">--:--:--</div>
+            </div>
+        `;
+    }
+
     return `
         <div class="product-card" data-code="${escapeHtml(product.code)}" onclick="openProductCard(this)">
             ${saleBadge}
+            ${elevenCountdownHtml}
             <img class="product-image" src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}" onerror="this.style.visibility='hidden'">
             <div class="product-info">
                 <div class="product-name">${escapeHtml(product.name)}</div>
