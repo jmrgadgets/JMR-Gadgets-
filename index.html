@@ -374,22 +374,18 @@ header{
     border: 1px solid #f5c400;
 }
 
-/* 11 taka offer countdown: only on the 11:11 product card, small strip */
+/* 11 taka offer countdown: only for the 11:11 product, time only, small strip */
 .eleven-countdown{
     background:#111;
     color:#f5c400;
     text-align:center;
-    padding:6px 8px 7px;
+    padding:6px 8px;
     line-height:1.4;
 }
-.eleven-countdown .eleven-countdown-label{
-    font-size:12px;
-    font-weight:700;
-}
 .eleven-countdown .eleven-countdown-time{
-    font-size:16px;
+    font-size:18px;
     font-weight:800;
-    letter-spacing:1px;
+    letter-spacing:2px;
 }
 .eleven-countdown.live{
     background:#f5c400;
@@ -2348,16 +2344,9 @@ function updateElevenCountdowns(){
     const timeText = elevenPad(hours) + ":" + elevenPad(minutes) + ":" + elevenPad(seconds);
 
     document.querySelectorAll("[data-eleven-countdown]").forEach(el => {
-        const label = el.querySelector(".eleven-countdown-label");
         const timeEl = el.querySelector(".eleven-countdown-time");
         if(timeEl) timeEl.textContent = timeText;
-        if(isLive){
-            el.classList.add("live");
-            if(label) label.textContent = "এখন লাইভ";
-        } else {
-            el.classList.remove("live");
-            if(label) label.textContent = "১১ টাকার অফার লাইভ হতে বাকি";
-        }
+        el.classList.toggle("live", isLive);
     });
 }
 
@@ -2441,7 +2430,6 @@ function renderSingleProductCard(product){
     if(product.code === '11:11'){
         elevenCountdownHtml = `
             <div class="eleven-countdown" data-eleven-countdown>
-                <div class="eleven-countdown-label">১১ টাকার অফার লাইভ হতে বাকি</div>
                 <div class="eleven-countdown-time">--:--:--</div>
             </div>
         `;
@@ -2557,6 +2545,14 @@ function renderProductDetailsContainer(){
         </div>
     ` : '';
 
+    // Countdown on the details page: only for the 11:11 product, time only,
+    // placed right under the poster image and above the product name.
+    const elevenDetailsCountdownHtml = selectedProduct.code === '11:11' ? `
+        <div class="eleven-countdown" data-eleven-countdown style="margin:10px 0 0;">
+            <div class="eleven-countdown-time">--:--:--</div>
+        </div>
+    ` : '';
+
     container.innerHTML = `
         <div class="details-container">
             <div>
@@ -2565,6 +2561,7 @@ function renderProductDetailsContainer(){
             </div>
 
             <div class="prod-details-info">
+                ${elevenDetailsCountdownHtml}
                 <h1>${escapeHtml(selectedProduct.name)}</h1>
                 ${priceDetailsHtml}
                 
@@ -2599,6 +2596,7 @@ function renderProductDetailsContainer(){
     `;
 
     renderDetailsColors();
+    startElevenCountdown();
 }
 
 function changeMainImage(url, el){
